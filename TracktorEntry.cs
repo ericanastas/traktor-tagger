@@ -26,21 +26,6 @@ namespace TracktorTagger
             this.entryNode = entryNode;
         }
 
-
-        public string Title 
-        {
-            //Title Attribute is always there;
-            get
-            {
-                return GetAttributeValue(null, "TITLE");
-            }
-            set
-            {
-                if (!String.IsNullOrEmpty(value)) SetAttributeValue(null, "TITLE", value);
-            }
-        }
-
-
         private string GetAttributeValue(string elementName, string attributeName)
         {
             System.Xml.XmlNode node;
@@ -79,7 +64,7 @@ namespace TracktorTagger
             }
             else
             {
-                node = entryNode.FirstChild[elementName];
+                node = entryNode.SelectSingleNode("./" + elementName);
 
                 if (node == null)
                 {
@@ -102,6 +87,20 @@ namespace TracktorTagger
             }  
         }
 
+
+        public string Title
+        {
+            //Title Attribute is always there;
+            get
+            {
+                return GetAttributeValue(null, "TITLE");
+            }
+            set
+            {
+                //Title can not be empty
+                if (!String.IsNullOrEmpty(value)) SetAttributeValue(null, "TITLE", value);
+            }
+        }
 
         public string Artist
         {
@@ -153,17 +152,102 @@ namespace TracktorTagger
             }
         }
 
-        public string Key { get; set; }
-        public double BPM { get; set; }
-        public string Lyrics { get; set; }
+        public string Key
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "KEY");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "KEY", value);
+            }
+        }
 
-        public string Label { get; set; }
-        public string CatalogNumber { get; set; }
+        public double BPM
+        {
+            get
+            {
+                return System.Convert.ToDouble(GetAttributeValue("TEMPO", "BPM"));
+            }
+            set
+            {
+                SetAttributeValue("TEMPO", "BPM", value.ToString());
+            }
+        }
 
-        public string Genre { get; set; }
 
-        public string Comment1 { get; set; }
-        public string Comment2 { get; set; }
+        public string Lyrics
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "KEY_LYRICS");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "KEY_LYRICS", value);
+            }
+        }
+
+        public string Label
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "LABEL");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "LABEL", value);
+            }
+        }
+
+        public string CatalogNumber
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "CATALOG_NO");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "CATALOG_NO", value);
+            }
+        }
+
+        public string Genre
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "GENRE");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "GENRE", value);
+            }
+        }
+
+        public string Comment1
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "COMMENT");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "COMMENT", value);
+            }
+        }
+
+        public string Comment2
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "RATING");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "RATING", value);
+            }
+        }
 
 
         public DateTime ModifiedDate 
