@@ -18,6 +18,11 @@ namespace TracktorTagger
            public string FileName { get; set; }
 
 
+           public void SaveCollection()
+           {
+               _collectionXmlDoc.Save(FileName);
+           }
+
         public TracktorCollection(string fileName)
         {
             Entries = new List<TracktorEntry>();
@@ -27,6 +32,10 @@ namespace TracktorTagger
             _collectionXmlDoc.Load(fileName);
 
             var entryNodes = _collectionXmlDoc.DocumentElement.SelectNodes("/NML/COLLECTION/ENTRY");
+
+
+
+
 
             foreach(System.Xml.XmlElement entryNode in entryNodes)
             {

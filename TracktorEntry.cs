@@ -32,19 +32,31 @@ namespace TracktorTagger
             //Title Attribute is always there;
             get
             {
-                return GetAttributeValue(".", "TITLE");
+                return GetAttributeValue(null, "TITLE");
             }
             set
             {
-                SetAttributeValue(".", "TITLE", value);
+                if (!String.IsNullOrEmpty(value)) SetAttributeValue(null, "TITLE", value);
             }
         }
 
 
-        private string GetAttributeValue(string xpath, string attributeName)
+        private string GetAttributeValue(string elementName, string attributeName)
         {
-            var node = entryNode.SelectSingleNode(xpath);
-            var att = entryNode.SelectSingleNode(xpath).Attributes[attributeName];
+            System.Xml.XmlNode node;
+
+            if (String.IsNullOrEmpty(elementName))
+            {
+                node = entryNode;
+            }
+            else
+            {
+                node = entryNode.SelectSingleNode("./" + elementName);
+            }
+
+            if (node == null) return null;
+
+            var att = node.Attributes[attributeName];
 
             if(att == null)
             {
@@ -56,11 +68,27 @@ namespace TracktorTagger
             }        
         }
 
-
-        private void SetAttributeValue(string xpath, string attributeName, string value)
+        private void SetAttributeValue(string elementName, string attributeName, string value)
         {
-            var node = entryNode.SelectSingleNode(xpath);
-            var att = entryNode.SelectSingleNode(xpath).Attributes[attributeName];
+
+            System.Xml.XmlNode node;
+
+            if (String.IsNullOrEmpty(elementName))
+            {
+                node = entryNode;
+            }
+            else
+            {
+                node = entryNode.FirstChild[elementName];
+
+                if (node == null)
+                {
+                    node = entryNode.OwnerDocument.CreateElement(elementName);
+                    entryNode.AppendChild(node);
+                }
+            }
+
+            var att = entryNode.SelectSingleNode(elementName).Attributes[attributeName];
 
             if (att == null)
             {
@@ -72,7 +100,6 @@ namespace TracktorTagger
             {
                att.Value = value;
             }  
-
         }
 
 
@@ -80,18 +107,51 @@ namespace TracktorTagger
         {
             get
             {
-                return GetAttributeValue(".", "ARTIST");
+                return GetAttributeValue(null, "ARTIST");
             }
             set
             {
-                entryNode.Attributes["ARTIST"].Value = value;
+                SetAttributeValue(null, "ARTIST", value);      
             }
         }
 
 
-        public string Mix { get; set; }
-        public string Remixer { get; set; }
-        public string AlbumTitle { get; set; }
+        public string Mix
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "MIX");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "MIX", value);
+            }
+        }
+
+
+        public string Remixer 
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "REMIXER");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "REMIXER", value);
+            }
+        }
+
+        public string AlbumTitle
+        {
+            get
+            {
+                return GetAttributeValue("ALBUM", "TITLE");
+            }
+            set
+            {
+                SetAttributeValue("ALBUM", "TITLE", value);
+            }
+        }
 
         public string Key { get; set; }
         public double BPM { get; set; }
@@ -106,20 +166,69 @@ namespace TracktorTagger
         public string Comment2 { get; set; }
 
 
-        public DateTime ModifiedDate { get; set; }
+        public DateTime ModifiedDate 
+        {
+
+            get
+            {
+                string dateStr = GetAttributeValue(null, "MODIFIED_DATE");
+                long ticks = System.Convert.ToInt64(GetAttributeValue(null, "MODIFIED_TIME"));
+
+                DateTime date = DateTime.Parse(dateStr);
+                date = date.AddSeconds(ticks);
+
+                return date;
+            }
+            set
+            { 
+            
+            
+            
+            }
+        
+        }
         public DateTime ImportDate { get; set; }
 
 
-        public int FileSize { get; set; }
-        public int BitRate { get; set; }
-        public Location Location { get; set; }        
+        public int FileSize {
+            get
+            {
+                return 0;
+            }
+        }
+        public int BitRate
+        {
+            get
+            {
+                return 0;
+            }
+        }
+        public Location Location
+        {
+            get
+            {
+                return null;
+            }
+        }        
 
         public int Ranking { get; set; }
 
         public DateTime ReleaseDate { get; set; }
 
-        public int PlayTime { get; set; }
-        public double PlayTimeFloat { get; set; }
+        public int PlayTime
+        {
+            get
+            {
+                return 0;
+            }
+        }
+        public double PlayTimeFloat
+        {
+            get
+            {
+                return 0;
+            }
+        }
 
 
         public override string ToString()
