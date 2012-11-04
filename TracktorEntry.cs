@@ -17,7 +17,7 @@ namespace TracktorTagger
 
     }
 
-    class TracktorEntry
+    public class TracktorEntry
     {
         private System.Xml.XmlElement entryNode;
 
@@ -29,23 +29,58 @@ namespace TracktorTagger
 
         public string Title 
         {
+            //Title Attribute is always there;
             get
             {
-                return entryNode.Attributes["TITLE"].Value;
+                return GetAttributeValue(".", "TITLE");
             }
             set
             {
-                entryNode.Attributes["TITLE"].Value = value;
+                SetAttributeValue(".", "TITLE", value);
             }
         }
 
+
+        private string GetAttributeValue(string xpath, string attributeName)
+        {
+            var node = entryNode.SelectSingleNode(xpath);
+            var att = entryNode.SelectSingleNode(xpath).Attributes[attributeName];
+
+            if(att == null)
+            {
+                return null;
+            }
+            else
+            {
+                return att.Value;
+            }        
+        }
+
+
+        private void SetAttributeValue(string xpath, string attributeName, string value)
+        {
+            var node = entryNode.SelectSingleNode(xpath);
+            var att = entryNode.SelectSingleNode(xpath).Attributes[attributeName];
+
+            if (att == null)
+            {
+                var newAtt = node.OwnerDocument.CreateAttribute(attributeName);
+                newAtt.Value = value;
+                node.Attributes.Append(newAtt);
+            }
+            else
+            {
+               att.Value = value;
+            }  
+
+        }
 
 
         public string Artist
         {
             get
             {
-                return entryNode.Attributes["ARTIST"].Value;
+                return GetAttributeValue(".", "ARTIST");
             }
             set
             {

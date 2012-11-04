@@ -1,8 +1,10 @@
 ﻿<Window x:Class="TracktorTagger.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="542.537" Width="739.925">
     <Grid>
-        
+        <DataGrid AutoGenerateColumns="True" Margin="10" Name="dataGrid"/>
+
+
     </Grid>
 </Window>

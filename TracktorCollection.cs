@@ -10,7 +10,7 @@ namespace TracktorTagger
     {
 
       
-           private IList<TracktorEntry> Entries {get; set;}
+           public IList<TracktorEntry> Entries {get; private set;}
 
            private System.Xml.XmlDocument _collectionXmlDoc;
 

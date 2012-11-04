@@ -26,6 +26,11 @@ namespace TracktorTagger
 
 
             TracktorCollection col = new TracktorCollection(@"C:\Users\Eric\Desktop\TraktorTagger\collection.nml");
+
+
+            this.dataGrid.ItemsSource = col.Entries;
+
+            
         }
     }
 }
