@@ -28,7 +28,20 @@ namespace TracktorTagger
             TracktorCollection col = new TracktorCollection(@"C:\Users\Eric\Desktop\TraktorTagger\collection.nml");
 
 
-            this.dataGrid.ItemsSource = col.Entries;
+            BeatPortTrackDataProvider provider = new BeatPortTrackDataProvider();
+
+
+
+            try
+            {
+                var tracks = provider.GetTracks("pussy riot");
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+
 
             
         }

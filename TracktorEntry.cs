@@ -26,6 +26,8 @@ namespace TracktorTagger
             this.entryNode = entryNode;
         }
 
+        #region Attribute Accessor Methods
+
         private string GetAttributeValue(string elementName, string attributeName)
         {
             System.Xml.XmlNode node;
@@ -87,6 +89,7 @@ namespace TracktorTagger
             }  
         }
 
+        #endregion
 
         public string Title
         {
@@ -124,6 +127,19 @@ namespace TracktorTagger
             set
             {
                 SetAttributeValue("INFO", "MIX", value);
+            }
+        }
+
+
+        public string Producer
+        {
+            get
+            {
+                return GetAttributeValue("INFO", "PRODUCER");
+            }
+            set
+            {
+                SetAttributeValue("INFO", "PRODUCER", value);
             }
         }
 
@@ -173,6 +189,18 @@ namespace TracktorTagger
             set
             {
                 SetAttributeValue("TEMPO", "BPM", value.ToString());
+            }
+        }
+
+        public int? BPMQuality
+        {
+            get
+            {
+                return System.Convert.ToInt32(GetAttributeValue("TEMPO", "BPM_QUALITY"));
+            }
+            set
+            {
+                SetAttributeValue("BPM_QUALITY", "BPM", value.ToString());
             }
         }
 
@@ -271,20 +299,30 @@ namespace TracktorTagger
             }
         
         }
-        public DateTime ImportDate { get; set; }
-
-
-        public int FileSize {
+        public DateTime ImportDate 
+        {
             get
             {
-                return 0;
+                return DateTime.Parse(GetAttributeValue("INFO", "IMPORT_DATE"));
+            }
+        }
+
+
+        public long FileSize {
+            get
+            {
+                string sizeStr = GetAttributeValue("INFO", "FILESIZE");
+                if (sizeStr == null) return 0;
+                return System.Convert.ToInt64(sizeStr);
             }
         }
         public int BitRate
         {
             get
             {
-                return 0;
+                string bitRateStr = GetAttributeValue("INFO", "BITRATE");
+                if (bitRateStr == null) return 0;
+                return System.Convert.ToInt32(bitRateStr);
             }
         }
         public Location Location
@@ -295,22 +333,92 @@ namespace TracktorTagger
             }
         }        
 
-        public int Ranking { get; set; }
-
-        public DateTime ReleaseDate { get; set; }
-
-        public int PlayTime
+        public int? Ranking
         {
             get
             {
-                return 0;
+                var str = GetAttributeValue("INFO", "RANKING");
+
+                if(str == null) return null;
+
+                return System.Convert.ToInt32(str);
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    SetAttributeValue("INFO", "RANKING", value.ToString());
+                }
+                else
+                {
+                    SetAttributeValue("INFO", "RANKING", null);
+                }
+
+                
             }
         }
-        public double PlayTimeFloat
+
+        public DateTime? ReleaseDate 
         {
             get
             {
-                return 0;
+
+                var str = GetAttributeValue("INFO", "RELEASE_DATE");
+
+                if (String.IsNullOrEmpty(str)) return null;
+
+                var returndate = DateTime.Parse(str);
+
+                return returndate;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    SetAttributeValue("INFO", "RELEASE_DATE", null);
+                }
+
+                string valueString = value.Value.ToString("yyyy/M/d");
+
+
+                SetAttributeValue("INFO", "RELEASE_DATE", valueString);
+            
+            }
+        }
+
+
+        public int? PlayTime
+        {
+            get
+            {
+                var str = GetAttributeValue("INFO", "PLAYTIME");
+
+                if (String.IsNullOrEmpty(str)) return null;
+
+                return System.Convert.ToInt32(str);
+            }
+        }
+        public double? PlayTimeFloat
+        {
+            get
+            {
+                var str = GetAttributeValue("INFO", "PLAYTIME_FLOAT");
+
+                if (String.IsNullOrEmpty(str)) return null;
+
+                return System.Convert.ToDouble(str);
+            }
+        }
+
+        public int? PlayCount
+        {
+            get
+            {
+                var str = GetAttributeValue("INFO", "PLAYCOUNT");
+
+                if (String.IsNullOrEmpty(str)) return null;
+
+                return System.Convert.ToInt32(str);
             }
         }
 
