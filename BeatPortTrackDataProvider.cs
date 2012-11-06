@@ -42,7 +42,7 @@ namespace TracktorTagger
 
 
             List<Track> returnTracks = new List<Track>();
-            
+
 
             try
             {
@@ -54,7 +54,7 @@ namespace TracktorTagger
                     System.UriBuilder uriBuilder = new UriBuilder("http:", "api.beatport.com");
                     uriBuilder.Path = "catalog/3/search";
 
-                    string query = "query=" + searchQuery + "&page=" + 1 + "&facets[]=fieldType:track&perPage="+PerPage.ToString();
+                    string query = "query=" + searchQuery + "&page=" + 1 + "&facets[]=fieldType:track&perPage=" + PerPage.ToString();
 
                     uriBuilder.Query = query;
 
@@ -65,12 +65,12 @@ namespace TracktorTagger
 
 
                     var jss = new JavaScriptSerializer();
-                    var dict = jss.Deserialize<Dictionary<string,dynamic>>(json_data);
+                    var dict = jss.Deserialize<Dictionary<string, dynamic>>(json_data);
 
                     int count = dict["metadata"]["count"];
 
 
-                    foreach(Dictionary<string,Object> trackData in dict["results"])
+                    foreach (Dictionary<string, Object> trackData in dict["results"])
                     {
 
                         Track track = new Track();
@@ -155,41 +155,45 @@ namespace TracktorTagger
                         if (!String.IsNullOrEmpty(genreStr)) track.Genre = genreStr;
 
 
-                        
-                        
-                        
-                                                
+
+
+
+
                         //track.CatalogNumber;
 
                         //track.Key;
+
                         Dictionary<string, object> keyData = (Dictionary<string, object>)trackData["key"];
 
-                        Dictionary<string, object> standardKeyData = (Dictionary<string,object>)keyData["standard"];
+                        if (keyData != null)
+                        {
+                            object standardKeyDataObj = keyData["standard"];
 
-                        string letterString = (string)standardKeyData["letter"];
-                        char letter = letterString[0];
+                            Dictionary<string, object> standardKeyData = (Dictionary<string, object>)keyData["standard"];
 
-                        bool sharp = (bool)standardKeyData["sharp"];
-                        bool flat = (bool)standardKeyData["flat"];
+                            string letterString = (string)standardKeyData["letter"];
+                            char letter = letterString[0];
 
-                        Accidental a;
+                            bool sharp = (bool)standardKeyData["sharp"];
+                            bool flat = (bool)standardKeyData["flat"];
 
-                        if (sharp) a = Accidental.Sharp;
-                        else if (flat) a = Accidental.Flat;
-                        else a = Accidental.Natural;
+                            Accidental a;
 
-                        string chordStr = (string)standardKeyData["chord"];
+                            if (sharp) a = Accidental.Sharp;
+                            else if (flat) a = Accidental.Flat;
+                            else a = Accidental.Natural;
 
-                        Chord c = Chord.Major;
-                        if (chordStr == "major") c = Chord.Major;
-                        else if (chordStr == "minor") c = Chord.Minor;
+                            string chordStr = (string)standardKeyData["chord"];
 
-                        track.Key = new Key(letter, a, c);
+                            Chord c = Chord.Major;
+                            if (chordStr == "major") c = Chord.Major;
+                            else if (chordStr == "minor") c = Chord.Minor;
 
-                        
-                        
-              
-               
+                            track.Key = new Key(letter, a, c);
+                        }
+
+
+
 
 
                         //URL
@@ -198,22 +202,22 @@ namespace TracktorTagger
                         string slugString = (string)trackData["slug"];
                         int trackId = (int)trackData["id"];
 
-                        trackUriBuilder.Path = "track/"+ slugString + "/" + trackId.ToString();
+                        trackUriBuilder.Path = "track/" + slugString + "/" + trackId.ToString();
 
                         track.URL = trackUriBuilder.Uri.AbsoluteUri;
-                        
+
 
                         //Not Support by BeatPort
                         //track.Lyrics;
                         //track.Producer;
 
-                        
+
 
                         returnTracks.Add(track);
-                    
+
                     }
 
-     
+
                 }//close web client
 
 
