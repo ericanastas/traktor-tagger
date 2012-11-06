@@ -3,32 +3,28 @@ namespace TracktorTagger
 {
     public class Track
     {
-        string Artist { get; set; }
-        string Title { get; set; }
+        public string Artist { get; set; }
+        public string Title { get; set; }
 
-        string Remixer { get; set; }
-        string Mix { get; set; }
+        public string Remixer { get; set; }
+        public string Mix { get; set; }
 
-        string AlbumTitle { get; set; }
-        string Producer { get; set; }
+        public string AlbumTitle { get; set; }
+        public string Producer { get; set; }
 
+        public string Label { get; set; }
+        public string CatalogNumber { get; set; }
 
+        public string Comment1 { get; set; }
+        public string Comment2 { get; set; }
+        public string Lyrics { get; set; }
 
-
-
-        string Label { get; set; }
-        string CatalogNumber { get; set; }
-
-
-
-        string Comment1 { get; set; }
-        string Comment2 { get; set; }
-        string Lyrics { get; set; }
-
-        string Genre { get; set; }
-        string Key { get; set; }
+        public string Genre { get; set; }
+        public Key Key { get; set; }
        
-        DateTime? ReleaseDate { get; set; }
- 
+        public DateTime? ReleaseDate { get; set; }
+
+        public string URL { get; set; }
+
     }
 }

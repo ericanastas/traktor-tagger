@@ -28,22 +28,27 @@ namespace TracktorTagger
             TracktorCollection col = new TracktorCollection(@"C:\Users\Eric\Desktop\TraktorTagger\collection.nml");
 
 
-            BeatPortTrackDataProvider provider = new BeatPortTrackDataProvider();
+            
+                      
+            traktorColDataGrid.ItemsSource = col.Entries;
+            
 
 
 
-            try
-            {
-                var tracks = provider.GetTracks("pussy riot");
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
+
+
+
 
 
             
+        }
+
+        private void searchButton_Click(object sender, RoutedEventArgs e)
+        {
+            BeatPortTrackDataProvider prov = new BeatPortTrackDataProvider();
+
+            searchResultDataGrid.ItemsSource = null;
+            searchResultDataGrid.ItemsSource = prov.GetTracks(searchTextBox.Text);
         }
     }
 }

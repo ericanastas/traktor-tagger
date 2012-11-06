@@ -168,15 +168,25 @@ namespace TracktorTagger
             }
         }
 
-        public string Key
+        public Key Key
         {
             get
             {
-                return GetAttributeValue("INFO", "KEY");
+                try
+                {
+                    string keyString = GetAttributeValue("INFO", "KEY");
+
+                    if (String.IsNullOrEmpty(keyString)) return null;
+                    else return new Key(keyString);
+                }
+                catch
+                {
+                    return null;
+                }
             }
             set
             {
-                SetAttributeValue("INFO", "KEY", value);
+                SetAttributeValue("INFO", "KEY", value.ToString());
             }
         }
 
