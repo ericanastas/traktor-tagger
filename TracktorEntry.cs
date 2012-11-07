@@ -75,7 +75,7 @@ namespace TracktorTagger
                 }
             }
 
-            var att = entryNode.SelectSingleNode(elementName).Attributes[attributeName];
+            var att = node.Attributes[attributeName];
 
             if (att == null)
             {
@@ -341,9 +341,50 @@ namespace TracktorTagger
             {
                 return null;
             }
-        }        
+        }
 
-        public int? Ranking
+
+
+
+        public Rating? Rating
+        {
+            get
+            { 
+
+                //determine star value from Rating value
+                
+
+                if(RatingValue.HasValue)
+                {
+                    Decimal value = Math.Round((decimal)RatingValue / (decimal)255 * (decimal)5);
+
+                    int intValue = System.Convert.ToInt32(value);
+
+                    return (Rating)intValue;
+                    
+                }
+                else
+                {
+                return null;
+                }
+
+            
+            
+            }
+
+
+            set
+            {
+                RatingValue = ((int)value) * 51;
+            }
+
+
+        }
+
+
+
+
+        public int? RatingValue
         {
             get
             {

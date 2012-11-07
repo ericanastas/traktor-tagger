@@ -20,26 +20,12 @@ namespace TracktorTagger
     /// </summary>
     public partial class MainWindow : Window
     {
+        TracktorCollection collection;
+
+
         public MainWindow()
         {
             InitializeComponent();
-
-
-            TracktorCollection col = new TracktorCollection(@"C:\Users\Eric\Desktop\TraktorTagger\collection.nml");
-
-
-            
-                      
-            traktorColDataGrid.ItemsSource = col.Entries;
-            
-
-
-
-
-
-
-
-
             
         }
 
@@ -49,6 +35,42 @@ namespace TracktorTagger
 
             searchResultDataGrid.ItemsSource = null;
             searchResultDataGrid.ItemsSource = prov.GetTracks(searchTextBox.Text);
+        }
+
+        private void openMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+            Microsoft.Win32.OpenFileDialog odiag = new Microsoft.Win32.OpenFileDialog();
+            odiag.Filter = "Traktor Collection (*.nml)|*.nml";
+
+            bool? res = odiag.ShowDialog();
+
+            if (res.HasValue && res.Value)
+            {
+                
+                collection = new TracktorCollection(odiag.FileName);
+
+                this.traktorColDataGrid.BeginInit();
+
+
+                this.traktorColDataGrid.ItemsSource = null;
+                this.traktorColDataGrid.ItemsSource = collection.Entries;
+
+                this.traktorColDataGrid.EndInit();
+            
+
+            
+            }
+
+        }
+
+        private void saveMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (collection != null)
+            {
+                collection.SaveCollection();
+            }
+
         }
     }
 }

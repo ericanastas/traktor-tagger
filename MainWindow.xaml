@@ -9,8 +9,8 @@
         <DataGrid x:Name="traktorColDataGrid" Margin="10,222,10,10"/>
         <Menu Height="23" VerticalAlignment="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Open Traktor Collection"/>
-                <MenuItem Header="Save Traktor Collection"/>
+                <MenuItem Header="Open Traktor Collection" Click="openMenu_Click"/>
+                <MenuItem Header="Save Traktor Collection" Click="saveMenu_Click"/>
                 <MenuItem Header="Exit"/>
             
             </MenuItem>
