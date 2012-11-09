@@ -138,7 +138,7 @@ namespace TracktorTagger
                         //Album Title
                         Dictionary<string, object> releaseDict = (Dictionary<string, object>)trackData["release"];
                         string releaseStr = (string)releaseDict["name"];
-                        if (!string.IsNullOrEmpty(releaseStr)) track.AlbumTitle = releaseStr;
+                        if (!string.IsNullOrEmpty(releaseStr)) track.Release = releaseStr;
 
 
                         //Genre(s)

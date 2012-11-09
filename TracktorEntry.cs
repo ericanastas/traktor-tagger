@@ -156,7 +156,7 @@ namespace TracktorTagger
             }
         }
 
-        public string AlbumTitle
+        public string Release
         {
             get
             {

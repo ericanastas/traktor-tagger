@@ -59,6 +59,7 @@
     <Compile Include="Key.cs" />
     <Compile Include="Rating.cs" />
     <Compile Include="Track.cs" />
+    <Compile Include="TrackData.cs" />
     <Compile Include="TrackDataProvider.cs" />
     <Compile Include="TrackProperties.xaml.cs">
       <DependentUpon>TrackProperties.xaml</DependentUpon>

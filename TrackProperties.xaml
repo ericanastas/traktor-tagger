@@ -6,10 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="718.6" d:DesignWidth="408">
 
-    <ScrollViewer>
-        
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
         <StackPanel CanVerticallyScroll="True">
-            <Expander Header="Track Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
+            <Expander Header="Track Information" IsExpanded="False"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27"/>
@@ -35,49 +35,87 @@
 
 
                     <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0">Title:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">Mix:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2">Album:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3">Artist:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="4">Remixer:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="5">Producer:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="6">Label:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="7">Catalog #:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="8">Released:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="9">BPM:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="10">Key:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="11">Genre:</Label>
-                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="12">Rating:</Label>
-
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
+                    <CheckBox Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">Mix:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+                    <CheckBox Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2">Artist:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2"/>
+                    <CheckBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3">Remixer:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3"/>
+                    <CheckBox Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="4">Producer:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4"/>
+                    <CheckBox Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="5">Release:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5"/>
+                    <CheckBox Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="6">Label:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6"/>
+                    <CheckBox Grid.Row="6" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="7">Catalog #:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7"/>
+                    <CheckBox Grid.Row="7" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="8">Released:</Label>
                     <DatePicker Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" />
+                    <CheckBox Grid.Row="8" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="9">BPM:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9"/>
+                    <CheckBox Grid.Row="9" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="10">Key:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="10"/>
+                    <CheckBox Grid.Row="10" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="11">Genre:</Label>
                     <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="11"/>
+                    <CheckBox Grid.Row="11" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
 
-
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="12">Rating:</Label>
                     <ComboBox  Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" />
+
 
 
                 </Grid>
 
             </Expander>
 
-            <Expander Header="Comments" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
+            <Expander Header="Comments" IsExpanded="False"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="40*"/>
                         <ColumnDefinition Width="27"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>                        
+                    <Grid.RowDefinitions>
                         <RowDefinition  Height="27"/>
                         <RowDefinition  Height="100"/>
                         <RowDefinition  Height="27"/>
@@ -101,8 +139,8 @@
 
 
                 </Grid>
-                
-                
+
+
 
 
 
@@ -110,15 +148,70 @@
             </Expander>
 
 
-            <Expander Header="Catalog Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top"></Expander>
+            <Expander Header="File Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="27"/>
+                    </Grid.ColumnDefinitions>
 
-            <Expander Header="File Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top"></Expander>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0">File Name:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0">some track.wav</Label>
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">File Size:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">99 mb</Label>
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3">Bit Rate:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3">14400</Label>
 
 
 
+                </Grid>
+
+
+
+            </Expander>
+
+            <Expander Header="Track Catalog Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="27"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0">Imported:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0">2012-10-01</Label>
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">Modified:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="1">2012-10-01</Label>
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2">Play Count:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="2">234</Label>
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3">Play Time:</Label>
+                    <Label HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="3">00:23:32</Label>
+
+                </Grid>
+
+            </Expander>
 
         </StackPanel>
-
 
     </ScrollViewer>
 

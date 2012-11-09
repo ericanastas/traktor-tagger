@@ -72,5 +72,18 @@ namespace TracktorTagger
             }
 
         }
+
+        private void searchResultDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (searchResultDataGrid.SelectedItem !=null)
+            {
+                Track data = (Track)searchResultDataGrid.SelectedItem;
+
+                if (!string.IsNullOrEmpty(data.URL))
+                {
+                    System.Diagnostics.Process.Start(data.URL);
+                }            
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace TracktorTagger
         public string Remixer { get; set; }
         public string Mix { get; set; }
 
-        public string AlbumTitle { get; set; }
+        public string Release { get; set; }
         public string Producer { get; set; }
 
         public string Label { get; set; }

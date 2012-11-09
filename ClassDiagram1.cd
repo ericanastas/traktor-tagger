@@ -14,5 +14,12 @@
       <FileName>TracktorEntry.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="TracktorTagger.TrackData">
+    <Position X="7.75" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>TrackData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

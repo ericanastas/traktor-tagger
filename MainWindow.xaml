@@ -32,7 +32,7 @@
 
 
 
-                <DataGrid AutoGenerateColumns="True" Margin="10,38,10,0" x:Name="searchResultDataGrid" Height="230" VerticalAlignment="Top"/>
+                <DataGrid AutoGenerateColumns="True" Margin="10,38,10,0" x:Name="searchResultDataGrid" Height="230" VerticalAlignment="Top" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick"/>
                 <TextBox Height="23" Margin="10,10,179,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" x:Name="searchTextBox"/>
                 <ComboBox Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
                     <ComboBoxItem Content="Beatport"/>
@@ -47,7 +47,7 @@
         </GroupBox>
 
 
-        <local:TrackProperties Margin="0,28,10,10" HorizontalAlignment="Right" Width="279"/>
+        <local:TrackProperties Margin="0,23,0,0" HorizontalAlignment="Right" Width="289"/>
 
 
     </Grid>
