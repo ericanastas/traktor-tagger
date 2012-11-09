@@ -34,7 +34,7 @@ namespace TracktorTagger
 
 
 
-        public IEnumerable<Track> GetTracks(string searchQuery)
+        public IEnumerable<Track> SearchTracks(string searchQuery)
         {
             var json_data = string.Empty;
 
@@ -233,6 +233,12 @@ namespace TracktorTagger
 
 
 
+        }
+
+
+        public Track GetTrack(string trackId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="TracktorTagger.TrackProperties"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="718.6" d:DesignWidth="408">
+
+    <ScrollViewer>
+        
+        <StackPanel CanVerticallyScroll="True">
+            <Expander Header="Track Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+                        <RowDefinition Height="27"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="27"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="0">Title:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="1">Mix:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2">Album:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="3">Artist:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="4">Remixer:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="5">Producer:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="6">Label:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="7">Catalog #:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="8">Released:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="9">BPM:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="10">Key:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="11">Genre:</Label>
+                    <Label HorizontalAlignment="Right" Grid.Column="0" Grid.Row="12">Rating:</Label>
+
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="3"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="4"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="5"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="6"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="7"/>
+                    <DatePicker Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" />
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="9"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="10"/>
+                    <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" Grid.Row="11"/>
+
+
+
+                    <ComboBox  Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" />
+
+
+                </Grid>
+
+            </Expander>
+
+            <Expander Header="Comments" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="27"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>                        
+                        <RowDefinition  Height="27"/>
+                        <RowDefinition  Height="100"/>
+                        <RowDefinition  Height="27"/>
+                        <RowDefinition  Height="100"/>
+                        <RowDefinition  Height="27"/>
+                        <RowDefinition  Height="100"/>
+                    </Grid.RowDefinitions>
+
+
+
+                    <Label HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0">Comments 1:</Label>
+                    <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow">This is text</TextBox>
+
+                    <Label HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2">Comments 2:</Label>
+                    <TextBox Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow">This is text</TextBox>
+
+
+                    <Label HorizontalAlignment="Left" Grid.Column="0" Grid.Row="4">Lyrics:</Label>
+                    <TextBox Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow">This is text</TextBox>
+
+
+
+                </Grid>
+                
+                
+
+
+
+
+            </Expander>
+
+
+            <Expander Header="Catalog Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top"></Expander>
+
+            <Expander Header="File Information" IsExpanded="True"  HorizontalAlignment="Stretch"  VerticalAlignment="Top"></Expander>
+
+
+
+
+        </StackPanel>
+
+
+    </ScrollViewer>
+
+</UserControl>

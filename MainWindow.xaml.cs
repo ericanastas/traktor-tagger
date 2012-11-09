@@ -34,7 +34,7 @@ namespace TracktorTagger
             BeatPortTrackDataProvider prov = new BeatPortTrackDataProvider();
 
             searchResultDataGrid.ItemsSource = null;
-            searchResultDataGrid.ItemsSource = prov.GetTracks(searchTextBox.Text);
+            searchResultDataGrid.ItemsSource = prov.SearchTracks(searchTextBox.Text);
         }
 
         private void openMenu_Click(object sender, RoutedEventArgs e)

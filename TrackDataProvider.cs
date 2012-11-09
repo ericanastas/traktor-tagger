@@ -8,6 +8,8 @@ namespace TracktorTagger
 {
     public interface ITrackDataProvider
     {
-        IEnumerable<Track> GetTracks(string searchQuery);
+        IEnumerable<Track> SearchTracks(string searchQuery);
+        Track GetTrack(string trackId);
+
     }
 }
