@@ -17,11 +17,11 @@ namespace TracktorTagger
 
     }
 
-    public class TracktorEntry
+    public class TracktorTrack
     {
         private System.Xml.XmlElement entryNode;
 
-        public TracktorEntry(System.Xml.XmlElement entryNode)
+        public TracktorTrack(System.Xml.XmlElement entryNode)
         {
             this.entryNode = entryNode;
         }
@@ -90,6 +90,11 @@ namespace TracktorTagger
         }
 
         #endregion
+
+
+        
+
+
 
         public string Title
         {

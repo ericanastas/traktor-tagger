@@ -58,14 +58,14 @@
     <Compile Include="BeatPortTrackDataProvider.cs" />
     <Compile Include="Key.cs" />
     <Compile Include="Rating.cs" />
-    <Compile Include="Track.cs" />
     <Compile Include="TrackData.cs" />
+    <Compile Include="TrackTag.cs" />
     <Compile Include="TrackDataProvider.cs" />
     <Compile Include="TrackProperties.xaml.cs">
       <DependentUpon>TrackProperties.xaml</DependentUpon>
     </Compile>
     <Compile Include="TracktorCollection.cs" />
-    <Compile Include="TracktorEntry.cs" />
+    <Compile Include="TracktorTrack.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,7 +102,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="collection.nml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -77,7 +77,7 @@ namespace TracktorTagger
         {
             if (searchResultDataGrid.SelectedItem !=null)
             {
-                Track data = (Track)searchResultDataGrid.SelectedItem;
+                TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
 
                 if (!string.IsNullOrEmpty(data.URL))
                 {

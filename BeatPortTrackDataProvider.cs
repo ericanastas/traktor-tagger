@@ -11,9 +11,13 @@ namespace TracktorTagger
     public class BeatPortTrackDataProvider : ITrackDataProvider
     {
 
+
+
         public BeatPortTrackDataProvider()
         {
+
             PerPage = 150;
+
         }
 
         int _perPage;
@@ -34,14 +38,17 @@ namespace TracktorTagger
 
 
 
-        public IEnumerable<Track> SearchTracks(string searchQuery)
+        public IEnumerable<TrackData> SearchTracks(string searchQuery)
         {
             var json_data = string.Empty;
+            string providerName = this.GetType().FullName;
+
+
 
             if (string.IsNullOrEmpty(searchQuery)) throw new ArgumentNullException("searchQuery");
 
 
-            List<Track> returnTracks = new List<Track>();
+            List<TrackData> returnTracks = new List<TrackData>();
 
 
             try
@@ -73,7 +80,31 @@ namespace TracktorTagger
                     foreach (Dictionary<string, Object> trackData in dict["results"])
                     {
 
-                        Track track = new Track();
+
+
+
+                        string TrackId = null;
+                        string URL = null;
+
+                        string Artist = null;
+                        string Title = null;
+
+                        string Remixer = null;
+                        string Mix = null;
+
+                        string Release = null;
+                        string Producer = null;
+
+                        string Label = null;
+                        string CatalogNumber = null;
+
+                        string Lyrics = null;
+
+                        string Genre = null;
+                        Key Key = null;
+
+                        DateTime? ReleaseDate = null;
+
 
                         //Artist(s)
                         System.Collections.ArrayList artists = (System.Collections.ArrayList)trackData["artists"];
@@ -91,12 +122,12 @@ namespace TracktorTagger
                         }
 
                         string artistsStr = string.Join(", ", artistNames);
-                        if (!String.IsNullOrEmpty(artistsStr)) track.Artist = artistsStr;
+                        if (!String.IsNullOrEmpty(artistsStr)) Artist = artistsStr;
 
 
                         //Title
                         string title = (string)trackData["name"];
-                        if (!string.IsNullOrEmpty(title)) track.Title = title;
+                        if (!string.IsNullOrEmpty(title)) Title = title;
 
 
 
@@ -115,30 +146,33 @@ namespace TracktorTagger
                         }
 
                         string remixerStr = string.Join(", ", remixerNames);
-                        if (!String.IsNullOrEmpty(remixerStr)) track.Remixer = remixerStr;
+                        if (!String.IsNullOrEmpty(remixerStr)) Remixer = remixerStr;
 
 
 
 
                         //Mix
                         string mix = (string)trackData["mixName"];
-                        if (!string.IsNullOrEmpty(mix)) track.Mix = mix;
+                        if (!string.IsNullOrEmpty(mix))
+                        {
+                            Mix = mix;
+                        }
 
 
                         //release date
                         string releaseDateStr = (string)trackData["releaseDate"];
-                        if (!string.IsNullOrEmpty(releaseDateStr)) track.ReleaseDate = DateTime.Parse(releaseDateStr);
+                        if (!string.IsNullOrEmpty(releaseDateStr)) ReleaseDate = DateTime.Parse(releaseDateStr);
 
 
                         //Label
                         Dictionary<string, object> labelDict = (Dictionary<string, object>)trackData["label"];
                         string labelStr = (string)labelDict["name"];
-                        if (!string.IsNullOrEmpty(labelStr)) track.Label = labelStr;
+                        if (!string.IsNullOrEmpty(labelStr)) Label = labelStr;
 
                         //Album Title
                         Dictionary<string, object> releaseDict = (Dictionary<string, object>)trackData["release"];
                         string releaseStr = (string)releaseDict["name"];
-                        if (!string.IsNullOrEmpty(releaseStr)) track.Release = releaseStr;
+                        if (!string.IsNullOrEmpty(releaseStr)) Release = releaseStr;
 
 
                         //Genre(s)
@@ -152,7 +186,7 @@ namespace TracktorTagger
                         }
 
                         string genreStr = string.Join(", ", genreNames);
-                        if (!String.IsNullOrEmpty(genreStr)) track.Genre = genreStr;
+                        if (!String.IsNullOrEmpty(genreStr)) Genre = genreStr;
 
 
 
@@ -189,7 +223,7 @@ namespace TracktorTagger
                             if (chordStr == "major") c = Chord.Major;
                             else if (chordStr == "minor") c = Chord.Minor;
 
-                            track.Key = new Key(letter, a, c);
+                            Key = new Key(letter, a, c);
                         }
 
 
@@ -204,7 +238,7 @@ namespace TracktorTagger
 
                         trackUriBuilder.Path = "track/" + slugString + "/" + trackId.ToString();
 
-                        track.URL = trackUriBuilder.Uri.AbsoluteUri;
+                        URL = trackUriBuilder.Uri.AbsoluteUri;
 
 
                         //Not Support by BeatPort
@@ -212,6 +246,8 @@ namespace TracktorTagger
                         //track.Producer;
 
 
+
+                        TrackData track = new TrackData(providerName, TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, URL);
 
                         returnTracks.Add(track);
 
@@ -236,7 +272,7 @@ namespace TracktorTagger
         }
 
 
-        public Track GetTrack(string trackId)
+        public TrackData GetTrack(string trackId)
         {
             throw new NotImplementedException();
         }
