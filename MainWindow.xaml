@@ -20,7 +20,7 @@
         </Menu>
 
 
-        <GroupBox Header="Traktor Collection" Margin="10,28,275,309">
+        <GroupBox Header="Traktor Collection" Margin="10,28,10,309">
             <DataGrid x:Name="traktorColDataGrid" Margin="10" CanUserResizeRows="False" AutoGenerateColumns="False">
 
                 <DataGrid.Columns>
@@ -28,10 +28,10 @@
                     
                 
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="150" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125" IsReadOnly="False"/>
 
 
-                    <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="100" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100" IsReadOnly="False"/>
 
@@ -45,10 +45,10 @@
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100" IsReadOnly="False"/>
 
 
-                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="100" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="60" IsReadOnly="False"/>
 
 
-                    <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" Width="100" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" Width="50" IsReadOnly="False"/>
 
 
                     <!--Collapsed COlumns-->
@@ -71,13 +71,6 @@
 
             </DataGrid>
         </GroupBox>
-
-
-
-
-
-
-        <local:TrackProperties Margin="0,28,10,304" HorizontalAlignment="Right" Width="260"/>
         <GroupBox Header="Track Data Search" Margin="10,0,10,10" Height="294" VerticalAlignment="Bottom">
 
             <Grid>
@@ -90,24 +83,23 @@
 
 
 
-                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="200" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125" IsReadOnly="True" />
 
-                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="100*" IsReadOnly="True" />
-                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100" IsReadOnly="True"/>
 
-                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
 
+                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100" IsReadOnly="True" />
 
-                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate}" Width="80" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100" IsReadOnly="True"/>
 
-                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate}" Width="100*" IsReadOnly="True"/>
-                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" IsReadOnly="True" />
-                        <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100" IsReadOnly="True" />
 
-                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True" />
-
-                        <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="60" IsReadOnly="True" />
 
 
                     </DataGrid.Columns>
