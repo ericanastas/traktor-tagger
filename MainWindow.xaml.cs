@@ -132,6 +132,7 @@ namespace TracktorTagger
                 selTraktorTrack.ReleaseDate = selTrackData.ReleaseDate;
                 selTraktorTrack.Label = selTrackData.Label;
                 selTraktorTrack.Genre = selTrackData.Genre;
+                selTraktorTrack.CatalogNumber = selTrackData.CatalogNumber;
                 selTraktorTrack.Key = selTrackData.Key;
 
 

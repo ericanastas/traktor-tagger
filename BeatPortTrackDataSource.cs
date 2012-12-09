@@ -76,11 +76,6 @@ namespace TracktorTagger
 
 
 
-
-
-
-
-
                     foreach (Dictionary<string, Object> trackData in trackDataDict["results"])
                     {
 

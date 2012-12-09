@@ -27,7 +27,7 @@
 
 
         <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
-            <DataGrid x:Name="traktorColDataGrid" Margin="10,10,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" RowHeight="25">
+            <DataGrid x:Name="traktorColDataGrid" Margin="10,10,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" RowHeight="25" VerticalScrollBarVisibility="Visible">
 
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
@@ -149,7 +149,7 @@
 
 
             <Grid>
-                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" RowHeight="25">
+                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" RowHeight="25" VerticalScrollBarVisibility="Visible">
 
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
@@ -201,7 +201,7 @@
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True"/>
                         <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True" />
-                        <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="60*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="55" IsReadOnly="True" />
                     </DataGrid.Columns>
 
                 </DataGrid>
