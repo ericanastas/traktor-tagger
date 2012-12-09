@@ -43,20 +43,34 @@
                     <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
 
-                    <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
                     
                     <!--
                     <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}" Width="75" IsReadOnly="False"/>
                     -->
 
-                    <DataGridTemplateColumn Header="Released" Width="100" IsReadOnly="False" >
+                    <DataGridTemplateColumn Header="Released" Width="105" IsReadOnly="False" SortMemberPath="ReleaseDate" >
 
+                        
+                        
                         <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
 
+                            <!--
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding ReleaseDate, StringFormat={}\{0:d\}}"/>
+                            </DataTemplate>
+
+                            -->
+
+                            <DataTemplate>
+                                <DatePicker BorderThickness="0" SelectedDate="{Binding ReleaseDate}" Text="Not Set"/>
+                            </DataTemplate>
+
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                        
+<!--
+               
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <DatePicker SelectedDate="{Binding ReleaseDate}"/>
@@ -64,7 +78,7 @@
                             
                         </DataGridTemplateColumn.CellEditingTemplate>
                         
-
+      -->
 
                     </DataGridTemplateColumn>
 
@@ -166,7 +180,7 @@
                         <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
                         <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
-                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}" Width="75" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True"/>
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True"/>
                         <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True" />
