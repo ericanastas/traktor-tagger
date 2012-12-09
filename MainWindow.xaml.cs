@@ -12,9 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Reflection;
 
 namespace TracktorTagger
 {
+
+
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -23,11 +27,20 @@ namespace TracktorTagger
         TracktorCollection collection;
 
 
+
+
+
         public MainWindow()
         {
             InitializeComponent();
+
+
+  
+
             
         }
+
+
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -81,7 +94,9 @@ namespace TracktorTagger
 
                 if (!string.IsNullOrEmpty(data.URL))
                 {
-                    System.Diagnostics.Process.Start(data.URL);
+
+
+                    
                 }            
             }
         }
