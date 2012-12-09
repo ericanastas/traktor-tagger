@@ -15,9 +15,7 @@ namespace TracktorTagger
 
         public BeatPortTrackDataProvider()
         {
-
             PerPage = 150;
-
         }
 
         int _perPage;

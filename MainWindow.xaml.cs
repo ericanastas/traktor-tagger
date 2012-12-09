@@ -100,5 +100,13 @@ namespace TracktorTagger
                 }            
             }
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.MenuItem mi = (System.Windows.Controls.MenuItem)sender;
+
+            
+            
+        }
     }
 }

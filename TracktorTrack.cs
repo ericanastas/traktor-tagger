@@ -179,7 +179,7 @@ namespace TracktorTagger
             {
                 try
                 {
-                    string keyString = GetAttributeValue("INFO", "KEY");
+                    string keyString = GetAttributeValue("INFO", "KEY");                    
 
                     if (String.IsNullOrEmpty(keyString)) return null;
                     else return new Key(keyString);

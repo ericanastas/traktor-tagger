@@ -4,19 +4,13 @@
         xmlns:local="clr-namespace:TracktorTagger" x:Class="TracktorTagger.MainWindow"
         Title="Traktor Tagger" Height="600" Width="800">
 
-
-
-
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="23" />
             <RowDefinition Height="*"  MinHeight="150"/>
             <RowDefinition  Height="3"/>
             <RowDefinition Height="*" MinHeight="150"/>
-                
-            
-            
         </Grid.RowDefinitions>
 
 
@@ -25,33 +19,54 @@
                 <MenuItem Header="Open Traktor Collection" Click="openMenu_Click"/>
                 <MenuItem Header="Save Traktor Collection" Click="saveMenu_Click"/>
                 <MenuItem Header="Exit"/>
-
             </MenuItem>
             <MenuItem Header="Settings"/>
-
         </Menu>
 
 
 
 
-        <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="5" VerticalAlignment="Stretch">
-            <DataGrid x:Name="traktorColDataGrid" Margin="10,10,10
-                      ,10" CanUserResizeRows="False" AutoGenerateColumns="False">
+        <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
+            <DataGrid x:Name="traktorColDataGrid" Margin="10,10,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single">
+
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
+                </DataGrid.Resources>
 
                 <DataGrid.Columns>
-
-
-                    <DataGridTextColumn Header="X" Width="25" IsReadOnly="True"/>
+                    
+                    <DataGridTextColumn Width="25" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="False"/>
-
 
                     <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
 
                     <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}" Width="80*" IsReadOnly="False"/>
+                    
+                    <!--
+                    <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}" Width="75" IsReadOnly="False"/>
+                    -->
+
+                    <DataGridTemplateColumn Header="Released" Width="100" IsReadOnly="False" >
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <DatePicker SelectedDate="{Binding ReleaseDate}"/>
+                            </DataTemplate>
+                            
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                        
+
+
+                    </DataGridTemplateColumn>
 
 
                     <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False"/>
@@ -60,13 +75,32 @@
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="False"/>
 
 
-                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="60*" IsReadOnly="False"/>
+                    <DataGridTemplateColumn Header="Key" Width="55" IsReadOnly="False">
+                        
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                
+                                <ComboBox >
 
-                    <DataGridTextColumn Header="BPM" Binding="{Binding BPM}" Width="100*" IsReadOnly="True" />
-
+                                    <ComboBoxItem>A</ComboBoxItem>
+                                    <ComboBoxItem>A#m</ComboBoxItem>
+                                    <ComboBoxItem>Ab</ComboBoxItem>
+                                    
+                                    
+                                </ComboBox>
+                                          
+                                          
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                        
+                        
+                    </DataGridTemplateColumn>
 
 
                     <!--Collapsed COlumns
+                    <DataGridTextColumn Header="BPM" Binding="{Binding BPM}" Width="60" IsReadOnly="True" />
+
                     <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" Width="50" IsReadOnly="False" Visibility="Collapsed"/>
 
                     <DataGridTextColumn Header="File Size" Binding="{Binding FileSize}" Width="100*" IsReadOnly="True" Visibility="Collapsed"/>
@@ -77,111 +111,77 @@
                     <DataGridTextColumn Header="Play Time" Binding="{Binding PlayTime}" Width="100*" IsReadOnly="True" Visibility="Collapsed"/>
                     
                     -->
-
-
-
-
-
-
-
-
                 </DataGrid.Columns>
 
             </DataGrid>
         </GroupBox>
-        
-        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" />
-        
-        <GroupBox Header="Track Data Search" Margin="5" Grid.Row="3" VerticalAlignment="Stretch">
 
-   
+        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
 
-                    <Grid>
+        <GroupBox Header="Track Data Search" Margin="7" Grid.Row="3" VerticalAlignment="Stretch">
 
 
+            <Grid>
+                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single">
 
-                        <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single">
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
+                    </DataGrid.Resources>
 
-                            <DataGrid.Columns>
-
-
-                                <DataGridTextColumn Header="X" Width="25" IsReadOnly="True" />
-
-
-
-
-                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-
-                                                            <Grid HorizontalAlignment="Stretch" Width="75">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                                                <Label Grid.Column="1">Title</Label>
-
-                                                            </Grid>
-
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True" />
-
-                                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
+                    <DataGrid.Columns>
 
 
-                                <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Width="25" IsReadOnly="True" />
 
-                                <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate}" Width="80*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
 
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
 
+                                                    <Grid HorizontalAlignment="Stretch" Width="75">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                        <Label Grid.Column="1">Title</Label>
 
+                                                    </Grid>
 
-                                <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True"/>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
 
-                                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True" />
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True" />
 
-                                <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="60*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}" Width="75" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="60*" IsReadOnly="True" />
+                    </DataGrid.Columns>
 
-                                <DataGridTextColumn Header="BPM" Binding="{Binding BPM}" Width="100*" IsReadOnly="True"/>
-
-
-                            </DataGrid.Columns>
-
-                        </DataGrid>
-                        <TextBox Height="23" Margin="10,10,179,0" TextWrapping="Wrap" Text="paul oakenfold" VerticalAlignment="Top" x:Name="searchTextBox"/>
-                        <ComboBox Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
-                            <ComboBoxItem Content="Beatport"/>
-                            <ComboBoxItem Content="Discogs"/>
-                        </ComboBox>
-                        <Button Content="Search" Margin="0,10,99,0" VerticalAlignment="Top" x:Name="searchButton" Click="searchButton_Click" HorizontalAlignment="Right" Width="75"/>
-
-                    </Grid>
-
-       
-
-
-
-
-
+                </DataGrid>
+                <TextBox Height="23" Margin="10,10,179,0" TextWrapping="Wrap" Text="paul oakenfold" VerticalAlignment="Top" x:Name="searchTextBox"/>
+                <ComboBox Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
+                    <ComboBoxItem Content="Beatport"/>
+                    <ComboBoxItem Content="Discogs"/>
+                </ComboBox>
+                <Button Content="Search" Margin="0,10,99,0" VerticalAlignment="Top" x:Name="searchButton" Click="searchButton_Click" HorizontalAlignment="Right" Width="75"/>
+            </Grid>
 
         </GroupBox>
-
-
     </Grid>
 </Window>
