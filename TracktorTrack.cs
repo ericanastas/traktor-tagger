@@ -17,7 +17,7 @@ namespace TracktorTagger
 
     }
 
-    public class TracktorTrack
+    public class TracktorTrack:System.ComponentModel.INotifyPropertyChanged
     {
         private System.Xml.XmlElement entryNode;
 
@@ -92,8 +92,47 @@ namespace TracktorTagger
         #endregion
 
 
-        
 
+        public TrackDataSourceTag DataSourceTag 
+        {
+            get
+            {
+                var dataSourceElement = entryNode.SelectSingleNode("./DataSource");
+
+                if (dataSourceElement == null) return null;
+
+                var provider = GetAttributeValue("DataSource", "DataProvider");
+                var url = GetAttributeValue("DataSource", "URL");
+                var TrackId = GetAttributeValue("DataSource", "TrackId");
+
+                TrackDataSourceTag tag = new TrackDataSourceTag(provider, TrackId, new Uri(url));
+
+                return tag;
+            
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    SetAttributeValue("DataSource", "DataProvider", value.TrackDataProvider);
+                    SetAttributeValue("DataSource", "URL", value.TrackDataUrl.AbsoluteUri);
+                    SetAttributeValue("DataSource", "TrackId", value.TrackId);
+                }
+                else
+                {
+                    var dataSourceElement = entryNode.SelectSingleNode("./DataSource");
+
+                    if (dataSourceElement != null)
+                    {
+                        dataSourceElement.ParentNode.RemoveChild(dataSourceElement);
+                    }
+                }
+
+                OnPropertyChanged("DataSourceTag");
+            
+            }
+        }
 
 
         public string Title
@@ -106,7 +145,9 @@ namespace TracktorTagger
             set
             {
                 //Title can not be empty
+                
                 if (!String.IsNullOrEmpty(value)) SetAttributeValue(null, "TITLE", value);
+                OnPropertyChanged("Title");
             }
         }
 
@@ -118,7 +159,9 @@ namespace TracktorTagger
             }
             set
             {
-                SetAttributeValue(null, "ARTIST", value);      
+                
+                SetAttributeValue(null, "ARTIST", value);
+                OnPropertyChanged("Artist");
             }
         }
 
@@ -131,7 +174,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "MIX", value);
+                OnPropertyChanged("Mix");
             }
         }
 
@@ -144,7 +189,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "PRODUCER", value);
+                OnPropertyChanged("Producer");
             }
         }
 
@@ -157,7 +204,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "REMIXER", value);
+                OnPropertyChanged("Remixer");
             }
         }
 
@@ -169,7 +218,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("ALBUM", "TITLE", value);
+                OnPropertyChanged("Release");
             }
         }
 
@@ -191,7 +242,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "KEY", value.ToString());
+                OnPropertyChanged("Key");
             }
         }
 
@@ -203,7 +256,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("TEMPO", "BPM", value.ToString());
+                OnPropertyChanged("BPM");
             }
         }
 
@@ -215,7 +270,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("BPM_QUALITY", "BPM", value.ToString());
+                OnPropertyChanged("BPMQuality");
             }
         }
 
@@ -228,7 +285,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "KEY_LYRICS", value);
+                OnPropertyChanged("Lyrics");
             }
         }
 
@@ -240,7 +299,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "LABEL", value);
+                OnPropertyChanged("Label");
             }
         }
 
@@ -252,7 +313,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "CATALOG_NO", value);
+                OnPropertyChanged("CatalogNumber");
             }
         }
 
@@ -264,7 +327,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "GENRE", value);
+                OnPropertyChanged("Genre");
             }
         }
 
@@ -276,7 +341,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "COMMENT", value);
+                OnPropertyChanged("Comment1");
             }
         }
 
@@ -288,7 +355,9 @@ namespace TracktorTagger
             }
             set
             {
+                
                 SetAttributeValue("INFO", "RATING", value);
+                OnPropertyChanged("Comment2");
             }
         }
 
@@ -307,7 +376,8 @@ namespace TracktorTagger
                 return date;
             }
             set
-            { 
+            {
+                throw new NotImplementedException();
             
             
             
@@ -380,7 +450,9 @@ namespace TracktorTagger
 
             set
             {
+                
                 RatingValue = ((int)value) * 51;
+                OnPropertyChanged("Rating");
             }
 
 
@@ -438,6 +510,9 @@ namespace TracktorTagger
 
 
                 SetAttributeValue("INFO", "RELEASE_DATE", valueString);
+
+
+                OnPropertyChanged("ReleaseDate");
             
             }
         }
@@ -485,6 +560,16 @@ namespace TracktorTagger
         }
 
 
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            System.ComponentModel.PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
 
     }
 }

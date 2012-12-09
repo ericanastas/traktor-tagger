@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
-    public interface ITrackDataProvider
+    public interface ITrackDataSource
     {
         IEnumerable<TrackData> SearchTracks(string searchQuery);
         TrackData GetTrack(string trackId);

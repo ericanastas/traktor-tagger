@@ -27,40 +27,52 @@
 
 
         <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
-            <DataGrid x:Name="traktorColDataGrid" Margin="10,10,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single">
+            <DataGrid x:Name="traktorColDataGrid" Margin="10,10,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" RowHeight="25">
 
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
                 </DataGrid.Resources>
 
                 <DataGrid.Columns>
+
+                    <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag">
                     
-                    <DataGridTextColumn Width="25" IsReadOnly="True"/>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="Images/beatport_24.jpg" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                        
+                    </DataGridTemplateColumn>
+                    
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="False"/>
 
                     <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
-                    <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
-
-                    <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
                     
                     <!--
-                    <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:yyyy-MM-dd\}}" Width="75" IsReadOnly="False"/>
+                    <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
                     -->
+
+                    <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
+
+
+                    <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False"/>
+
+                    <!--
 
                     <DataGridTemplateColumn Header="Released" Width="105" IsReadOnly="False" SortMemberPath="ReleaseDate" >
 
-                        
-                        
                         <DataGridTemplateColumn.CellTemplate>
 
-                            <!--
+
                             <DataTemplate>
                                 <TextBlock HorizontalAlignment="Center" Text="{Binding ReleaseDate, StringFormat={}\{0:d\}}"/>
                             </DataTemplate>
 
-                            -->
+                         
 
                             <DataTemplate>
                                 <DatePicker BorderThickness="0" SelectedDate="{Binding ReleaseDate}" Text="Not Set"/>
@@ -69,7 +81,7 @@
                         </DataGridTemplateColumn.CellTemplate>
                         
                         
-<!--
+
                
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
@@ -78,9 +90,10 @@
                             
                         </DataGridTemplateColumn.CellEditingTemplate>
                         
-      -->
+
 
                     </DataGridTemplateColumn>
+                    -->
 
 
                     <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False"/>
@@ -89,7 +102,7 @@
                     <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="False"/>
 
 
-                    <DataGridTemplateColumn Header="Key" Width="55" IsReadOnly="False">
+                    <DataGridTemplateColumn Header="Key" Width="55" IsReadOnly="False" SortMemberPath="Key">
                         
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -136,7 +149,7 @@
 
 
             <Grid>
-                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single">
+                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" RowHeight="25">
 
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
@@ -178,7 +191,11 @@
 
                         <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
+                        
+                        <!--
                         <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
+                        -->
+                        
                         <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True"/>
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True" />
@@ -188,12 +205,13 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-                <TextBox Height="23" Margin="10,10,179,0" TextWrapping="Wrap" Text="paul oakenfold" VerticalAlignment="Top" x:Name="searchTextBox"/>
+                <TextBox Height="23" Margin="104,10,179,0" TextWrapping="Wrap" Text="paul oakenfold" VerticalAlignment="Top" x:Name="searchTextBox"/>
                 <ComboBox Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
                     <ComboBoxItem Content="Beatport"/>
                     <ComboBoxItem Content="Discogs"/>
                 </ComboBox>
                 <Button Content="Search" Margin="0,10,99,0" VerticalAlignment="Top" x:Name="searchButton" Click="searchButton_Click" HorizontalAlignment="Right" Width="75"/>
+                <Button x:Name="tagSelectedButton" Content="Tag Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="89" Click="tagSelectedButton_Click"/>
             </Grid>
 
         </GroupBox>

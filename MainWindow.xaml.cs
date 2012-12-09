@@ -44,7 +44,7 @@ namespace TracktorTagger
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            BeatPortTrackDataProvider prov = new BeatPortTrackDataProvider();
+            BeatportTrackDataSource prov = new BeatportTrackDataSource();
 
             searchResultDataGrid.ItemsSource = null;
             searchResultDataGrid.ItemsSource = prov.SearchTracks(searchTextBox.Text);
@@ -106,6 +106,44 @@ namespace TracktorTagger
             System.Windows.Controls.MenuItem mi = (System.Windows.Controls.MenuItem)sender;
 
             
+            
+        }
+
+        private void tagSelectedButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (searchResultDataGrid.SelectedItem != null && traktorColDataGrid.SelectedItem != null)
+            {
+
+                TracktorTrack selTraktorTrack = (TracktorTrack)traktorColDataGrid.SelectedItem;
+                TrackData selTrackData = (TrackData)searchResultDataGrid.SelectedItem;
+
+
+               
+
+
+                selTraktorTrack.Title = selTrackData.Title;
+                selTraktorTrack.Mix = selTrackData.Mix;
+                selTraktorTrack.Artist = selTrackData.Artist;
+
+                selTraktorTrack.Remixer = selTrackData.Remixer;
+                //selTraktorTrack.Producer = selTrackData.Producer;
+                selTraktorTrack.Release = selTrackData.Release;
+                selTraktorTrack.ReleaseDate = selTrackData.ReleaseDate;
+                selTraktorTrack.Label = selTrackData.Label;
+                selTraktorTrack.Genre = selTrackData.Genre;
+                selTraktorTrack.Key = selTrackData.Key;
+
+
+                selTraktorTrack.DataSourceTag = selTrackData.DataSourceTag;
+
+
+                
+
+
+            
+            
+            }
             
         }
     }

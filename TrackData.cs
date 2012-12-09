@@ -26,7 +26,8 @@ namespace TracktorTagger
        
         public DateTime? ReleaseDate { get; private set; }
 
-        
+
+        public TrackDataSourceTag DataSourceTag { get; private set; }
 
 
         public TrackData(string dataProvder, string trackId, string artist, 
@@ -41,7 +42,7 @@ namespace TracktorTagger
             string genre, 
             Key key, 
             DateTime? releaseDate, 
-            string url )
+            string url, TrackDataSourceTag dataSourceTag )
         {
             this.DataProvider = dataProvder;
             this.TrackId = trackId;
@@ -60,6 +61,9 @@ namespace TracktorTagger
             this.Key = key;
             this.ReleaseDate = releaseDate;
             this.URL = url;
+
+            if (dataSourceTag == null) throw new ArgumentNullException("dataSourceTag");
+            DataSourceTag = dataSourceTag;
         }
 
     }

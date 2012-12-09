@@ -8,14 +8,14 @@ using System.Web.Script.Serialization;
 
 namespace TracktorTagger
 {
-    public class BeatPortTrackDataProvider : ITrackDataProvider
+    public class BeatportTrackDataSource : ITrackDataSource
     {
 
 
 
-        public BeatPortTrackDataProvider()
+        public BeatportTrackDataSource()
         {
-            PerPage = 150;
+            PerPage = 10;
         }
 
         int _perPage;
@@ -38,7 +38,7 @@ namespace TracktorTagger
 
         public IEnumerable<TrackData> SearchTracks(string searchQuery)
         {
-            var json_data = string.Empty;
+            var trackJsonString = string.Empty;
             string providerName = this.GetType().FullName;
 
 
@@ -56,31 +56,56 @@ namespace TracktorTagger
                 {
 
 
-                    System.UriBuilder uriBuilder = new UriBuilder("http:", "api.beatport.com");
-                    uriBuilder.Path = "catalog/3/search";
+                    System.UriBuilder trackDataUrlBuilder = new UriBuilder("http:", "api.beatport.com");
+                    trackDataUrlBuilder.Path = "catalog/3/search";
 
                     string query = "query=" + searchQuery + "&page=" + 1 + "&facets[]=fieldType:track&perPage=" + PerPage.ToString();
 
-                    uriBuilder.Query = query;
+                    trackDataUrlBuilder.Query = query;
 
 
 
-
-                    json_data = webclient.DownloadString(uriBuilder.Uri.AbsoluteUri);
+                    trackJsonString = webclient.DownloadString(trackDataUrlBuilder.Uri.AbsoluteUri);
 
 
                     var jss = new JavaScriptSerializer();
-                    var dict = jss.Deserialize<Dictionary<string, dynamic>>(json_data);
+                    var trackDataDict = jss.Deserialize<Dictionary<string, dynamic>>(trackJsonString);
 
-                    int count = dict["metadata"]["count"];
+                    int count = trackDataDict["metadata"]["count"];
 
 
-                    foreach (Dictionary<string, Object> trackData in dict["results"])
+
+
+
+
+
+
+
+                    foreach (Dictionary<string, Object> trackData in trackDataDict["results"])
                     {
 
+                        //gets the release data
 
 
 
+                        int releaseId = (int)(((Dictionary<string, object>)trackData["release"])["id"]);
+
+                        System.UriBuilder releaseDataUriBuilder = new UriBuilder("http:", "api.beatport.com");
+                        releaseDataUriBuilder.Path = "catalog/3/beatport/release";
+
+                        string releaseQuery = "id=" + releaseId.ToString();
+                        releaseDataUriBuilder.Query = releaseQuery;
+
+                        string trackReleaseJsonString = webclient.DownloadString(releaseDataUriBuilder.Uri.AbsoluteUri);
+
+                        var trackReleaseDataDict = jss.Deserialize<Dictionary<string, dynamic>>(trackReleaseJsonString);
+
+
+                        Dictionary<string, object> releaseData = trackReleaseDataDict["results"]["release"];
+
+
+
+                        //null parameters for track constructor
                         string TrackId = null;
                         string URL = null;
 
@@ -102,6 +127,16 @@ namespace TracktorTagger
                         Key Key = null;
 
                         DateTime? ReleaseDate = null;
+
+
+
+
+
+
+
+
+                        
+
 
 
                         //Artist(s)
@@ -193,6 +228,18 @@ namespace TracktorTagger
 
                         //track.CatalogNumber;
 
+                        CatalogNumber = (string)releaseData["catalogNumber"];
+
+
+
+
+
+
+
+
+
+
+
                         //track.Key;
 
                         Dictionary<string, object> keyData = (Dictionary<string, object>)trackData["key"];
@@ -231,10 +278,16 @@ namespace TracktorTagger
                         //URL
                         System.UriBuilder trackUriBuilder = new UriBuilder("http:", "www.beatport.com");
 
+
+
                         string slugString = (string)trackData["slug"];
                         int trackId = (int)trackData["id"];
+                        TrackId = trackId.ToString();
 
-                        trackUriBuilder.Path = "track/" + slugString + "/" + trackId.ToString();
+
+
+
+                        trackUriBuilder.Path = "track/" + slugString + "/" + TrackId;
 
                         URL = trackUriBuilder.Uri.AbsoluteUri;
 
@@ -244,8 +297,17 @@ namespace TracktorTagger
                         //track.Producer;
 
 
+                        ///gets the track id
+               
 
-                        TrackData track = new TrackData(providerName, TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, URL);
+
+
+
+                        TrackDataSourceTag tag = new TrackDataSourceTag("BeatportTrackDataSource", trackId.ToString(), new Uri(URL));
+
+
+
+                        TrackData track = new TrackData(providerName, TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, URL,tag);
 
                         returnTracks.Add(track);
 
