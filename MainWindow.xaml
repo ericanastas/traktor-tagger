@@ -163,6 +163,15 @@
 
             <Grid>
                 <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" RowHeight="25" VerticalScrollBarVisibility="Visible">
+                    
+                    <DataGrid.ContextMenu>
+                        
+                        <ContextMenu>
+                            <MenuItem Header="Copy Url" Name="copyUrlMenu" Click="copyUrlMenu_Click" />
+                            <MenuItem Header="Open Page" Name="openPageMenu" Click="openPageMenu_Click"/>
+                            
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
 
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>

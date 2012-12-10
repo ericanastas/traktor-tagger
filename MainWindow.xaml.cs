@@ -35,9 +35,9 @@ namespace TracktorTagger
             InitializeComponent();
 
 
-  
 
-            
+
+
         }
 
 
@@ -50,7 +50,7 @@ namespace TracktorTagger
             if (dataSourceCombo.SelectedIndex == 0)
             {
 
-                
+
                 source = new DiscogsTrackDataSource();
             }
             else if (dataSourceCombo.SelectedIndex == 1)
@@ -62,12 +62,12 @@ namespace TracktorTagger
                 return;
             }
 
-            
 
 
 
 
-            
+
+
 
             searchResultDataGrid.ItemsSource = null;
             searchResultDataGrid.ItemsSource = source.SearchTracks(searchTextBox.Text);
@@ -83,7 +83,7 @@ namespace TracktorTagger
 
             if (res.HasValue && res.Value)
             {
-                
+
                 collection = new TracktorCollection(odiag.FileName);
 
                 this.traktorColDataGrid.BeginInit();
@@ -93,9 +93,9 @@ namespace TracktorTagger
                 this.traktorColDataGrid.ItemsSource = collection.Entries;
 
                 this.traktorColDataGrid.EndInit();
-            
 
-            
+
+
             }
 
         }
@@ -111,7 +111,7 @@ namespace TracktorTagger
 
         private void searchResultDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (searchResultDataGrid.SelectedItem !=null)
+            if (searchResultDataGrid.SelectedItem != null)
             {
                 TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
 
@@ -119,8 +119,8 @@ namespace TracktorTagger
                 {
 
 
-                    
-                }            
+
+                }
             }
         }
 
@@ -128,8 +128,8 @@ namespace TracktorTagger
         {
             System.Windows.Controls.MenuItem mi = (System.Windows.Controls.MenuItem)sender;
 
-            
-            
+
+
         }
 
         private void tagSelectedButton_Click(object sender, RoutedEventArgs e)
@@ -142,7 +142,7 @@ namespace TracktorTagger
                 TrackData selTrackData = (TrackData)searchResultDataGrid.SelectedItem;
 
 
-               
+
 
 
                 selTraktorTrack.Title = selTrackData.Title;
@@ -162,13 +162,33 @@ namespace TracktorTagger
                 selTraktorTrack.DataSourceTag = selTrackData.DataSourceTag;
 
 
-                
 
 
-            
-            
+
+
+
             }
-            
+
+        }
+
+        private void copyUrlMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (searchResultDataGrid.SelectedItem != null)
+            {
+                TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
+                System.Windows.Clipboard.SetText(data.URL);
+            }
+
+        }
+
+        private void openPageMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (searchResultDataGrid.SelectedItem != null)
+            {
+                TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
+                System.Diagnostics.Process.Start(data.URL);
+            }
+
         }
     }
 }

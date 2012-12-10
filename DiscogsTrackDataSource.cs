@@ -79,10 +79,25 @@ namespace TracktorTagger
 
                         var releaseDataUrl = (string)releaseSearchResults["resource_url"];
 
+                        
                         string releaseResultsString = webclient.DownloadString(new Uri(releaseDataUrl));
 
 
                         var releaseData = jss.Deserialize<Dictionary<string, dynamic>>(releaseResultsString);
+
+
+                        var formats = releaseData["formats"];
+
+                        bool isVinyl = false;
+
+                        foreach (Dictionary<string, object> format in formats)
+                        {
+                            var formatString = (string)format["name"];
+                            if (formatString == "Vinyl") isVinyl = true;
+                        }
+                        if (!isVinyl) continue;
+
+
 
 
                         //url
@@ -168,22 +183,63 @@ namespace TracktorTagger
 
                         //artists
 
-         
-
-
-                        List<string> artists = new List<string>();
-                        List<string> remixers = new List<string>();
-                        List<string> producers = new List<string>();
+                        List<string> releaseArtists = new List<string>();
+                        List<string> releaseRemixers = new List<string>();
+                        List<string> releaseProducers = new List<string>();
 
 
                         foreach (Dictionary<string, object> artist in releaseData["artists"])
                         {
                             var name = (string)artist["name"];
-                            if (name != "Various") artists.Add(name);                        
+                            var anv = (string)artist["anv"];
+                            var role = (string)artist["role"];
+
+                            if (name != "Various") continue;
+
+                            if (!string.IsNullOrEmpty(anv)) name = anv;
+
+                            if (!string.IsNullOrEmpty(role))
+                            {
+                                throw new InvalidOperationException("found release artist with a roll: " + role);
+                            }
+
+                            releaseArtists.Add(name);
                         }
 
+                        if (releaseData.ContainsKey("extraartists"))
+                        {
+
+                            foreach (Dictionary<string, object> artist in releaseData["extraartists"])
+                            {
+                                var name = (string)artist["name"];
+                                var anv = (string)artist["anv"];
+                                var role = (string)artist["role"];
+
+                                if (name != "Various") continue;
+
+                                if (!string.IsNullOrEmpty(anv)) name = anv;
 
 
+                                if (!string.IsNullOrEmpty(role))
+                                {
+                                    releaseArtists.Add(name);
+                                }
+                                else if (role == "Remix")
+                                {
+                                    releaseRemixers.Add(name);
+                                }
+                                else if (role.Contains("Producer"))
+                                {
+                                    releaseProducers.Add(name);
+                                }
+                                else
+                                {
+                                    throw new InvalidOperationException("found release extra artist with an unknown roll: " + role);
+                                }
+
+                                releaseArtists.Add(name);
+                            }
+                        }
 
                         foreach (Dictionary<string, object> trackData in releaseData["tracklist"])
                         {
@@ -218,23 +274,65 @@ namespace TracktorTagger
 
 
 
+
+                            //track artists
+
+
+                            List<string> trackArtists = new List<string>();
+                            List<string> trackRemixers = new List<string>();
+                            List<string> trackProducers = new List<string>();
+
+                            if(trackData.ContainsKey("artists")) throw new InvalidOperationException("found track with artists"); 
+
+
+                            if (trackData.ContainsKey("extraartists"))
+                            {
+
+                                System.Collections.ArrayList trackextraArtists = (System.Collections.ArrayList)trackData["extraartists"];
+
+                                foreach (Dictionary<string, object> artist in trackextraArtists)
+                                {
+                                    var name = (string)artist["name"];
+                                    var anv = (string)artist["anv"];
+                                    var role = (string)artist["role"];
+
+                                    if (!string.IsNullOrEmpty(anv)) name = anv;
+
+                                    if (string.IsNullOrEmpty(role))
+                                    {
+                                        trackArtists.Add(name);
+                                    }
+                                    else if (role == "Remix")
+                                    {
+                                        trackRemixers.Add(name);
+                                    }
+                                    else
+                                    {
+                                        throw new InvalidOperationException("found track extra artist with an unknown roll: " + role);
+                                    }
+                                }
+
+                            }
+
+
                             string Artist = null;
-                            string artistStr = string.Join(", ", artists);
+                            var artistList = releaseArtists.Union(trackArtists);
+                            string artistStr = string.Join(", ", artistList);
                             if (!String.IsNullOrEmpty(artistStr)) Artist = artistStr;
 
-
-
                             string Remixer = null;
-                            string remixerStr = string.Join(", ", remixers);
+                            var remixerList = releaseRemixers.Union(trackRemixers);
+                            string remixerStr = string.Join(", ", remixerList);
                             if (!String.IsNullOrEmpty(artistStr)) Remixer = remixerStr;
 
+
                             string Producer = null;
-                            string producerStr = string.Join(", ", producers);
+                            var producerList = releaseProducers.Union(trackProducers);
+                            string producerStr = string.Join(", ", producerList);
                             if (!String.IsNullOrEmpty(artistStr)) Producer = producerStr;
 
-
-
-                            TrackData track = new TrackData("discogs.com", TrackId, Artist, Title, Mix, Remixer, Release, null, Label, CatalogNumber, null, Genre, null, ReleaseDate, URL);
+              
+                            TrackData track = new TrackData("discogs.com", TrackId, Artist, Title, Mix, Remixer, Release,Producer, Label, CatalogNumber, null, Genre, null, ReleaseDate, URL);
 
                             returnTracks.Add(track);
                         }
@@ -258,4 +356,5 @@ namespace TracktorTagger
         }
     }
 }
+
 
