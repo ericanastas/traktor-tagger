@@ -3,7 +3,7 @@ namespace TracktorTagger
 {
     public class TrackData
     {
-        public string DataProvider { get; private set; }
+        
         public string TrackId { get; private set; }
         public string URL { get; private set; }
 
@@ -30,7 +30,7 @@ namespace TracktorTagger
         public TrackDataSourceTag DataSourceTag { get; private set; }
 
 
-        public TrackData(string dataProvder, string trackId, string artist, 
+        public TrackData(string dataSourceName, string trackId, string artist, 
             string title, 
             string mix,
             string remixer, 
@@ -42,9 +42,8 @@ namespace TracktorTagger
             string genre, 
             Key key, 
             DateTime? releaseDate, 
-            string url, TrackDataSourceTag dataSourceTag )
+            string url)
         {
-            this.DataProvider = dataProvder;
             this.TrackId = trackId;
 
 
@@ -62,8 +61,8 @@ namespace TracktorTagger
             this.ReleaseDate = releaseDate;
             this.URL = url;
 
-            if (dataSourceTag == null) throw new ArgumentNullException("dataSourceTag");
-            DataSourceTag = dataSourceTag;
+            
+            DataSourceTag = new TrackDataSourceTag(dataSourceName, trackId, new Uri(url));
         }
 
     }

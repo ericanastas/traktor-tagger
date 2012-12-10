@@ -44,10 +44,33 @@ namespace TracktorTagger
 
         private void searchButton_Click(object sender, RoutedEventArgs e)
         {
-            BeatportTrackDataSource prov = new BeatportTrackDataSource();
+
+            ITrackDataSource source = null;
+
+            if (dataSourceCombo.SelectedIndex == 0)
+            {
+
+                
+                source = new DiscogsTrackDataSource();
+            }
+            else if (dataSourceCombo.SelectedIndex == 1)
+            {
+                source = new BeatportTrackDataSource();
+            }
+            else
+            {
+                return;
+            }
+
+            
+
+
+
+
+            
 
             searchResultDataGrid.ItemsSource = null;
-            searchResultDataGrid.ItemsSource = prov.SearchTracks(searchTextBox.Text);
+            searchResultDataGrid.ItemsSource = source.SearchTracks(searchTextBox.Text);
         }
 
         private void openMenu_Click(object sender, RoutedEventArgs e)
@@ -127,7 +150,7 @@ namespace TracktorTagger
                 selTraktorTrack.Artist = selTrackData.Artist;
 
                 selTraktorTrack.Remixer = selTrackData.Remixer;
-                //selTraktorTrack.Producer = selTrackData.Producer;
+                selTraktorTrack.Producer = selTrackData.Producer;
                 selTraktorTrack.Release = selTrackData.Release;
                 selTraktorTrack.ReleaseDate = selTrackData.ReleaseDate;
                 selTraktorTrack.Label = selTrackData.Label;

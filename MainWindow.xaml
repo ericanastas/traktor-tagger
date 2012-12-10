@@ -35,11 +35,24 @@
 
                 <DataGrid.Columns>
 
-                    <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag">
+                    <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
                     
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="Images/beatport_24.jpg" />
+                                <Image Name="img"/>
+
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="beatport.com">
+                                        <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
+                                    </DataTrigger>
+
+                                    <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="discogs.com">
+                                        <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+
+
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         
@@ -52,9 +65,9 @@
                     <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
                     
-                    <!--
+            
                     <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
-                    -->
+           
 
                     <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
 
@@ -158,7 +171,29 @@
                     <DataGrid.Columns>
 
 
-                        <DataGridTextColumn Width="25" IsReadOnly="True" />
+                        <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Name="img"/>
+
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="beatport.com">
+                                            <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="discogs.com">
+                                            <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+
+
+                        </DataGridTemplateColumn>
 
                         <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
 
@@ -192,9 +227,9 @@
                         <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
                         
-                        <!--
+               
                         <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
-                        -->
+                
                         
                         <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True"/>
@@ -206,9 +241,9 @@
 
                 </DataGrid>
                 <TextBox Height="23" Margin="104,10,179,0" TextWrapping="Wrap" Text="paul oakenfold" VerticalAlignment="Top" x:Name="searchTextBox"/>
-                <ComboBox Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
-                    <ComboBoxItem Content="Beatport"/>
+                <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
                     <ComboBoxItem Content="Discogs"/>
+                    <ComboBoxItem Content="Beatport"/>
                 </ComboBox>
                 <Button Content="Search" Margin="0,10,99,0" VerticalAlignment="Top" x:Name="searchButton" Click="searchButton_Click" HorizontalAlignment="Right" Width="75"/>
                 <Button x:Name="tagSelectedButton" Content="Tag Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="89" Click="tagSelectedButton_Click"/>

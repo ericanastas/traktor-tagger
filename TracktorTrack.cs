@@ -17,7 +17,7 @@ namespace TracktorTagger
 
     }
 
-    public class TracktorTrack:System.ComponentModel.INotifyPropertyChanged
+    public class TracktorTrack : System.ComponentModel.INotifyPropertyChanged
     {
         private System.Xml.XmlElement entryNode;
 
@@ -45,14 +45,41 @@ namespace TracktorTagger
 
             var att = node.Attributes[attributeName];
 
-            if(att == null)
+            if (att == null)
             {
                 return null;
             }
             else
             {
                 return att.Value;
-            }        
+            }
+        }
+
+
+        private void RemoveAttribute(string elementName, string attributeName)
+        {
+            System.Xml.XmlNode node;
+
+            if (String.IsNullOrEmpty(elementName))
+            {
+                node = entryNode;
+            }
+            else
+            {
+                node = entryNode.SelectSingleNode("./" + elementName);
+
+                if (node == null)
+                {
+                    return;
+                }
+            }
+            var att = node.Attributes[attributeName];
+
+            if (att != null)
+            {
+                node.Attributes.Remove(att);
+            }
+
         }
 
         private void SetAttributeValue(string elementName, string attributeName, string value)
@@ -85,15 +112,15 @@ namespace TracktorTagger
             }
             else
             {
-               att.Value = value;
-            }  
+                att.Value = value;
+            }
         }
 
         #endregion
 
 
 
-        public TrackDataSourceTag DataSourceTag 
+        public TrackDataSourceTag DataSourceTag
         {
             get
             {
@@ -101,22 +128,22 @@ namespace TracktorTagger
 
                 if (dataSourceElement == null) return null;
 
-                var provider = GetAttributeValue("DataSource", "DataProvider");
-                var url = GetAttributeValue("DataSource", "URL");
+                var provider = GetAttributeValue("DataSource", "Name");
+                var url = GetAttributeValue("DataSource", "TrackURL");
                 var TrackId = GetAttributeValue("DataSource", "TrackId");
 
                 TrackDataSourceTag tag = new TrackDataSourceTag(provider, TrackId, new Uri(url));
 
                 return tag;
-            
+
             }
 
             set
             {
                 if (value != null)
                 {
-                    SetAttributeValue("DataSource", "DataProvider", value.TrackDataProvider);
-                    SetAttributeValue("DataSource", "URL", value.TrackDataUrl.AbsoluteUri);
+                    SetAttributeValue("DataSource", "Name", value.DataSource);
+                    SetAttributeValue("DataSource", "TrackURL", value.Uri.AbsoluteUri);
                     SetAttributeValue("DataSource", "TrackId", value.TrackId);
                 }
                 else
@@ -130,7 +157,7 @@ namespace TracktorTagger
                 }
 
                 OnPropertyChanged("DataSourceTag");
-            
+
             }
         }
 
@@ -145,7 +172,7 @@ namespace TracktorTagger
             set
             {
                 //Title can not be empty
-                
+
                 if (!String.IsNullOrEmpty(value)) SetAttributeValue(null, "TITLE", value);
                 OnPropertyChanged("Title");
             }
@@ -159,7 +186,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue(null, "ARTIST", value);
                 OnPropertyChanged("Artist");
             }
@@ -174,7 +201,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "MIX", value);
                 OnPropertyChanged("Mix");
             }
@@ -189,14 +216,14 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "PRODUCER", value);
                 OnPropertyChanged("Producer");
             }
         }
 
 
-        public string Remixer 
+        public string Remixer
         {
             get
             {
@@ -204,7 +231,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "REMIXER", value);
                 OnPropertyChanged("Remixer");
             }
@@ -218,7 +245,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("ALBUM", "TITLE", value);
                 OnPropertyChanged("Release");
             }
@@ -230,7 +257,7 @@ namespace TracktorTagger
             {
                 try
                 {
-                    string keyString = GetAttributeValue("INFO", "KEY");                    
+                    string keyString = GetAttributeValue("INFO", "KEY");
 
                     if (String.IsNullOrEmpty(keyString)) return null;
                     else return new Key(keyString);
@@ -242,11 +269,20 @@ namespace TracktorTagger
             }
             set
             {
-                
-                SetAttributeValue("INFO", "KEY", value.ToString());
+                if (value != null)
+                {
+                    SetAttributeValue("INFO", "KEY", value.ToString());
+                }
+                else
+                {
+                    RemoveAttribute("INFO", "KEY");
+                }
+
                 OnPropertyChanged("Key");
             }
         }
+
+
 
         public double BPM
         {
@@ -256,7 +292,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("TEMPO", "BPM", value.ToString());
                 OnPropertyChanged("BPM");
             }
@@ -270,7 +306,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("BPM_QUALITY", "BPM", value.ToString());
                 OnPropertyChanged("BPMQuality");
             }
@@ -285,7 +321,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "KEY_LYRICS", value);
                 OnPropertyChanged("Lyrics");
             }
@@ -299,7 +335,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "LABEL", value);
                 OnPropertyChanged("Label");
             }
@@ -313,7 +349,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "CATALOG_NO", value);
                 OnPropertyChanged("CatalogNumber");
             }
@@ -327,7 +363,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "GENRE", value);
                 OnPropertyChanged("Genre");
             }
@@ -341,7 +377,7 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "COMMENT", value);
                 OnPropertyChanged("Comment1");
             }
@@ -355,14 +391,14 @@ namespace TracktorTagger
             }
             set
             {
-                
+
                 SetAttributeValue("INFO", "RATING", value);
                 OnPropertyChanged("Comment2");
             }
         }
 
 
-        public DateTime ModifiedDate 
+        public DateTime ModifiedDate
         {
 
             get
@@ -378,13 +414,13 @@ namespace TracktorTagger
             set
             {
                 throw new NotImplementedException();
-            
-            
-            
+
+
+
             }
-        
+
         }
-        public DateTime ImportDate 
+        public DateTime ImportDate
         {
             get
             {
@@ -393,7 +429,8 @@ namespace TracktorTagger
         }
 
 
-        public long FileSize {
+        public long FileSize
+        {
             get
             {
                 string sizeStr = GetAttributeValue("INFO", "FILESIZE");
@@ -424,33 +461,33 @@ namespace TracktorTagger
         public Rating? Rating
         {
             get
-            { 
+            {
 
                 //determine star value from Rating value
-                
 
-                if(RatingValue.HasValue)
+
+                if (RatingValue.HasValue)
                 {
                     Decimal value = Math.Round((decimal)RatingValue / (decimal)255 * (decimal)5);
 
                     int intValue = System.Convert.ToInt32(value);
 
                     return (Rating)intValue;
-                    
+
                 }
                 else
                 {
-                return null;
+                    return null;
                 }
 
-            
-            
+
+
             }
 
 
             set
             {
-                
+
                 RatingValue = ((int)value) * 51;
                 OnPropertyChanged("Rating");
             }
@@ -467,7 +504,7 @@ namespace TracktorTagger
             {
                 var str = GetAttributeValue("INFO", "RANKING");
 
-                if(str == null) return null;
+                if (str == null) return null;
 
                 return System.Convert.ToInt32(str);
             }
@@ -482,11 +519,11 @@ namespace TracktorTagger
                     SetAttributeValue("INFO", "RANKING", null);
                 }
 
-                
+
             }
         }
 
-        public DateTime? ReleaseDate 
+        public DateTime? ReleaseDate
         {
             get
             {
@@ -501,19 +538,20 @@ namespace TracktorTagger
             }
             set
             {
-                if (value.HasValue)
+                if (!value.HasValue)
                 {
                     SetAttributeValue("INFO", "RELEASE_DATE", null);
                 }
+                else
+                {
+                    string valueString = value.Value.ToString("yyyy/M/d");
 
-                string valueString = value.Value.ToString("yyyy/M/d");
-
-
-                SetAttributeValue("INFO", "RELEASE_DATE", valueString);
+                    SetAttributeValue("INFO", "RELEASE_DATE", valueString);
+                }
 
 
                 OnPropertyChanged("ReleaseDate");
-            
+
             }
         }
 

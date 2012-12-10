@@ -298,11 +298,11 @@ namespace TracktorTagger
 
 
 
-                        TrackDataSourceTag tag = new TrackDataSourceTag("BeatportTrackDataSource", trackId.ToString(), new Uri(URL));
+                        
 
 
 
-                        TrackData track = new TrackData(providerName, TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, URL,tag);
+                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, URL);
 
                         returnTracks.Add(track);
 

@@ -8,15 +8,15 @@ namespace TracktorTagger
     public class TrackDataSourceTag
     {
 
-        public TrackDataSourceTag(string trackDataProvider, string trackId, Uri trackDataUrl)
+        public TrackDataSourceTag(string trackDataSourceName, string trackId, Uri trackDataUrl)
         {
-            if (string.IsNullOrEmpty(trackDataProvider)) throw new ArgumentNullException("trackDataProvder");
+            if (string.IsNullOrEmpty(trackDataSourceName)) throw new ArgumentNullException("trackDataProvder");
             if (string.IsNullOrEmpty(trackId)) throw new ArgumentNullException("trackId");
             if (trackDataUrl == null) throw new ArgumentNullException("trackDataUrl");
 
             this.TrackId = trackId;
-            this.TrackDataProvider = trackDataProvider;
-            this.TrackDataUrl = trackDataUrl;
+            this.DataSource = trackDataSourceName;
+            this.Uri = trackDataUrl;
         }
 
         /// <summary>
@@ -31,13 +31,13 @@ namespace TracktorTagger
         /// <summary>
         /// Full Class Name of the TrackDataProvider
         /// </summary>
-        public string TrackDataProvider
+        public string DataSource
         {
             get;
             private set;
         }
 
-        public Uri TrackDataUrl
+        public Uri Uri
         {
             get;
             private set;
@@ -45,9 +45,8 @@ namespace TracktorTagger
 
         public override string ToString()
         {
-            return TrackDataProvider;
+            return DataSource + ": " + TrackId;
         }
-
 
     }
 }
