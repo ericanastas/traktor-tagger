@@ -33,10 +33,18 @@
                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
                 </DataGrid.Resources>
 
+                <DataGrid.ContextMenu>
+
+                    <ContextMenu>
+                        <MenuItem Header="Search" Name="searchTermMenu" Click="searchTermMenu_Click" />
+                    </ContextMenu>
+
+                </DataGrid.ContextMenu>
+
                 <DataGrid.Columns>
 
                     <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
-                    
+
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Name="img"/>
@@ -55,19 +63,19 @@
 
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                        
-                        
+
+
                     </DataGridTemplateColumn>
-                    
+
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="False"/>
 
                     <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="False"/>
                     <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
-                    
-            
+
+
                     <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
-           
+
 
                     <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
 
@@ -116,25 +124,25 @@
 
 
                     <DataGridTemplateColumn Header="Key" Width="55" IsReadOnly="False" SortMemberPath="Key">
-                        
+
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                
+
                                 <ComboBox >
 
                                     <ComboBoxItem>A</ComboBoxItem>
                                     <ComboBoxItem>A#m</ComboBoxItem>
                                     <ComboBoxItem>Ab</ComboBoxItem>
-                                    
-                                    
+
+
                                 </ComboBox>
-                                          
-                                          
+
+
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                        
-                        
-                        
+
+
+
                     </DataGridTemplateColumn>
 
 
@@ -163,13 +171,13 @@
 
             <Grid>
                 <DataGrid AutoGenerateColumns="False" Margin="10,38,10,10" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" RowHeight="25" VerticalScrollBarVisibility="Visible">
-                    
+
                     <DataGrid.ContextMenu>
-                        
+
                         <ContextMenu>
                             <MenuItem Header="Copy Url" Name="copyUrlMenu" Click="copyUrlMenu_Click" />
                             <MenuItem Header="Open Page" Name="openPageMenu" Click="openPageMenu_Click"/>
-                            
+
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 
@@ -235,11 +243,11 @@
 
                         <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True" />
-                        
-               
+
+
                         <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"/>
-                
-                        
+
+
                         <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True" />
                         <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True"/>
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True" />

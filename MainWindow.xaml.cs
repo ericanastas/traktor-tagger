@@ -190,5 +190,16 @@ namespace TracktorTagger
             }
 
         }
+
+        private void searchTermMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+            var cell = traktorColDataGrid.CurrentCell;
+
+            var value = traktorColDataGrid.SelectedValue.ToString();
+
+            searchTextBox.Text = value;
+            
+        }
     }
 }
