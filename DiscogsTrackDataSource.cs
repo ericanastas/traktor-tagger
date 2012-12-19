@@ -341,11 +341,6 @@ namespace TracktorTagger
                                     {
                                         trackRemixers.Add(name);
                                     }
-                                    
-                                    else
-                                    {
-                                        throw new InvalidOperationException("found track extra artist with an unknown roll: " + role);
-                                    }
                                 }
 
                             }
@@ -368,7 +363,7 @@ namespace TracktorTagger
                             if (!String.IsNullOrEmpty(producerStr)) Producer = producerStr;
 
               
-                            TrackData track = new TrackData("discogs.com", TrackId, Artist, Title, Mix, Remixer, Release,Producer, Label, CatalogNumber, null, Genre, null, ReleaseDate, URL);
+                            TrackData track = new TrackData("discogs.com", TrackId, Artist, Title, Mix, Remixer, Release,Producer, Label, CatalogNumber, null, Genre, null, ReleaseDate, new Uri(URL));
 
                             returnTracks.Add(track);
                         }

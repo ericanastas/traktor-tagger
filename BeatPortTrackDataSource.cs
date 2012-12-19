@@ -302,7 +302,7 @@ namespace TracktorTagger
 
 
 
-                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, URL);
+                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, new Uri(URL));
 
                         returnTracks.Add(track);
 

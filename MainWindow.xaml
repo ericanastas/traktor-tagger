@@ -263,6 +263,7 @@
 
                 </DataGrid>
                 <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
+                    <ComboBoxItem Content="Placeholder"/>
                     <ComboBoxItem Content="Discogs"/>
                     <ComboBoxItem Content="Beatport"/>
                 </ComboBox>

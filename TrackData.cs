@@ -5,7 +5,7 @@ namespace TracktorTagger
     {
         
         public string TrackId { get; private set; }
-        public string URL { get; private set; }
+        public Uri URL { get; private set; }
 
         public string Artist { get; private set; }
         public string Title { get; private set; }
@@ -42,7 +42,7 @@ namespace TracktorTagger
             string genre, 
             Key key, 
             DateTime? releaseDate, 
-            string url)
+            Uri url)
         {
             this.TrackId = trackId;
 
@@ -62,7 +62,7 @@ namespace TracktorTagger
             this.URL = url;
 
             
-            DataSourceTag = new TrackDataSourceTag(dataSourceName, trackId, new Uri(url));
+            DataSourceTag = new TrackDataSourceTag(dataSourceName, trackId, url);
         }
 
     }

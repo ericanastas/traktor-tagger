@@ -47,13 +47,18 @@ namespace TracktorTagger
 
             ITrackDataSource source = null;
 
+
             if (dataSourceCombo.SelectedIndex == 0)
+            {
+                source = new PlaceHolderTrackDataSource(50);
+            }
+            else if (dataSourceCombo.SelectedIndex == 1)
             {
 
 
                 source = new DiscogsTrackDataSource();
             }
-            else if (dataSourceCombo.SelectedIndex == 1)
+            else if (dataSourceCombo.SelectedIndex == 2)
             {
                 source = new BeatportTrackDataSource();
             }
@@ -115,12 +120,7 @@ namespace TracktorTagger
             {
                 TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
 
-                if (!string.IsNullOrEmpty(data.URL))
-                {
-
-
-
-                }
+ 
             }
         }
 
@@ -176,7 +176,7 @@ namespace TracktorTagger
             if (searchResultDataGrid.SelectedItem != null)
             {
                 TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
-                System.Windows.Clipboard.SetText(data.URL);
+                System.Windows.Clipboard.SetText(data.URL.AbsoluteUri);
             }
 
         }
@@ -186,7 +186,7 @@ namespace TracktorTagger
             if (searchResultDataGrid.SelectedItem != null)
             {
                 TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
-                System.Diagnostics.Process.Start(data.URL);
+                System.Diagnostics.Process.Start(data.URL.AbsoluteUri);
             }
 
         }
