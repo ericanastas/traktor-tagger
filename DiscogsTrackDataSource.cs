@@ -337,10 +337,11 @@ namespace TracktorTagger
                                     {
                                         trackArtists.Add(name);
                                     }
-                                    else if (role == "Remix")
+                                    else if (role.Contains("Remix"))
                                     {
                                         trackRemixers.Add(name);
                                     }
+                                    
                                     else
                                     {
                                         throw new InvalidOperationException("found track extra artist with an unknown roll: " + role);
@@ -386,6 +387,12 @@ namespace TracktorTagger
         }
 
         TrackData ITrackDataSource.GetTrack(string trackId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public int GetTotalResultCount(string searchQuery)
         {
             throw new NotImplementedException();
         }

@@ -331,5 +331,11 @@ namespace TracktorTagger
         {
             throw new NotImplementedException();
         }
+
+
+        public int GetTotalResultCount(string searchQuery)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

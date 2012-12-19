@@ -10,6 +10,7 @@ namespace TracktorTagger
     {
         IEnumerable<TrackData> SearchTracks(string searchQuery);
         TrackData GetTrack(string trackId);
+        int GetTotalResultCount(string searchQuery);
 
     }
 }

@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CefSharp.Wpf">
-      <HintPath>lib\CefSharp-1.19.0\CefSharp.Wpf.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -64,7 +64,7 @@
     <Compile Include="Rating.cs" />
     <Compile Include="TrackData.cs" />
     <Compile Include="TrackDataSourceTag.cs" />
-    <Compile Include="TrackDataSource.cs" />
+    <Compile Include="ITrackDataSource.cs" />
     <Compile Include="TrackProperties.xaml.cs">
       <DependentUpon>TrackProperties.xaml</DependentUpon>
     </Compile>
@@ -107,6 +107,7 @@
     </EmbeddedResource>
     <None Include="ClassDiagram.cd" />
     <None Include="collection.nml" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -121,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\discogs_24.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TraktorTaggerIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
