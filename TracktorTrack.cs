@@ -17,6 +17,10 @@ namespace TracktorTagger
 
     }
 
+    //NEED TO FIGURE OUT WHAT ELEMENTS/ATTRIBUTES ARE ALWAYS IN FILE
+    //AND WHICH SHOULD BE REMOVED WHEN SET TO NULL
+    //FIGURE THIS OUT BY SEEING WHAT DISAPEARS WHEN VALUES ARE UNCHECKED IN TRAKTOR TRACK DETAILS EDITOR
+
     public class TracktorTrack : System.ComponentModel.INotifyPropertyChanged
     {
         private System.Xml.XmlElement entryNode;
