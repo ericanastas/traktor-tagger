@@ -61,8 +61,10 @@
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
     <Compile Include="Key.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="PlaceHolderTrackDataSource.cs" />
     <Compile Include="Rating.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="TrackData.cs" />
     <Compile Include="TrackDataSourceTag.cs" />
     <Compile Include="ITrackDataSource.cs" />

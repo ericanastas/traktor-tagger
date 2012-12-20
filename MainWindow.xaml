@@ -16,8 +16,8 @@
 
         <Menu Height="23" VerticalAlignment="Top" Grid.Row="0">
             <MenuItem Header="File">
-                <MenuItem Header="Open Traktor Collection" Click="openMenu_Click"/>
-                <MenuItem Header="Save Traktor Collection" Click="saveMenu_Click"/>
+                <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
+                <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
             <MenuItem Header="Settings"/>
@@ -28,7 +28,7 @@
 
         <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
             <Grid>
-                <DataGrid x:Name="traktorColDataGrid" Margin="10,38,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" RowHeight="25" VerticalScrollBarVisibility="Visible">
+                <DataGrid x:Name="traktorColDataGrid" Margin="10,38,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TraktorTracks}">
 
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
@@ -163,8 +163,8 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-                <TextBox Height="23" Margin="0,10,90,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" HorizontalAlignment="Right" Width="163"/>
-                <Button Content="Search" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
+                <TextBox Height="23" Margin="10,10,630,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+                <Button Content="Search" Margin="0,11,550,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
 
             </Grid>
         </GroupBox>
@@ -175,7 +175,7 @@
 
 
             <Grid>
-                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,36" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" RowHeight="25" VerticalScrollBarVisibility="Visible">
+                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,36" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TrackDataSearchResults}">
 
                     <DataGrid.ContextMenu>
 
@@ -219,29 +219,7 @@
 
                         <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
 
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Style.Setters>
-                                        <Setter Property="ContentTemplate">
-                                            <Setter.Value>
-                                                <DataTemplate>
-
-                                                    <Grid HorizontalAlignment="Stretch" Width="75">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="25"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                                        <Label Grid.Column="1">Title</Label>
-
-                                                    </Grid>
-
-                                                </DataTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style.Setters>
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
+                       
 
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True" />
