@@ -53,5 +53,11 @@ namespace TracktorTagger
         {
             return _total;
         }
+
+
+        public string Name
+        {
+            get { return "test data source"; }
+        }
     }
 }

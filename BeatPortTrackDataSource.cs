@@ -337,5 +337,11 @@ namespace TracktorTagger
         {
             throw new NotImplementedException();
         }
+
+
+        public string Name
+        {
+            get { return "beatport.com"; }
+        }
     }
 }

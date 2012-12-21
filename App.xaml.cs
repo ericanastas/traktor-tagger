@@ -13,5 +13,11 @@ namespace TracktorTagger
     /// </summary>
     public partial class App : Application
     {
+
+        
+
+
     }
+
+    
 }

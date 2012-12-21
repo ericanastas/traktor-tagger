@@ -12,5 +12,7 @@ namespace TracktorTagger
         TrackData GetTrack(string trackId);
         int GetTotalResultCount(string searchQuery);
 
+        string Name { get; }
+
     }
 }

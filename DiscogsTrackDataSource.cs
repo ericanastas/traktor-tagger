@@ -391,6 +391,12 @@ namespace TracktorTagger
         {
             throw new NotImplementedException();
         }
+
+
+        public string Name
+        {
+            get { return "discogs.com"; }
+        }
     }
 }
 

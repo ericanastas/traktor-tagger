@@ -18,7 +18,6 @@
             <MenuItem Header="File">
                 <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
                 <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
-                <MenuItem Header="Exit"/>
             </MenuItem>
             <MenuItem Header="Settings"/>
         </Menu>
@@ -37,7 +36,7 @@
                     <DataGrid.ContextMenu>
 
                         <ContextMenu>
-                            <MenuItem Header="Search" Name="searchTermMenu" Click="searchTermMenu_Click" />
+                            <MenuItem Header="Search"/>
                         </ContextMenu>
 
                     </DataGrid.ContextMenu>
@@ -175,7 +174,7 @@
 
 
             <Grid>
-                <DataGrid AutoGenerateColumns="False" Margin="10,38,10,36" x:Name="searchResultDataGrid" MouseDoubleClick="searchResultDataGrid_MouseDoubleClick" CanUserResizeRows="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TrackDataSearchResults}">
+                <DataGrid SelectedItem="{Binding SelectedTrackData}" AutoGenerateColumns="False" Margin="10,38,10,36" x:Name="searchResultDataGrid" CanUserResizeRows="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TrackDataSearchResults}">
 
                     <DataGrid.ContextMenu>
 
@@ -240,16 +239,14 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-                <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="84">
-                    <ComboBoxItem Content="Placeholder"/>
-                    <ComboBoxItem Content="Discogs"/>
-                    <ComboBoxItem Content="Beatport"/>
-                </ComboBox>
-                <Button Content="Search" Margin="0,10,99,0" VerticalAlignment="Top" x:Name="searchButton" Click="searchButton_Click" HorizontalAlignment="Right" Width="75"/>
+                <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="110" ItemsSource="{Binding TrackDataSources}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDataSource}" />
+          
+                
+                <Button Content="Search" Margin="0,11,125,0" VerticalAlignment="Top" x:Name="searchButton" Command="{Binding SearchTrackDataCommand}" HorizontalAlignment="Right" Width="75"/>
                 <Button x:Name="tagSelectedButton" Content="Tag Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="89" Click="tagSelectedButton_Click"/>
                 <Button Content="Load More Results" Margin="0,0,10,5" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="110"/>
                 <Label Content="Showing 123 of 23,343 tracks found at beatport.com for &quot;Bassmachine&quot;" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom"/>
-                <TextBox Height="23" Name="searchTextBox" Margin="104,9,179,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+                <TextBox Height="23" Margin="104,9,205,0" TextWrapping="Wrap" Text="{Binding TrackDataSearchText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
             </Grid>
 
         </GroupBox>
