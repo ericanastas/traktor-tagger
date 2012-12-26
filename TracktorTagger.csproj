@@ -72,7 +72,7 @@
       <DependentUpon>TrackProperties.xaml</DependentUpon>
     </Compile>
     <Compile Include="TracktorCollection.cs" />
-    <Compile Include="TracktorTrack.cs" />
+    <Compile Include="TraktorTrack.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

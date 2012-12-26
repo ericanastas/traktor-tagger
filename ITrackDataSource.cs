@@ -8,11 +8,25 @@ namespace TracktorTagger
 {
     public interface ITrackDataSource
     {
-        IEnumerable<TrackData> SearchTracks(string searchQuery);
-        TrackData GetTrack(string trackId);
-        int GetTotalResultCount(string searchQuery);
-
         string Name { get; }
 
+        IEnumerable<TrackData> SearchTracks(string searchQuery);
+
+        int GetTotalResultCount(string searchQuery);
+
+        TrackData GetTrack(string trackId);
+    }
+
+
+    public interface ITrackDataSearchResults : IDisposable
+    {
+        string SearchQuery { get; }
+        int TotalResults { get; }
+        int LoadedResults {get;}
+        int ResultsPerPage { get; }
+
+        List<TrackData> Results {get;}
+
+        List<TrackData> LoadResults(int count);    
     }
 }

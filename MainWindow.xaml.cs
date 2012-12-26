@@ -43,7 +43,7 @@ namespace TracktorTagger
             if (searchResultDataGrid.SelectedItem != null && traktorColDataGrid.SelectedItem != null)
             {
 
-                TracktorTrack selTraktorTrack = (TracktorTrack)traktorColDataGrid.SelectedItem;
+                TraktorTrack selTraktorTrack = (TraktorTrack)traktorColDataGrid.SelectedItem;
                 TrackData selTrackData = (TrackData)searchResultDataGrid.SelectedItem;
 
 

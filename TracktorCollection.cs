@@ -10,7 +10,7 @@ namespace TracktorTagger
     {
 
       
-           public IList<TracktorTrack> Entries {get; private set;}
+           public IList<TraktorTrack> Entries {get; private set;}
 
            private System.Xml.XmlDocument _collectionXmlDoc;
 
@@ -25,7 +25,7 @@ namespace TracktorTagger
 
         public TracktorCollection(string fileName)
         {
-            Entries = new List<TracktorTrack>();
+            Entries = new List<TraktorTrack>();
             FileName = fileName;
 
             _collectionXmlDoc = new System.Xml.XmlDocument();
@@ -39,7 +39,7 @@ namespace TracktorTagger
 
             foreach(System.Xml.XmlElement entryNode in entryNodes)
             {
-                Entries.Add(new TracktorTrack(entryNode));
+                Entries.Add(new TraktorTrack(entryNode));
             }
 
            

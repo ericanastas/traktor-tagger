@@ -30,15 +30,10 @@ namespace TracktorTagger
         }
 
 
-        IEnumerable<TrackData> ITrackDataSource.SearchTracks(string searchQuery)
+        public IEnumerable<TrackData> SearchTracks(string searchQuery)
         {
 
-
-
-
             string providerName = this.GetType().FullName;
-
-
 
             if (string.IsNullOrEmpty(searchQuery)) throw new ArgumentNullException("searchQuery");
 
@@ -381,7 +376,7 @@ namespace TracktorTagger
             return returnTracks;
         }
 
-        TrackData ITrackDataSource.GetTrack(string trackId)
+        public TrackData GetTrack(string trackId)
         {
             throw new NotImplementedException();
         }
