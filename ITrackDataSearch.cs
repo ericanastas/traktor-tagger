@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
-    public interface ITrackDataSearch : IDisposable
+    public interface ITrackDataSearch
     {
         string SearchQuery { get; }
+
         int TotalResults { get; }
 
-        int ResultsPerPage { get; }
-
-
-
         IList<TrackData> Results { get; }
-
-
         IList<TrackData> LoadMoreResults();
+
+
+        ITrackDataSource DataSource { get; }
     }
 }

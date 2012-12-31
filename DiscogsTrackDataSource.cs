@@ -392,6 +392,68 @@ namespace TracktorTagger
         {
             get { return "discogs.com"; }
         }
+
+
+        ITrackDataSearch ITrackDataSource.GetTrackDataSearch(string searchQuery)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool ProvidesTitle
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesMix
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesArtist
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesRemixer
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesProducer
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesRelease
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesReleased
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesLabel
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesCatalogNo
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesGenre
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool ProvidesKey
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
 

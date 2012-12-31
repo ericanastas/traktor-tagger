@@ -469,7 +469,6 @@ namespace TracktorTagger
 
                 //determine star value from Rating value
 
-
                 if (RatingValue.HasValue)
                 {
                     Decimal value = Math.Round((decimal)RatingValue / (decimal)255 * (decimal)5);
@@ -477,15 +476,11 @@ namespace TracktorTagger
                     int intValue = System.Convert.ToInt32(value);
 
                     return (Rating)intValue;
-
                 }
                 else
                 {
                     return null;
                 }
-
-
-
             }
 
 

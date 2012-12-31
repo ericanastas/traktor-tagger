@@ -17,9 +17,9 @@ namespace TracktorTagger
 
             this.TrackDataSources = new System.Collections.ObjectModel.ObservableCollection<ITrackDataSource>();
 
-            this.TrackDataSources.Add(new PlaceHolderTrackDataSource(50));
-            this.TrackDataSources.Add(new BeatportTrackDataSource());
-            this.TrackDataSources.Add(new DiscogsTrackDataSource());
+            this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
+            //this.TrackDataSources.Add(new BeatportTrackDataSource());
+            //this.TrackDataSources.Add(new DiscogsTrackDataSource());
 
             this.SelectedDataSource = this.TrackDataSources[0];
 
@@ -29,6 +29,14 @@ namespace TracktorTagger
             this.SearchTrackDataCommand = new RelayCommand(new Action<object>(this.SearchTrackData), new Predicate<object>(this.CanSearchTrackData));
             this.LoadMoreResultsCommand = new RelayCommand(new Action<object>(this.LoadMoreResults), new Predicate<object>(this.CanLoadMoreResults));
             this.TagSelectedCommand = new RelayCommand(new Action<object>(this.TagSelected), new Predicate<object>(this.CanTagSelected));
+            this.CopyUrlCommand = new RelayCommand(new Action<object>(this.CopyUrl), new Predicate<object>(this.CanCopyUrl));
+
+
+
+            this.TagDataSource = true;
+
+            UpdateColumnCheckBoxes();
+
 
         }
 
@@ -41,6 +49,449 @@ namespace TracktorTagger
 
         public TracktorCollection Collection { get; private set; }
 
+
+
+        private bool _tagTitle;
+        public bool TagTitle
+        {
+            get
+            {
+                return _tagTitle;
+            }
+            set
+            {
+                if(_tagTitle != value)
+                {
+                    _tagTitle = value;
+                    RaisePropertyChanged("TagTitle");
+                }
+            }
+        }
+
+
+        private bool _tagMix;
+        public bool TagMix
+        {
+            get
+            {
+                return _tagMix;
+            }
+            set
+            {
+                if(_tagMix != value)
+                {
+                    _tagMix = value;
+                    RaisePropertyChanged("TagMix");
+                }
+            }
+        }
+
+
+        private bool _tagArtist;
+        public bool TagArtist
+        {
+            get
+            {
+                return _tagArtist;
+            }
+            set
+            {
+                if(_tagArtist != value)
+                {
+                    _tagArtist = value;
+                    RaisePropertyChanged("TagArtist");
+                }
+            }
+        }
+
+
+        private bool _tagRemixer;
+        public bool TagRemixer
+        {
+            get
+            {
+                return _tagRemixer;
+            }
+            set
+            {
+                if(_tagRemixer != value)
+                {
+                    _tagRemixer = value;
+                    RaisePropertyChanged("TagRemixer");
+                }
+            }
+        }
+
+
+
+        private bool _tagProducer;
+        public bool TagProducer
+        {
+            get
+            {
+                return _tagProducer;
+            }
+            set
+            {
+                if(_tagProducer != value)
+                {
+                    _tagProducer = value;
+                    RaisePropertyChanged("TagProducer");
+                }
+            }
+        }
+
+
+        private bool _tagRelease;
+        public bool TagRelease
+        {
+            get
+            {
+                return _tagRelease;
+            }
+            set
+            {
+                if(_tagRelease != value)
+                {
+                    _tagRelease = value;
+                    RaisePropertyChanged("TagRelease");
+                }
+            }
+        }
+
+
+        private bool _tagReleased;
+        public bool TagReleased
+        {
+            get
+            {
+                return _tagReleased;
+            }
+            set
+            {
+                if(_tagReleased != value)
+                {
+                    _tagReleased = value;
+                    RaisePropertyChanged("TagReleased");
+                }
+            }
+        }
+
+
+        private bool _tagLabel;
+        public bool TagLabel
+        {
+            get
+            {
+                return _tagLabel;
+            }
+            set
+            {
+                if(_tagLabel != value)
+                {
+                    _tagLabel = value;
+                    RaisePropertyChanged("TagLabel");
+                }
+            }
+        }
+
+
+
+
+
+        private bool _tagCatalogNo;
+        public bool TagCatalogNo
+        {
+            get
+            {
+                return _tagCatalogNo;
+            }
+            set
+            {
+                if(_tagCatalogNo != value)
+                {
+                    _tagCatalogNo = value;
+                    RaisePropertyChanged("TagCatalogNo");
+                }
+            }
+        }
+
+
+        private bool _tagGenre;
+        public bool TagGenre
+        {
+            get
+            {
+                return _tagGenre;
+            }
+            set
+            {
+                if(_tagGenre != value)
+                {
+                    _tagGenre = value;
+                    RaisePropertyChanged("TagGenre");
+                }
+            }
+        }
+
+
+
+        private bool _tagKey;
+        public bool TagKey
+        {
+            get
+            {
+                return _tagKey;
+            }
+            set
+            {
+                if(_tagKey != value)
+                {
+                    _tagKey = value;
+                    RaisePropertyChanged("TagKey");
+                }
+            }
+        }
+
+
+
+
+        private bool _tagDataSource;
+        public bool TagDataSource
+        {
+            get
+            {
+                return _tagDataSource;
+            }
+            set
+            {
+                if(_tagDataSource != value)
+                {
+                    _tagDataSource = value;
+                    RaisePropertyChanged("TagDataSource");
+                }
+            }
+        }
+
+
+
+
+
+        //**************
+
+        private bool _canCanTagTitle;
+        public bool CanTagTitle
+        {
+            get
+            {
+                return _canCanTagTitle;
+            }
+            set
+            {
+                if(_canCanTagTitle != value)
+                {
+                    _canCanTagTitle = value;
+                    RaisePropertyChanged("CanTagTitle");
+                }
+            }
+        }
+
+
+        private bool _canCanTagMix;
+        public bool CanTagMix
+        {
+            get
+            {
+                return _canCanTagMix;
+            }
+            set
+            {
+                if(_canCanTagMix != value)
+                {
+                    _canCanTagMix = value;
+                    RaisePropertyChanged("CanTagMix");
+                }
+            }
+        }
+
+
+        private bool _canCanTagArtist;
+        public bool CanTagArtist
+        {
+            get
+            {
+                return _canCanTagArtist;
+            }
+            set
+            {
+                if(_canCanTagArtist != value)
+                {
+                    _canCanTagArtist = value;
+                    RaisePropertyChanged("CanTagArtist");
+                }
+            }
+        }
+
+
+        private bool _canCanTagRemixer;
+        public bool CanTagRemixer
+        {
+            get
+            {
+                return _canCanTagRemixer;
+            }
+            set
+            {
+                if(_canCanTagRemixer != value)
+                {
+                    _canCanTagRemixer = value;
+                    RaisePropertyChanged("CanTagRemixer");
+                }
+            }
+        }
+
+
+
+        private bool _canCanTagProducer;
+        public bool CanTagProducer
+        {
+            get
+            {
+                return _canCanTagProducer;
+            }
+            set
+            {
+                if(_canCanTagProducer != value)
+                {
+                    _canCanTagProducer = value;
+                    RaisePropertyChanged("CanTagProducer");
+                }
+            }
+        }
+
+
+        private bool _canCanTagRelease;
+        public bool CanTagRelease
+        {
+            get
+            {
+                return _canCanTagRelease;
+            }
+            set
+            {
+                if(_canCanTagRelease != value)
+                {
+                    _canCanTagRelease = value;
+                    RaisePropertyChanged("CanTagRelease");
+                }
+            }
+        }
+
+
+
+        private bool _canCanTagReleased;
+        public bool CanTagReleased
+        {
+            get
+            {
+                return _canCanTagReleased;
+            }
+            set
+            {
+                if(_canCanTagReleased != value)
+                {
+                    _canCanTagReleased = value;
+                    RaisePropertyChanged("CanTagReleased");
+                }
+            }
+        }
+
+
+        private bool _canCanTagLabel;
+        public bool CanTagLabel
+        {
+            get
+            {
+                return _canCanTagLabel;
+            }
+            set
+            {
+                if(_canCanTagLabel != value)
+                {
+                    _canCanTagLabel = value;
+                    RaisePropertyChanged("CanTagLabel");
+                }
+            }
+        }
+
+
+
+
+
+        private bool _canCanTagCatalogNo;
+        public bool CanTagCatalogNo
+        {
+            get
+            {
+                return _canCanTagCatalogNo;
+            }
+            set
+            {
+                if(_canCanTagCatalogNo != value)
+                {
+                    _canCanTagCatalogNo = value;
+                    RaisePropertyChanged("CanTagCatalogNo");
+                }
+            }
+        }
+
+
+        private bool _canCanTagGenre;
+        public bool CanTagGenre
+        {
+            get
+            {
+                return _canCanTagGenre;
+            }
+            set
+            {
+                if(_canCanTagGenre != value)
+                {
+                    _canCanTagGenre = value;
+                    RaisePropertyChanged("CanTagGenre");
+                }
+            }
+        }
+
+
+
+        private bool _canCanTagKey;
+        public bool CanTagKey
+        {
+            get
+            {
+                return _canCanTagKey;
+            }
+            set
+            {
+                if(_canCanTagKey != value)
+                {
+                    _canCanTagKey = value;
+                    RaisePropertyChanged("CanTagKey");
+                }
+            }
+        }
+
+
+        //***************
+
+
+
+
+
+
+
+
         private ITrackDataSource _selectedDataSource;
         public ITrackDataSource SelectedDataSource
         {
@@ -51,11 +502,82 @@ namespace TracktorTagger
             set
             {
 
-                if (_selectedDataSource != value)
+                if(_selectedDataSource != value)
                 {
                     _selectedDataSource = value;
+
+                    UpdateColumnCheckBoxes();
+
                     RaisePropertyChanged("SelectedDataSource");
                 }
+            }
+        }
+
+        private void UpdateColumnCheckBoxes()
+        {
+            if(SelectedDataSource != null)
+            {
+
+
+                TagTitle = SelectedDataSource.ProvidesTitle;
+                TagMix = SelectedDataSource.ProvidesMix;
+                TagArtist = SelectedDataSource.ProvidesArtist;
+                TagRemixer = SelectedDataSource.ProvidesRemixer;
+                TagProducer = SelectedDataSource.ProvidesProducer;
+                TagRelease = SelectedDataSource.ProvidesRelease;
+                TagReleased = SelectedDataSource.ProvidesReleased;
+                TagLabel = SelectedDataSource.ProvidesLabel;
+                TagCatalogNo = SelectedDataSource.ProvidesCatalogNo;
+                TagGenre = SelectedDataSource.ProvidesGenre;
+                TagKey = SelectedDataSource.ProvidesKey;
+
+
+
+                CanTagTitle = SelectedDataSource.ProvidesTitle;
+                CanTagMix = SelectedDataSource.ProvidesMix;
+                CanTagArtist = SelectedDataSource.ProvidesArtist;
+                CanTagRemixer = SelectedDataSource.ProvidesRemixer;
+                CanTagProducer = SelectedDataSource.ProvidesProducer;
+                CanTagRelease = SelectedDataSource.ProvidesRelease;
+                CanTagReleased = SelectedDataSource.ProvidesReleased;
+                CanTagLabel = SelectedDataSource.ProvidesLabel;
+                CanTagCatalogNo = SelectedDataSource.ProvidesCatalogNo;
+                CanTagGenre = SelectedDataSource.ProvidesGenre;
+                CanTagKey = SelectedDataSource.ProvidesKey;
+
+
+
+
+
+            }
+            else
+            {
+
+                TagTitle = false;
+                TagMix = false;
+                TagArtist = false;
+                TagRemixer = false;
+                TagProducer = false;
+                TagRelease = false;
+                TagReleased = false;
+                TagLabel = false;
+                TagCatalogNo = false;
+                TagGenre = false;
+                TagKey = false;
+
+                CanTagTitle = false;
+                CanTagMix = false;
+                CanTagArtist = false;
+                CanTagRemixer = false;
+                CanTagProducer = false;
+                CanTagRelease = false;
+                CanTagReleased = false;
+                CanTagLabel = false;
+                CanTagCatalogNo = false;
+                CanTagGenre = false;
+                CanTagKey = false;
+
+
             }
         }
 
@@ -69,7 +591,7 @@ namespace TracktorTagger
             set
             {
 
-                if (_trackDataSearchText != value)
+                if(_trackDataSearchText != value)
                 {
                     _trackDataSearchText = value;
                     RaisePropertyChanged("TrackDataSearchText");
@@ -81,8 +603,27 @@ namespace TracktorTagger
 
         private bool CanSearchTrackData(object o)
         {
-            if (!string.IsNullOrEmpty(TrackDataSearchText)) return true;
+            if(!string.IsNullOrEmpty(TrackDataSearchText)) return true;
             else return false;
+        }
+
+
+        private string _searchStatus;
+        public string SearchStatus
+        {
+            get
+            {
+                return _searchStatus;
+            }
+            set
+            {
+                if(_searchStatus != value)
+                {
+                    _searchStatus = value;
+
+                    RaisePropertyChanged("SearchStatus");
+                }
+            }
         }
 
         private TrackData _selectedTrackData;
@@ -94,7 +635,7 @@ namespace TracktorTagger
             }
             set
             {
-                if (_selectedTrackData != value)
+                if(_selectedTrackData != value)
                 {
                     _selectedTrackData = value;
 
@@ -112,7 +653,7 @@ namespace TracktorTagger
             }
             set
             {
-                if (_selectedTraktorTrack != value)
+                if(_selectedTraktorTrack != value)
                 {
                     _selectedTraktorTrack = value;
 
@@ -121,7 +662,6 @@ namespace TracktorTagger
             }
         }
 
-        public IEnumerable<TrackData> CurrentSearchResults { get; private set; }
 
         #endregion
 
@@ -129,56 +669,170 @@ namespace TracktorTagger
 
         #region Methods
 
+
+        private void CopyUrl(object o)
+        {
+            System.Windows.Clipboard.SetText(SelectedTrackData.URL.AbsoluteUri);
+        }
+
+
+        private bool CanCopyUrl(object o)
+        {
+            if(SelectedTrackData != null) return true;
+            else return false;
+        }
+
+
+
         private void TagSelected(object o)
         {
-            throw new NotImplementedException();
+
+            if(TagDataSource)
+            {
+                SelectedTraktorTrack.DataSourceTag = SelectedTrackData.DataSourceTag;
+            }
+
+
+            if(TagTitle && !string.IsNullOrEmpty(SelectedTrackData.Title))
+            {
+                SelectedTraktorTrack.Title = SelectedTrackData.Title;
+            }
+
+
+
+            if(TagMix && !string.IsNullOrEmpty(SelectedTrackData.Mix))
+            {
+                SelectedTraktorTrack.Mix = SelectedTrackData.Mix;
+            }
+
+
+            if(TagArtist && !string.IsNullOrEmpty(SelectedTrackData.Artist))
+            {
+                SelectedTraktorTrack.Artist = SelectedTrackData.Artist;
+            }
+
+
+
+            if(TagRemixer && !string.IsNullOrEmpty(SelectedTrackData.Remixer))
+            {
+                SelectedTraktorTrack.Remixer = SelectedTrackData.Remixer;
+            }
+
+
+
+            if(TagProducer && !string.IsNullOrEmpty(SelectedTrackData.Producer))
+            {
+                SelectedTraktorTrack.Producer = SelectedTrackData.Producer;
+            }
+
+
+
+            if(TagRelease && !string.IsNullOrEmpty(SelectedTrackData.Release))
+            {
+                SelectedTraktorTrack.Release = SelectedTrackData.Release;
+            }
+
+
+
+
+            if(TagReleased && SelectedTrackData.ReleaseDate.HasValue)
+            {
+                SelectedTraktorTrack.ReleaseDate = SelectedTrackData.ReleaseDate;
+            }
+
+
+            if(TagLabel && !string.IsNullOrEmpty(SelectedTrackData.Label))
+            {
+                SelectedTraktorTrack.Label = SelectedTrackData.Label;
+            }
+
+
+            if(TagCatalogNo && !string.IsNullOrEmpty(SelectedTrackData.CatalogNumber))
+            {
+                SelectedTraktorTrack.CatalogNumber = SelectedTrackData.CatalogNumber;
+            }
+
+
+            if(TagGenre && !string.IsNullOrEmpty(SelectedTrackData.Genre))
+            {
+                SelectedTraktorTrack.Genre = SelectedTrackData.Genre;
+            }
+
+
+            if(TagKey && SelectedTrackData.Key != null)
+            {
+                SelectedTraktorTrack.Key = SelectedTrackData.Key;
+            }
+
+
+
+
+
+
+
+
         }
 
         private bool CanTagSelected(object o)
         {
-            if (SelectedTrackData != null && SelectedTraktorTrack != null) return true;
+            if(SelectedTrackData != null && SelectedTraktorTrack != null) return true;
             else return false;
         }
 
         private bool CanLoadMoreResults(object o)
         {
-            if (CurrentSearchResults != null) return true;
+            if(_currentSearch != null)
+            {
+                if(TrackDataSearchResults.Count < _currentSearch.TotalResults) return true;
+                else return false;
+            }
             else return false;
         }
 
         private void LoadMoreResults(object o)
         {
-            var enumerator = CurrentSearchResults.GetEnumerator();
+            var res = _currentSearch.LoadMoreResults();
 
-            for(int i=1;i<=Properties.Settings.Default.ResultPerPage;i++)
+            foreach(var r in res)
             {
-                if(enumerator.MoveNext())
-                {
-                    TrackData newData = enumerator.Current;
-
-                    TrackDataSearchResults.Add(newData);
-                }
-                else
-                {
-                    CurrentSearchResults = null;
-                }
+                TrackDataSearchResults.Add(r);
             }
+
+            UpdateSearchStatus();
         }
+
+        private void UpdateSearchStatus()
+        {
+            string message = _currentSearch.Results.Count.ToString() + " of " + _currentSearch.TotalResults + " total results for \"" + _currentSearch.SearchQuery + "\"";
+
+            this.SearchStatus = message;
+        }
+
+        private ITrackDataSearch _currentSearch;
 
         private void SearchTrackData(object o)
         {
-            var searchResults = this.SelectedDataSource.SearchTracks(this.TrackDataSearchText);
-            CurrentSearchResults = searchResults;
-
             this.TrackDataSearchResults.Clear();
+            _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
 
-            LoadMoreResults(null);
 
+            foreach(var r in _currentSearch.Results)
+            {
+                TrackDataSearchResults.Add(r);
+            }
+
+            UpdateSearchStatus();
         }
+
+
+
+
+
+
 
         private void SaveCollection(object o)
         {
-            if (this.Collection != null)
+            if(this.Collection != null)
             {
                 this.Collection.SaveCollection();
             }
@@ -186,7 +840,7 @@ namespace TracktorTagger
 
         private bool CanSaveCollection(object o)
         {
-            if (this.Collection != null) return true;
+            if(this.Collection != null) return true;
             else return false;
         }
 
@@ -197,13 +851,13 @@ namespace TracktorTagger
 
             bool? res = odiag.ShowDialog();
 
-            if (res.HasValue && res.Value)
+            if(res.HasValue && res.Value)
             {
                 Collection = new TracktorCollection(odiag.FileName);
 
                 this.TraktorTracks.Clear();
 
-                foreach (TraktorTrack t in Collection.Entries)
+                foreach(TraktorTrack t in Collection.Entries)
                 {
                     this.TraktorTracks.Add(t);
                 }
@@ -219,6 +873,7 @@ namespace TracktorTagger
         public ICommand SaveCollectionCommand { get; private set; }
         public ICommand OpenCollectionCommand { get; private set; }
         public ICommand SearchTrackDataCommand { get; private set; }
+        public ICommand CopyUrlCommand { get; private set; }
 
         #endregion
 
@@ -227,7 +882,7 @@ namespace TracktorTagger
         private void RaisePropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
-            if (handler != null)
+            if(handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }

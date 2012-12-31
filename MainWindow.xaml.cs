@@ -33,57 +33,7 @@ namespace TracktorTagger
         }
 
 
-
  
-
-
-        private void tagSelectedButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (searchResultDataGrid.SelectedItem != null && traktorColDataGrid.SelectedItem != null)
-            {
-
-                TraktorTrack selTraktorTrack = (TraktorTrack)traktorColDataGrid.SelectedItem;
-                TrackData selTrackData = (TrackData)searchResultDataGrid.SelectedItem;
-
-
-
-
-                selTraktorTrack.Title = selTrackData.Title;
-                selTraktorTrack.Mix = selTrackData.Mix;
-                selTraktorTrack.Artist = selTrackData.Artist;
-
-                selTraktorTrack.Remixer = selTrackData.Remixer;
-                selTraktorTrack.Producer = selTrackData.Producer;
-                selTraktorTrack.Release = selTrackData.Release;
-                selTraktorTrack.ReleaseDate = selTrackData.ReleaseDate;
-                selTraktorTrack.Label = selTrackData.Label;
-                selTraktorTrack.Genre = selTrackData.Genre;
-                selTraktorTrack.CatalogNumber = selTrackData.CatalogNumber;
-                selTraktorTrack.Key = selTrackData.Key;
-
-
-                selTraktorTrack.DataSourceTag = selTrackData.DataSourceTag;
-
-
-
-
-
-
-
-            }
-
-        }
-
-        private void copyUrlMenu_Click(object sender, RoutedEventArgs e)
-        {
-            if (searchResultDataGrid.SelectedItem != null)
-            {
-                TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
-                System.Windows.Clipboard.SetText(data.URL.AbsoluteUri);
-            }
-
-        }
 
         private void openPageMenu_Click(object sender, RoutedEventArgs e)
         {

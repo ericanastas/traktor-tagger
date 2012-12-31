@@ -10,53 +10,110 @@ namespace TracktorTagger
     public class PlaceHolderTrackDataSearch : ITrackDataSearch
     {
         private string _searchQuery;
+        private int _total;
+        private int _perpage;
 
-        public PlaceHolderTrackDataSearch(string searchQuery)
+        private int _loadedPages;
+
+        public PlaceHolderTrackDataSearch(PlaceHolderTrackDataSource source, string searchQuery, int totalResults, int resultsPerPage)
         {
             this._searchQuery = searchQuery;
+
+            this.DataSource = source;
+            SearchQuery = searchQuery;
+
+            this._total = totalResults;
+            this._perpage = resultsPerPage;
+            _loadedPages = 0;
+
+            this._tracks = new List<TrackData>();
         }
 
         public string SearchQuery
         {
-            get { return _searchQuery; }
+            get;
+            private set;
         }
 
-        public int TotalResults
-        {
-            get { throw new NotImplementedException(); }
-        }
+  
 
-        public int ResultsPerPage
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+        private List<TrackData> _tracks;
         public IList<TrackData> Results
         {
-            get { throw new NotImplementedException(); }
+            get { return _tracks.AsReadOnly(); }
         }
+
+
+
+
 
         public IList<TrackData> LoadMoreResults()
         {
-            throw new NotImplementedException();
+
+            List<TrackData> returnList = new List<TrackData>();
+
+
+
+
+
+            for(int i = 1; i <= _perpage; i++)
+            {
+
+                int trackIdInt = _perpage * _loadedPages + i;
+
+                string trackId = trackIdInt.ToString();
+
+                if(trackIdInt > _total) break;
+
+                TrackData data = new TrackData("PlaceHolderTrackDataSource",
+       "id" + trackId,
+       "artist " + trackId,
+       "title " + trackId,
+       "mix " + trackId,
+       "remixer " + trackId,
+       "release " + trackId,
+       "producer " + trackId,
+       "label " + trackId,
+       "cat no " + trackId,
+       "lyrics " + trackId,
+       "genre " + trackId,
+        new Key('A', Accidental.Flat, Chord.Major),
+        DateTime.Now,
+        new Uri(@"http://www.google.com"));
+
+                returnList.Add(data);
+                _tracks.Add(data);
+
+            }
+
+            if(returnList.Count > 0) _loadedPages++;
+
+            
+
+            return returnList;
+
         }
 
-        public void Dispose()
+        public ITrackDataSource DataSource
         {
-            throw new NotImplementedException();
+            get;
+            private set;
+        }
+
+
+        public int TotalResults
+        {
+            get { return _total; }
         }
     }
 
     public class PlaceHolderTrackDataSource : ITrackDataSource
     {
 
-        public PlaceHolderTrackDataSource(int total)
+        public PlaceHolderTrackDataSource()
         {
-            _total = total;
+        
         }
-
-        private int _total;
-
 
 
         public TrackData GetTrack(string trackId)
@@ -80,17 +137,73 @@ namespace TracktorTagger
             return data;
         }
 
-  
-
         public string Name
         {
-            get { return "test data source"; }
+            get { return "Placeholder Datasource"; }
+        }
+
+        public ITrackDataSearch GetTrackDataSearch(string searchQuery)
+        {
+            var s = new PlaceHolderTrackDataSearch(this, searchQuery, 100, 10);
+            s.LoadMoreResults();
+
+            return s;
         }
 
 
-        ITrackDataSearch ITrackDataSource.SearchTracks(string searchQuery)
+        public bool ProvidesTitle
         {
-            throw new NotImplementedException();
+            get { return true; }
+        }
+
+        public bool ProvidesMix
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesArtist
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesRemixer
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesProducer
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesRelease
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesReleased
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesLabel
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesCatalogNo
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesGenre
+        {
+            get { return true; }
+        }
+
+        public bool ProvidesKey
+        {
+            get { return true; }
         }
     }
 }
