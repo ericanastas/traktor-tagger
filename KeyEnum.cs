@@ -11,7 +11,7 @@ namespace TracktorTagger
 
     public enum KeyEnum
     { 
-        off,
+        Off,
         A_flat,
         A,
         A_sharp,

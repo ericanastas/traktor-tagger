@@ -2,7 +2,27 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:TracktorTagger" x:Class="TracktorTagger.MainWindow"
+        xmlns:core="clr-namespace:System;assembly=mscorlib"
         Title="Traktor Tagger" Height="600" Width="800" WindowState="Maximized" Icon="Images/TraktorTaggerIcon.png">
+
+
+    <Window.Resources>
+        <ObjectDataProvider x:Key="KeyEnumValues" MethodName="GetValues"
+                            ObjectType="{x:Type core:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local:KeyEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+
+
+        <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
+            
+        
+
+
+    </Window.Resources>
+    
 
     <Grid>
 
@@ -118,12 +138,21 @@
 
 
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False"/>
-                        <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False"/>
 
                         <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="False"/>
 
 
-                        <DataGridTextColumn Header="Key" Width="55" IsReadOnly="False" Binding="{Binding Key}" />
+                        
+
+                        <DataGridComboBoxColumn Header="Key" Width="55" 
+                                                IsReadOnly="False" 
+                                                SelectedValueBinding="{Binding Key}"
+                                                SelectedValuePath="Key"
+                                                DisplayMemberPath="Description"
+                                                ItemsSource="{Binding Source={StaticResource KeyEnumValueList}}"
+                                                >
+                        </DataGridComboBoxColumn>
 
             
 
@@ -419,7 +448,7 @@
 
 
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Catalog No." Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True">
 
 
 
@@ -435,7 +464,7 @@
                                                             <ColumnDefinition Width="*"/>
                                                         </Grid.ColumnDefinitions>
                                                         <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagCatalogNo}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagCatalogNo}" />
-                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Catalog No.</Label>
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Catalog #</Label>
                                                     </Grid>
                                                 </DataTemplate>
                                             </Setter.Value>

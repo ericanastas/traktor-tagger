@@ -60,10 +60,12 @@
     </ApplicationDefinition>
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
+    <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
     <Compile Include="KeyClass.cs" />
     <Compile Include="KeyEnum.cs" />
     <Compile Include="KeyEnumStringConverter.cs" />
+    <Compile Include="KeyViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="PlaceHolderTrackDataSource.cs" />
     <Compile Include="Rating.cs" />

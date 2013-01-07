@@ -24,7 +24,7 @@ namespace TracktorTagger
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,17 +33,9 @@ namespace TracktorTagger
         }
 
 
- 
 
-        private void openPageMenu_Click(object sender, RoutedEventArgs e)
-        {
-            if (searchResultDataGrid.SelectedItem != null)
-            {
-                TrackData data = (TrackData)searchResultDataGrid.SelectedItem;
-                System.Diagnostics.Process.Start(data.URL.AbsoluteUri);
-            }
 
-        }
+
 
 
     }
