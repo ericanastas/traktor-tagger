@@ -6,49 +6,68 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
+    /// <summary>
+    /// Class used to read and modify the contents of a Traktor NML collection file.
+    /// </summary>
     public class TracktorCollection
     {
-
-      
-           public IList<TraktorTrack> Entries {get; private set;}
-
-           private System.Xml.XmlDocument _collectionXmlDoc;
+        private List<TraktorTrack> _entries;
+        private System.Xml.XmlDocument _collectionXmlDoc;
 
 
-           public string FileName { get; set; }
+        /// <summary>
+        /// Read only collection of the collection's entries
+        /// </summary>
+        public IList<TraktorTrack> Entries
+        {
+            get
+            {
+                return _entries.AsReadOnly();
+            }
+        }
+
+        /// <summary>
+        /// The collection's file name
+        /// </summary>
+        public string FileName { get; private set; }
 
 
-           public void SaveCollection()
-           {
-               _collectionXmlDoc.Save(FileName);
-           }
+        /// <summary>
+        /// Saves any changes made to the track entries back the the NML file.
+        /// </summary>
+        public void SaveCollection()
+        {
+            _collectionXmlDoc.Save(FileName);
+        }
 
+        /// <summary>
+        /// Opens a Traktor collection NML file
+        /// </summary>
+        /// <param name="fileName">The path to the collection NML file</param>
         public TracktorCollection(string fileName)
         {
-            Entries = new List<TraktorTrack>();
+            if(string.IsNullOrEmpty(fileName)) throw new ArgumentNullException("fileName");
+            if(!System.IO.File.Exists(fileName)) throw new System.IO.FileNotFoundException("Traktor collection file not found", fileName);
+            
             FileName = fileName;
 
             _collectionXmlDoc = new System.Xml.XmlDocument();
             _collectionXmlDoc.Load(fileName);
 
+            //checks the NML Version
+            var nmlNode = _collectionXmlDoc.DocumentElement.SelectNodes("/NML")[0];
+            var versionString = nmlNode.Attributes["VERSION"].Value;
+            if(versionString != "15") throw new InvalidOperationException("Unexpected NML version: " + versionString);
+
             var entryNodes = _collectionXmlDoc.DocumentElement.SelectNodes("/NML/COLLECTION/ENTRY");
 
 
-            var nmlNode = _collectionXmlDoc.DocumentElement.SelectNodes("/NML")[0];
-            var versionString = nmlNode.Attributes["VERSION"].Value;
-
-            if(versionString != "15") throw new InvalidOperationException("Unexpected NML version: " + versionString);
-
-
-
-
+            _entries = new List<TraktorTrack>();
 
             foreach(System.Xml.XmlElement entryNode in entryNodes)
             {
-                Entries.Add(new TraktorTrack(entryNode));
+                _entries.Add(new TraktorTrack(entryNode));
             }
-
-           
         }
 
     }

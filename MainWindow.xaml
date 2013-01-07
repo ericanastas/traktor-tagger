@@ -7,20 +7,9 @@
 
 
     <Window.Resources>
-        <ObjectDataProvider x:Key="KeyEnumValues" MethodName="GetValues"
-                            ObjectType="{x:Type core:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type Type="local:KeyEnum"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-
 
         <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
-            
         
-
-
     </Window.Resources>
     
 

@@ -62,10 +62,10 @@
     <Compile Include="DiscogsTrackDataSource.cs" />
     <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
-    <Compile Include="KeyClass.cs" />
     <Compile Include="KeyEnum.cs" />
     <Compile Include="KeyEnumStringConverter.cs" />
     <Compile Include="KeyViewModel.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="PlaceHolderTrackDataSource.cs" />
     <Compile Include="Rating.cs" />
@@ -74,9 +74,6 @@
     <Compile Include="TrackDataSearch.cs" />
     <Compile Include="TrackDataSourceTag.cs" />
     <Compile Include="ITrackDataSource.cs" />
-    <Compile Include="TrackProperties.xaml.cs">
-      <DependentUpon>TrackProperties.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TracktorCollection.cs" />
     <Compile Include="TraktorTrack.cs" />
     <Page Include="MainWindow.xaml">
@@ -91,10 +88,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TrackProperties.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

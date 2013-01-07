@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
-
-
-
+    /// <summary>
+    /// Track Key
+    /// </summary>
     public enum KeyEnum
     { 
         Off,
@@ -29,8 +29,6 @@ namespace TracktorTagger
         G_flat,
         G,
         G_sharp,
-
-
         A_flat_minor,
         A_minor,
         A_sharp_minor,

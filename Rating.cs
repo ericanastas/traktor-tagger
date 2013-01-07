@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
+
+    /// <summary>
+    /// Track star rating
+    /// </summary>
     public enum Rating
     {
         Zero=0,

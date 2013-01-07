@@ -6,35 +6,37 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
-
-    public class Location
-    {
-
-        public string Directory { get; set; }
-        public string FileName { get; set; }
-        public string Volume { get; set; }
-        public string VolumeId { get; set; }
-
-    }
-
-    //NEED TO FIGURE OUT WHAT ELEMENTS/ATTRIBUTES ARE ALWAYS IN FILE
-    //AND WHICH SHOULD BE REMOVED WHEN SET TO NULL
-    //FIGURE THIS OUT BY SEEING WHAT DISAPEARS WHEN VALUES ARE UNCHECKED IN TRAKTOR TRACK DETAILS EDITOR
-
+    /// <summary>
+    /// A track in a Traktor catalog NML file
+    /// </summary>
+    /// <remarks>Returned from the TracktorCollection class</remarks>
     public class TraktorTrack : System.ComponentModel.INotifyPropertyChanged
     {
-        private System.Xml.XmlElement entryNode;
+        private System.Xml.XmlElement entryNode; //
 
-        public TraktorTrack(System.Xml.XmlElement entryNode)
+        /// <summary>
+        /// Constructor to create a new TracktorTrack
+        /// </summary>
+        /// <param name="entryNode">An entry node from the collection NML file</param>
+        internal TraktorTrack(System.Xml.XmlElement entryNode)
         {
+            if(entryNode == null) throw new ArgumentNullException("entryNode");
             this.entryNode = entryNode;
         }
 
-        #region Attribute Accessor Methods
+        #region XML Methods
 
+        /// <summary>
+        /// Returns an attribute value from the entry node, or one of its child elements.
+        /// </summary>
+        /// <param name="elementName">The child element of the Entry element. If NULL then the Entry element is used.</param>
+        /// <param name="attributeName">The name of the attribute. Can not be empty of null.</param>
+        /// <returns>The value of the attribute, or NULL if the specified attribute or element can not be found.</returns>
         private string GetAttributeValue(string elementName, string attributeName)
         {
             System.Xml.XmlNode node;
+
+            if(string.IsNullOrEmpty(attributeName)) throw new ArgumentNullException("attributeName");
 
             if(String.IsNullOrEmpty(elementName))
             {
@@ -59,10 +61,16 @@ namespace TracktorTagger
             }
         }
 
-
+        /// <summary>
+        /// Removes an attribute from the entry node or one of its child elements.
+        /// </summary>
+        /// <param name="elementName">The child element of the Entry element. If NULL then the Entry element is used.</param>
+        /// <param name="attributeName">The name of the attribute. Can not be empty of null.</param>
         private void RemoveAttribute(string elementName, string attributeName)
         {
             System.Xml.XmlNode node;
+
+            if(string.IsNullOrEmpty(attributeName)) throw new ArgumentNullException("attributeName");
 
             if(String.IsNullOrEmpty(elementName))
             {
@@ -87,13 +95,13 @@ namespace TracktorTagger
         }
 
 
-
+        /// <summary>
+        /// Removes a child element from the entry element
+        /// </summary>
+        /// <param name="elementName">The element to remove</param>
         private void RemoveElement(string elementName)
         {
-            if(String.IsNullOrEmpty(elementName))
-            {
-                throw new ArgumentNullException("elementName");
-            }
+            if(String.IsNullOrEmpty(elementName)) throw new ArgumentNullException("elementName");
 
             System.Xml.XmlNode node = entryNode.SelectSingleNode("./" + elementName);
 
@@ -107,10 +115,20 @@ namespace TracktorTagger
             }
         }
 
+
+        /// <summary>
+        /// Sets an attribute value on the entry element, or one of its child elements.
+        /// </summary>
+        /// <remarks></remarks>
+        /// <param name="elementName">The child element of the entry element to set the attribute on. If NULL then the attribute is set on the entry element</param>
+        /// <param name="attributeName">The name of the attribute to set. Can not be NULL</param>
+        /// <param name="value">The value to set. Can not be an empty string.</param>
         private void SetAttributeValue(string elementName, string attributeName, string value)
         {
-
             System.Xml.XmlNode node;
+
+            if(string.IsNullOrEmpty(attributeName)) throw new ArgumentNullException("attributeName");
+            if(value == null) throw new ArgumentNullException("value");
 
             if(String.IsNullOrEmpty(elementName))
             {
@@ -185,12 +203,10 @@ namespace TracktorTagger
 
 
 
-
-
         /// <summary>
-        /// 
+        /// Track title
         /// </summary>
-        /// <remarks>Available when track is first imported</remarks>
+        /// <remarks>Available when track is first imported. Can not be set to NULL or an empty string.</remarks>
         public string Title
         {
             //Title Attribute is always there;
@@ -200,21 +216,23 @@ namespace TracktorTagger
             }
             set
             {
-                //Title can not be empty
-
                 if(!String.IsNullOrEmpty(value))
                 {
                     SetAttributeValue(null, "TITLE", value);
                     OnPropertyChanged("Title");
+                }
+                else
+                {
+
                 }
             }
         }
 
 
         /// <summary>
-        /// 
+        /// Track artist
         /// </summary>
-        /// <remarks>Attribute is removed when blank artist is enteredr</remarks>
+        /// <remarks>ARTIST attribute is removed when value is set to NULL or empty string</remarks>
         public string Artist
         {
             get
@@ -240,9 +258,9 @@ namespace TracktorTagger
 
 
         /// <summary>
-        /// 
+        /// Track mix
         /// </summary>
-        /// <remarks>Mix attribute is removes when set to empty string </remarks>
+        /// <remarks>MIX attribute is removed when value is set to NULL or empty string</remarks>
         public string Mix
         {
             get
@@ -265,9 +283,9 @@ namespace TracktorTagger
         }
 
         /// <summary>
-        /// 
+        /// Track producer
         /// </summary>
-        /// <remarks>Producer attribtute is removed when set to blank string, but leave info tag.</remarks>
+        /// <remarks>PRODUCER attribute is removed when value is set to NULL or a empty string</remarks>
         public string Producer
         {
             get
@@ -291,9 +309,9 @@ namespace TracktorTagger
         }
 
         /// <summary>
-        /// 
+        /// Track remixer
         /// </summary>
-        /// <remarks>Remixer attribtute is removed when set to blank string, but leave info tag.</remarks>
+        /// <remarks>REMIXER attribtute is removed when set to NULL or a empty string.</remarks>
         public string Remixer
         {
             get
@@ -317,9 +335,9 @@ namespace TracktorTagger
 
 
         /// <summary>
-        /// 
+        /// Track release
         /// </summary>
-        /// <remarks>Album element is remove when release is removed</remarks>
+        /// <remarks>ALBUM element is removed when set to NULL or a empty string.</remarks>
         public string Release
         {
             get
@@ -343,6 +361,10 @@ namespace TracktorTagger
         }
 
 
+        /// <summary>
+        /// Track lyrics
+        /// </summary>
+        /// <remarks>KEY_LYRICS attribtute is removed when set to NULL or a empty string.</remarks>
         public string Lyrics
         {
             get
@@ -366,9 +388,9 @@ namespace TracktorTagger
 
 
         /// <summary>
-        /// 
+        /// Track label
         /// </summary>
-        /// <remarks>Label attribute is removes when set to no label </remarks>
+        /// <remarks>LABEL attribtute is removed when set to NULL or a empty string.</remarks>
         public string Label
         {
             get
@@ -391,6 +413,11 @@ namespace TracktorTagger
             }
         }
 
+
+        /// <summary>
+        /// Track catalog number
+        /// </summary>
+        /// <remarks>CATALOG_NO attribtute is removed when set to NULL or a empty string.</remarks>
         public string CatalogNumber
         {
             get
@@ -413,9 +440,9 @@ namespace TracktorTagger
         }
 
         /// <summary>
-        /// 
+        /// Track genre
         /// </summary>
-        /// <remarks>Genre attribtute is removed when set to blank string, but leave info tag.</remarks>
+        /// <remarks>GENRE attribtute is removed when set to NULL or a empty string.</remarks>
         public string Genre
         {
             get
@@ -439,9 +466,9 @@ namespace TracktorTagger
         }
 
         /// <summary>
-        /// 
+        /// Track comments
         /// </summary>
-        /// <remarks>Attribtute is removed when set to blank string, but leave info tag.</remarks>
+        /// <remarks>Comment1 attribtute is removed when set to NULL or a empty string.</remarks>
         public string Comment1
         {
             get
@@ -466,9 +493,9 @@ namespace TracktorTagger
 
 
         /// <summary>
-        /// 
+        /// Track comments
         /// </summary>
-        /// <remarks>Attribtute is removed when set to blank string, but leave info tag.</remarks>
+        /// <remarks>RATING attribtute is removed when set to NULL or a empty string.</remarks>
         public string Comment2
         {
             get
@@ -495,7 +522,10 @@ namespace TracktorTagger
 
 
 
-
+        /// <summary>
+        /// Track key
+        /// </summary>
+        /// <remarks>KEY attribtute is removed when set to NULL</remarks>
         public KeyEnum? Key
         {
             get
@@ -534,7 +564,7 @@ namespace TracktorTagger
 
 
         /// <summary>
-        /// 
+        /// The date/time the entry in the catalog was last modified
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
         public DateTime ModifiedDate
@@ -552,6 +582,7 @@ namespace TracktorTagger
             }
             set
             {
+                //In the future I may want this to be set when TraktorTagger modifies the collection
                 throw new NotImplementedException();
             }
 
@@ -559,7 +590,10 @@ namespace TracktorTagger
 
 
 
-
+        /// <summary>
+        /// Track BPM
+        /// </summary>
+        /// <remarks>TEMPO element is removed when set to NULL. Throws an ArgumentOutOfRangeException if set to a negative number.</remarks>
         public double? BPM
         {
             get
@@ -573,6 +607,8 @@ namespace TracktorTagger
             {
                 if(value.HasValue)
                 {
+                    if(value < 0) throw new ArgumentOutOfRangeException("BPM", "BPM can not be set to a negative number.");
+
                     SetAttributeValue("TEMPO", "BPM", value.ToString());
                     SetAttributeValue("TEMPO", "BPM_QUALITY", "100");
                 }
@@ -584,69 +620,49 @@ namespace TracktorTagger
 
         }
 
-
+        /// <summary>
+        /// Track Rating
+        /// </summary>
+        /// <remarks>RANKING attribute is removed when set to NULL.</remarks>
         public Rating? Rating
         {
             get
             {
+                var ratingStr = GetAttributeValue("INFO", "RANKING");
 
-                //determine star value from Rating value
+                if(ratingStr == null) return null;
 
-                if(RatingValue.HasValue)
-                {
-                    Decimal value = Math.Round((decimal)RatingValue / (decimal)255 * (decimal)5);
+                int ratingValInt = System.Convert.ToInt32(ratingStr);
 
-                    int intValue = System.Convert.ToInt32(value);
+                //converts 0-255 rating into enum int value
+                Decimal value = Math.Round((decimal)ratingValInt / (decimal)255 * (decimal)5);
+                int ratingEnumInt = System.Convert.ToInt32(value);
 
-                    return (Rating)intValue;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-
-
-            set
-            {
-                RatingValue = ((int)value) * 51;
-                OnPropertyChanged("Rating");
-            }
-
-
-        }
-
-
-        public int? RatingValue
-        {
-            get
-            {
-                var str = GetAttributeValue("INFO", "RANKING");
-
-                if(str == null) return null;
-
-                return System.Convert.ToInt32(str);
+                return (Rating)ratingEnumInt;
             }
             set
             {
                 if(value.HasValue)
                 {
-                    if(value >= 0 || value <= 255)
-                    {
-                        SetAttributeValue("INFO", "RANKING", value.ToString());
-                        OnPropertyChanged("RatingValue");
-                    }
+                    int ratingValueInt = ((int)value) * 51;
+
+                    SetAttributeValue("INFO", "RANKING", ratingValueInt.ToString());
                 }
                 else
                 {
                     RemoveAttribute("INFO", "RANKING");
-                    OnPropertyChanged("RatingValue");
                 }
-
+                
+                OnPropertyChanged("Rating");
             }
         }
 
 
+
+        /// <summary>
+        /// Track release date
+        /// </summary>
+        /// <remarks>RELEASE_DATE attribute is removed when set to NULL.</remarks>
         public DateTime? ReleaseDate
         {
             get
@@ -671,9 +687,7 @@ namespace TracktorTagger
                     RemoveAttribute("INFO", "RELEASE_DATE");
                 }
 
-
                 OnPropertyChanged("ReleaseDate");
-
             }
         }
 
@@ -687,7 +701,7 @@ namespace TracktorTagger
         #region Propertise that need work
 
         /// <summary>
-        /// 
+        /// Location of the track audio file.
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
         public Location Location
@@ -698,7 +712,6 @@ namespace TracktorTagger
             }
             set
             {
-
                 throw new NotImplementedException();
             }
         }
@@ -723,10 +736,8 @@ namespace TracktorTagger
 
         #region Read Only Properties
 
-
-
         /// <summary>
-        /// 
+        /// Date the track was imported into the catalog
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
         public DateTime ImportDate
@@ -738,9 +749,28 @@ namespace TracktorTagger
         }
 
 
+        /// <summary>
+        /// Last date the track was played
+        /// </summary>
+        public DateTime? LastPlayed
+        {
+            get
+            {
+                var lastStr = GetAttributeValue("INFO", "LAST_PLAYED");
+
+                if(string.IsNullOrEmpty(lastStr))
+                {
+                    return null;
+                }
+                else
+                {
+                    return DateTime.Parse(lastStr);
+                }   
+            }
+        }
 
         /// <summary>
-        /// 
+        /// Size of the audio file in KB
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
         public long FileSize
@@ -753,7 +783,9 @@ namespace TracktorTagger
             }
         }
 
-
+        /// <summary>
+        /// Bit rate of the audio file
+        /// </summary>
         public int BitRate
         {
             get
@@ -764,7 +796,9 @@ namespace TracktorTagger
             }
         }
 
-
+        /// <summary>
+        /// Number of times the track has been played in traktor
+        /// </summary>
         public int PlayCount
         {
             get
@@ -777,19 +811,29 @@ namespace TracktorTagger
             }
         }
 
-        public int? PlayTime
+        /// <summary>
+        /// Track length
+        /// </summary>
+        public TimeSpan? PlayTimeSpan
         {
             get
             {
-                var str = GetAttributeValue("INFO", "PLAYTIME");
-
-                if(String.IsNullOrEmpty(str)) return null;
-
-                return System.Convert.ToInt32(str);
+                if(PlayTime == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var span = new TimeSpan((long)10000000 * System.Convert.ToInt64(PlayTime));
+                    return span;
+                }
             }
         }
 
-        public double? PlayTimeFloat
+        /// <summary>
+        /// Track length in seconds
+        /// </summary>
+        public double? PlayTime
         {
             get
             {

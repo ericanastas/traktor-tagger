@@ -6,8 +6,18 @@ using System.Threading.Tasks;
 
 namespace TracktorTagger
 {
+
+    /// <summary>
+    /// Static class which converts between Key enum values and string values stored in the NML collection file.
+    /// </summary>
     public static class KeyEnumStringConverter
     {
+
+        /// <summary>
+        /// Converts a key value string from a Traktor NML file into a Key enum value
+        /// </summary>
+        /// <param name="keyString">The string to convert</param>
+        /// <returns>Key enum value</returns>
         public static KeyEnum ConvertFromString(string keyString)
         {
             if(string.IsNullOrEmpty(keyString)) throw new ArgumentNullException("keyString");
@@ -158,8 +168,6 @@ namespace TracktorTagger
                         {
                             throw new ArgumentException("Invalid accidental char: " + accidentalStr, "keyString");
                         }
-
-
                     }
                     else
                     {
@@ -210,7 +218,6 @@ namespace TracktorTagger
                         {
                             throw new ArgumentException("Invalid accidental char: " + accidentalStr, "keyString");
                         }
-
                     }
                     else
                     {
@@ -367,6 +374,13 @@ namespace TracktorTagger
 
         }
 
+
+
+        /// <summary>
+        /// Converts a key enum value into a key string to be stored in a Traktor NML file
+        /// </summary>
+        /// <param name="key">Key to convert</param>
+        /// <returns>Key string value</returns>
         public static string ConvertToString(KeyEnum key)
         {
             switch(key)

@@ -119,7 +119,7 @@ namespace TracktorTagger
                         string Lyrics = null;
 
                         string Genre = null;
-                        KeyClass Key = null;
+                        KeyEnum? Key = null;
 
                         DateTime? ReleaseDate = null;
 
@@ -251,19 +251,9 @@ namespace TracktorTagger
                             bool sharp = (bool)standardKeyData["sharp"];
                             bool flat = (bool)standardKeyData["flat"];
 
-                            Accidental a;
+                            
 
-                            if (sharp) a = Accidental.Sharp;
-                            else if (flat) a = Accidental.Flat;
-                            else a = Accidental.Natural;
-
-                            string chordStr = (string)standardKeyData["chord"];
-
-                            Chord c = Chord.Major;
-                            if (chordStr == "major") c = Chord.Major;
-                            else if (chordStr == "minor") c = Chord.Minor;
-
-                            Key = new KeyClass(letter, a, c);
+                            Key = KeyEnum.A_flat_minor;
                         }
 
 
@@ -293,16 +283,9 @@ namespace TracktorTagger
 
 
                         ///gets the track id
-               
+              
 
-
-
-
-                        
-
-
-
-                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key.ToEnum(), ReleaseDate, new Uri(URL));
+                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, new Uri(URL));
 
                         returnTracks.Add(track);
 
