@@ -119,7 +119,7 @@ namespace TracktorTagger
                         string Lyrics = null;
 
                         string Genre = null;
-                        Key Key = null;
+                        KeyClass Key = null;
 
                         DateTime? ReleaseDate = null;
 
@@ -263,7 +263,7 @@ namespace TracktorTagger
                             if (chordStr == "major") c = Chord.Major;
                             else if (chordStr == "minor") c = Chord.Minor;
 
-                            Key = new Key(letter, a, c);
+                            Key = new KeyClass(letter, a, c);
                         }
 
 
@@ -302,7 +302,7 @@ namespace TracktorTagger
 
 
 
-                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key, ReleaseDate, new Uri(URL));
+                        TrackData track = new TrackData("beatport.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Lyrics, Genre, Key.ToEnum(), ReleaseDate, new Uri(URL));
 
                         returnTracks.Add(track);
 

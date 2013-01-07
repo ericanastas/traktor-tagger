@@ -61,7 +61,9 @@
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
     <Compile Include="ITrackDataSearch.cs" />
-    <Compile Include="Key.cs" />
+    <Compile Include="KeyClass.cs" />
+    <Compile Include="KeyEnum.cs" />
+    <Compile Include="KeyEnumStringConverter.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="PlaceHolderTrackDataSource.cs" />
     <Compile Include="Rating.cs" />
@@ -111,7 +113,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram.cd" />
-    <None Include="collection.nml" />
+    <None Include="collection.nml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

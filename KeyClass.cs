@@ -19,8 +19,14 @@ namespace TracktorTagger
         Minor
     }
 
-    public class Key
+    public class KeyClass
     {
+
+
+        public KeyEnum ToEnum()
+        {
+            return KeyEnum.A;
+        }
 
         public Accidental Accidental { get; private set; }
         public Chord Chord { get; private set; }
@@ -30,7 +36,7 @@ namespace TracktorTagger
         private const string approvedLetters = "abcdefg";
 
 
-        public Key(string key)
+        public KeyClass(string key)
         {
             string keyStrPattern = @"^([ABCDEFG])([#b]?)(m?)";
 
@@ -39,7 +45,7 @@ namespace TracktorTagger
 
             var match = regex.Match(key);
 
-            if (match.Success)
+            if(match.Success)
             {
                 string letterStr = match.Groups[1].Value;
                 string accidentalStr = match.Groups[2].Value;
@@ -48,17 +54,17 @@ namespace TracktorTagger
 
                 Accidental acc = TracktorTagger.Accidental.Natural;
 
-                if (accidentalStr == "#")
+                if(accidentalStr == "#")
                 {
                     acc = TracktorTagger.Accidental.Sharp;
                 }
-                else if (accidentalStr == "b")
+                else if(accidentalStr == "b")
                 {
                     acc = TracktorTagger.Accidental.Flat;
                 }
 
                 Chord c = TracktorTagger.Chord.Major;
-                if (chordStr == "m") c = TracktorTagger.Chord.Minor;
+                if(chordStr == "m") c = TracktorTagger.Chord.Minor;
 
 
 
@@ -75,11 +81,11 @@ namespace TracktorTagger
 
         }
 
-        public Key(char letter, Accidental accidental, Chord chord)
+        public KeyClass(char letter, Accidental accidental, Chord chord)
         {
             string letterString = letter.ToString();
 
-            if (approvedLetters.IndexOf(letterString, StringComparison.OrdinalIgnoreCase) < 0)
+            if(approvedLetters.IndexOf(letterString, StringComparison.OrdinalIgnoreCase) < 0)
             {
                 throw new ArgumentException("Letter must be a, b, c, d, e, f, or g ", "letter");
             }
@@ -97,11 +103,11 @@ namespace TracktorTagger
 
             sb.Append(Letter);
 
-            if (this.Accidental == TracktorTagger.Accidental.Flat) sb.Append("b");
-            else if (this.Accidental == TracktorTagger.Accidental.Sharp) sb.Append("#");
+            if(this.Accidental == TracktorTagger.Accidental.Flat) sb.Append("b");
+            else if(this.Accidental == TracktorTagger.Accidental.Sharp) sb.Append("#");
 
 
-            if (this.Chord == TracktorTagger.Chord.Minor) sb.Append("m");
+            if(this.Chord == TracktorTagger.Chord.Minor) sb.Append("m");
 
             return sb.ToString();
         }

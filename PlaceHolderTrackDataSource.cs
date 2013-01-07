@@ -77,7 +77,7 @@ namespace TracktorTagger
        "cat no " + trackId,
        "lyrics " + trackId,
        "genre " + trackId,
-        new Key('A', Accidental.Flat, Chord.Major),
+        (new KeyClass('A', Accidental.Flat, Chord.Major)).ToEnum(),
         DateTime.Now,
         new Uri(@"http://www.google.com"));
 
@@ -130,7 +130,7 @@ namespace TracktorTagger
                 "cat no " + trackId,
                 "lyrics " + trackId,
                 "genre " + trackId,
-                 new Key('A', Accidental.Flat, Chord.Major),
+                 (new KeyClass('A', Accidental.Flat, Chord.Major)).ToEnum(),
                  DateTime.Now,
                  new Uri(@"http://www.google.com"));
 

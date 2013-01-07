@@ -22,7 +22,7 @@ namespace TracktorTagger
         public string Lyrics { get; private set; }
 
         public string Genre { get; private set; }
-        public Key Key { get; private set; }
+        public KeyEnum? Key { get; private set; }
        
         public DateTime? ReleaseDate { get; private set; }
 
@@ -40,7 +40,7 @@ namespace TracktorTagger
             string catalogNo, 
             string lyrics, 
             string genre, 
-            Key key, 
+            KeyEnum? key, 
             DateTime? releaseDate, 
             Uri url)
         {

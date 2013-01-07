@@ -34,6 +34,12 @@ namespace TracktorTagger
             var entryNodes = _collectionXmlDoc.DocumentElement.SelectNodes("/NML/COLLECTION/ENTRY");
 
 
+            var nmlNode = _collectionXmlDoc.DocumentElement.SelectNodes("/NML")[0];
+            var versionString = nmlNode.Attributes["VERSION"].Value;
+
+            if(versionString != "15") throw new InvalidOperationException("Unexpected NML version: " + versionString);
+
+
 
 
 

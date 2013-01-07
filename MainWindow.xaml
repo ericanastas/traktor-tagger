@@ -123,26 +123,15 @@
                         <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="False"/>
 
 
-                        <DataGridTemplateColumn Header="Key" Width="55" IsReadOnly="False" SortMemberPath="Key">
+                        <DataGridTextColumn Header="Key" Width="55" IsReadOnly="False" Binding="{Binding Key}" />
 
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
+            
 
-                                    <ComboBox >
-
-                                        <ComboBoxItem>A</ComboBoxItem>
-                                        <ComboBoxItem>A#m</ComboBoxItem>
-                                        <ComboBoxItem>Ab</ComboBoxItem>
-
-
-                                    </ComboBox>
-
-
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            
-                        </DataGridTemplateColumn>      
                         
+
+
+
+
                     </DataGrid.Columns>
 
                 </DataGrid>
@@ -186,7 +175,7 @@
 
 
                                                     <CheckBox HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagDataSource}" Margin="0" Padding="0" />
-                                                 
+
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -482,7 +471,7 @@
                             </DataGridTextColumn.HeaderStyle>
 
                         </DataGridTextColumn>
-                        
+
                         <DataGridTextColumn Header="Key" Binding="{Binding Key}" Width="55" IsReadOnly="True">
 
                             <DataGridTextColumn.HeaderStyle>
@@ -508,9 +497,9 @@
 
 
                         </DataGridTextColumn>
-                        
-                        
-                        
+
+
+
                     </DataGrid.Columns>
 
                 </DataGrid>
