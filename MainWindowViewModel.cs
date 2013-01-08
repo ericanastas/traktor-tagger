@@ -17,8 +17,9 @@ namespace TracktorTagger
 
             this.TrackDataSources = new System.Collections.ObjectModel.ObservableCollection<ITrackDataSource>();
 
+
+            this.TrackDataSources.Add(new BeatportTrackDataSource());
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
-            //this.TrackDataSources.Add(new BeatportTrackDataSource());
             //this.TrackDataSources.Add(new DiscogsTrackDataSource());
 
             this.SelectedDataSource = this.TrackDataSources[0];

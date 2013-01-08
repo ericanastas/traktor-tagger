@@ -19,7 +19,6 @@ namespace TracktorTagger
         public string Label { get; private set; }
         public string CatalogNumber { get; private set; }
 
-        public string Lyrics { get; private set; }
 
         public string Genre { get; private set; }
         public KeyEnum? Key { get; private set; }
@@ -30,7 +29,7 @@ namespace TracktorTagger
         public TrackDataSourceTag DataSourceTag { get; private set; }
 
 
-        public TrackData(string dataSourceName, string trackId, string artist, 
+        public TrackData(string dataSource, string trackId, string artist, 
             string title, 
             string mix,
             string remixer, 
@@ -38,7 +37,6 @@ namespace TracktorTagger
             string producer, 
             string label, 
             string catalogNo, 
-            string lyrics, 
             string genre, 
             KeyEnum? key, 
             DateTime? releaseDate, 
@@ -55,14 +53,13 @@ namespace TracktorTagger
             this.Producer = producer;
             this.Label = label;
             this.CatalogNumber = catalogNo;
-            this.Lyrics = lyrics;
             this.Genre = genre;
             this.Key = key;
             this.ReleaseDate = releaseDate;
             this.URL = url;
 
             
-            DataSourceTag = new TrackDataSourceTag(dataSourceName, trackId, url);
+            DataSourceTag = new TrackDataSourceTag(dataSource, trackId, url);
         }
 
     }

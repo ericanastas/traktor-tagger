@@ -58,8 +58,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BeatPortTrackDataSearch.cs" />
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
+    <Compile Include="KeyEnumConverter.cs" />
     <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
     <Compile Include="KeyEnum.cs" />
@@ -71,7 +73,6 @@
     <Compile Include="Rating.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TrackData.cs" />
-    <Compile Include="TrackDataSearch.cs" />
     <Compile Include="TrackDataSourceTag.cs" />
     <Compile Include="ITrackDataSource.cs" />
     <Compile Include="TracktorCollection.cs" />
