@@ -34,7 +34,7 @@ namespace TracktorTagger
 
 
 
-       
+
 
 
 
@@ -59,9 +59,9 @@ namespace TracktorTagger
             var data = GetTrackData(SearchQuery, _currentPage, _trackPerPage);
 
             List<TrackData> newTracks = new List<TrackData>();
-            
 
-            foreach(Dictionary<string,dynamic> result in data["results"])
+
+            foreach(Dictionary<string, dynamic> result in data["results"])
             {
 
 
@@ -71,21 +71,29 @@ namespace TracktorTagger
                 string mix = result["mixName"];
                 string label = result["label"]["name"];
 
-                DateTime releaseDate = DateTime.Parse(result["releaseDate"]);
+
+                //done
+                DateTime releaseDate = GetReleaseDate(result["releaseDate"]);
+                string release = result["release"]["name"];
+                string catalogNo = GetCatalogNumber(result["release"]["id"]);
+                Uri url = GetUri(result["id"], result["slug"]);
+                string genre = GetGenre(result["genres"]);
+                string artist = GetArtist(result["artists"], "artist");
+                string remixer = GetArtist(result["artists"], "remixer");
 
 
-                string artist = "artist";
-                string remixer = "Remixer";
-                string release = "Release";
-                string producer = "producer";
+                //not sure how to get the producer out of beatport
+                string producer = null;
+
                 
-                string catalogNo = "Cat no";
-                string genre = "Genre";
-                KeyEnum key = KeyEnum.A_flat_minor;
+                               
                 
-                Uri url = new Uri(@"http://wwww.google.com");
+                KeyEnum key = GetKey(result["key"]);
 
-                TrackData track = new TrackData(DataSource.Name, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key,releaseDate, url);
+                
+                
+
+                TrackData track = new TrackData(DataSource.Name, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
 
                 newTracks.Add(track);
             }
@@ -96,8 +104,139 @@ namespace TracktorTagger
 
 
 
-            return newTracks.AsReadOnly();            
+            return newTracks.AsReadOnly();
         }
+
+        Dictionary<int, string> _catalogNumberCache = new Dictionary<int, string>();
+
+        private string GetCatalogNumber(int p)
+        {
+
+            if(_catalogNumberCache.ContainsKey(p))
+            {
+                return _catalogNumberCache[p];
+            }
+
+            String cat;
+
+            using(var wc = new WebClient())
+            {
+
+
+                UriBuilder builder = new UriBuilder(@"http://api.beatport.com");
+
+                builder.Path = "/catalog/3/beatport/release";
+
+                   
+
+                    builder.Query = "id="+p.ToString();
+
+
+                
+                string jsonString = wc.DownloadString(builder.Uri.AbsoluteUri);
+
+                var jss = new JavaScriptSerializer();
+                var returnData = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
+
+                cat = returnData["results"]["release"]["catalogNumber"];
+
+                _catalogNumberCache.Add(p, cat);
+            
+            }
+
+            return cat;
+        }
+
+        private string GetArtist(System.Collections.ArrayList artists, string type)
+        {
+            List<string> artistNames = new List<string>();
+
+            foreach(Dictionary<string, dynamic> artist in artists)
+            {
+                string artistType = (string)artist["type"];
+
+                if(artistType == type)
+                {
+                    artistNames.Add(artist["name"]);
+                }
+            }
+
+            string artistStr = string.Join(", ", artistNames);
+
+            return artistStr;
+
+        }
+
+        private Uri GetUri(int id, string slub)
+        {
+            UriBuilder builder = new UriBuilder("http://www.beatport.com");
+
+            builder.Path = "track/" + slub + "/" + id.ToString();
+
+            return builder.Uri;
+        }
+
+        private DateTime GetReleaseDate(string dateStr)
+        {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^(\d{4})-(\d{2})-(\d{2})$");
+
+            var m = regex.Match(dateStr);
+
+            if(!m.Success) throw new InvalidOperationException("Error reading date string:"+dateStr);
+
+
+            int year = System.Convert.ToInt32(m.Groups[1].Value);
+            int month = System.Convert.ToInt32(m.Groups[2].Value);
+            int day = System.Convert.ToInt32(m.Groups[3].Value);
+
+
+            return new DateTime(year, month, day);
+        }
+
+        private KeyEnum GetKey(dynamic key)
+        {
+            StringBuilder keyStringBuilder = new StringBuilder();
+
+            keyStringBuilder.Append(key["standard"]["letter"]);
+
+            if(System.Convert.ToBoolean(key["standard"]["sharp"]))
+            {
+                keyStringBuilder.Append("#");
+            }
+            else if(System.Convert.ToBoolean(key["standard"]["flat"]))
+            {
+                keyStringBuilder.Append("b");
+            }
+
+            if(key["standard"]["chord"] == "minor")
+            {
+                keyStringBuilder.Append("m");
+            }
+
+            var keyString = keyStringBuilder.ToString();
+
+            KeyEnum returnKey = KeyEnumStringConverter.ConvertFromString(keyString);
+
+            return returnKey;
+
+
+        }
+
+        private string GetGenre(System.Collections.ArrayList genres)
+        {
+            List<string> genreNames = new List<string>();
+
+            foreach(Dictionary<string,dynamic> genre in genres)
+            {
+                genreNames.Add((string)genre["name"]);
+            }
+
+            string genreStr = string.Join(", ", genreNames);
+
+            return genreStr;
+        }
+
+
 
         public ITrackDataSource DataSource
         {
@@ -128,7 +267,7 @@ namespace TracktorTagger
                 //updates total results
                 _totalResults = returnDict["metadata"]["count"];
                 _totalPages = returnDict["metadata"]["totalPages"];
-                
+
             }
 
             return returnDict;
@@ -239,23 +378,6 @@ namespace TracktorTagger
                         DateTime? ReleaseDate = null;
 
 
-                        //Artist(s)
-                        System.Collections.ArrayList artists = (System.Collections.ArrayList)trackData["artists"];
-
-                        List<string> artistNames = new List<string>();
-
-                        foreach(Dictionary<string, object> artist in artists)
-                        {
-
-                            string artistType = (string)artist["type"];
-
-                            if(artistType != "artist") continue;
-
-                            artistNames.Add((string)artist["name"]);
-                        }
-
-                        string artistsStr = string.Join(", ", artistNames);
-                        if(!String.IsNullOrEmpty(artistsStr)) Artist = artistsStr;
 
 
                         //Title
@@ -308,18 +430,7 @@ namespace TracktorTagger
                         if(!string.IsNullOrEmpty(releaseStr)) Release = releaseStr;
 
 
-                        //Genre(s)
-                        System.Collections.ArrayList genres = (System.Collections.ArrayList)trackData["genres"];
 
-                        List<string> genreNames = new List<string>();
-
-                        foreach(Dictionary<string, object> genre in genres)
-                        {
-                            genreNames.Add((string)genre["name"]);
-                        }
-
-                        string genreStr = string.Join(", ", genreNames);
-                        if(!String.IsNullOrEmpty(genreStr)) Genre = genreStr;
 
 
 

@@ -12,6 +12,9 @@ namespace TracktorTagger
     {
         public MainWindowViewModel()
         {
+
+            this.TrackDataSearchText = "face to face daniel sanchez";
+
             this.TrackDataSearchResults = new System.Collections.ObjectModel.ObservableCollection<TrackData>();
             this.TraktorTracks = new System.Collections.ObjectModel.ObservableCollection<TraktorTrack>();
 

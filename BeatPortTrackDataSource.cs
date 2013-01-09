@@ -76,7 +76,7 @@ namespace TracktorTagger
 
         public bool ProvidesProducer
         {
-            get { return true; }
+            get { return false; }
         }
 
         public bool ProvidesRelease

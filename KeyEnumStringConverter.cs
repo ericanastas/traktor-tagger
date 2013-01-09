@@ -277,12 +277,11 @@ namespace TracktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.E;
+                            return KeyEnum.F;
                         }
-
-                        else if(accidentalStr == "b")
+                        else if(accidentalStr == "#")
                         {
-                            return KeyEnum.E_flat;
+                            return KeyEnum.F_sharp;
                         }
                         else
                         {
@@ -294,12 +293,11 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.E_minor;
+                            return KeyEnum.F_minor;
                         }
-
-                        else if(accidentalStr == "b")
+                        else if(accidentalStr == "#")
                         {
-                            return KeyEnum.E_flat_minor;
+                            return KeyEnum.F_sharp_minor;
                         }
                         else
                         {

@@ -12,92 +12,92 @@
         <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
 
         <local:KeyEnumConverter x:Key="KeyEnumConverter" />
-                               
-        
+
+
     </Window.Resources>
 
 
 
 
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="23" />
+            <RowDefinition Height="*"  MinHeight="150"/>
+            <RowDefinition  Height="3"/>
+            <RowDefinition Height="*" MinHeight="150"/>
+        </Grid.RowDefinitions>
+
+
+        <Menu Height="23" VerticalAlignment="Top" Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
+                <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
+            </MenuItem>
+            <MenuItem Header="Settings"/>
+        </Menu>
+
+
+
+
+        <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
             <Grid>
+                <DataGrid RowHeight="25" SelectedItem="{Binding SelectedTraktorTrack}" x:Name="traktorColDataGrid" Margin="10,38,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TraktorTracks}">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="23" />
-                    <RowDefinition Height="*"  MinHeight="150"/>
-                    <RowDefinition  Height="3"/>
-                    <RowDefinition Height="*" MinHeight="150"/>
-                </Grid.RowDefinitions>
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
+                    </DataGrid.Resources>
 
+                    <DataGrid.ContextMenu>
 
-                <Menu Height="23" VerticalAlignment="Top" Grid.Row="0">
-                    <MenuItem Header="File">
-                        <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
-                        <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
-                    </MenuItem>
-                    <MenuItem Header="Settings"/>
-                </Menu>
+                        <ContextMenu>
+                            <MenuItem Header="Search"/>
+                        </ContextMenu>
 
+                    </DataGrid.ContextMenu>
 
+                    <DataGrid.Columns>
 
+                        <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
 
-                <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
-                    <Grid>
-                        <DataGrid RowHeight="25" SelectedItem="{Binding SelectedTraktorTrack}" x:Name="traktorColDataGrid" Margin="10,38,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TraktorTracks}">
-
-                            <DataGrid.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
-                            </DataGrid.Resources>
-
-                            <DataGrid.ContextMenu>
-
-                                <ContextMenu>
-                                    <MenuItem Header="Search"/>
-                                </ContextMenu>
-
-                            </DataGrid.ContextMenu>
-
-                            <DataGrid.Columns>
-
-                                <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
-
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Name="img"/>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Name="img"/>
 
 
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="beatport.com">
-                                                    <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
-                                                </DataTrigger>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="beatport.com">
+                                            <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
+                                        </DataTrigger>
 
-                                                <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="discogs.com">
-                                                    <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-
-
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
+                                        <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="discogs.com">
+                                            <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
 
 
-                                </DataGridTemplateColumn>
-
-                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="False"/>
-                                <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="False"/>
-
-                                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="False"/>
-                                <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
 
 
-                                <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="False"/>
+
+                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="False"/>
 
 
-                                <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="False"/>
 
 
-                                <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False"/>
 
-                                <!--
+
+                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False"/>
+
+                        <!--
 
                     <DataGridTemplateColumn Header="Released" Width="105" IsReadOnly="False" SortMemberPath="ReleaseDate" >
 
@@ -132,22 +132,22 @@
                     -->
 
 
-                                <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False"/>
-                                <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False"/>
 
-                                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="False"/>
-
-
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="False"/>
 
 
-                                <DataGridComboBoxColumn Header="Key" Width="55" 
+
+
+                        <DataGridComboBoxColumn Header="Key" Width="55" 
                                                 IsReadOnly="False" 
                                                 SelectedValueBinding="{Binding Key}"
                                                 SelectedValuePath="Key"
                                                 DisplayMemberPath="Description"
                                                 ItemsSource="{Binding Source={StaticResource KeyEnumValueList}}"
                                                 >
-                                </DataGridComboBoxColumn>
+                        </DataGridComboBoxColumn>
 
 
 
@@ -156,387 +156,393 @@
 
 
 
-                            </DataGrid.Columns>
+                    </DataGrid.Columns>
 
-                        </DataGrid>
-                        <TextBox Height="23" Margin="405,10,90,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-                        <Button Content="Search" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
+                </DataGrid>
+                <TextBox Height="23" Margin="405,10,90,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
+                <Button Content="Search" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
 
-                    </Grid>
-                </GroupBox>
-
-                <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
-
-                <GroupBox Header="Track Data Search" Margin="7" Grid.Row="3" VerticalAlignment="Stretch">
-
-
-                    <Grid>
-                        <DataGrid SelectedItem="{Binding SelectedTrackData}" AutoGenerateColumns="False" Margin="10,38,10,36" x:Name="searchResultDataGrid" CanUserResizeRows="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TrackDataSearchResults}">
-
-                            <DataGrid.ContextMenu>
-
-                                <ContextMenu>
-                                    <MenuItem Header="Copy Url" Name="copyUrlMenu" />
-                                </ContextMenu>
-                            </DataGrid.ContextMenu>
-
-                            <DataGrid.Resources>
-                                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
-                            </DataGrid.Resources>
-
-                            <DataGrid.Columns>
-
-
-                                <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
-
-
-                                    <DataGridTemplateColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-
-
-                                                            <CheckBox HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagDataSource}" Margin="0" Padding="0" />
-
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTemplateColumn.HeaderStyle>
-
-
-
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Name="img"/>
-
-
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="beatport.com">
-                                                    <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
-                                                </DataTrigger>
-
-                                                <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="discogs.com">
-                                                    <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-
-
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-
-
-                                </DataGridTemplateColumn>
-
-                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagTitle}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagTitle}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Title</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-                                </DataGridTextColumn>
-
-
-
-                                <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagMix}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagMix}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Mix</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-
-                                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagArtist}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagArtist}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Artist</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True">
-
-
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagRemixer}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagRemixer}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Remixer</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-
-                                </DataGridTextColumn>
-
-
-                                <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagProducer}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagProducer}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Producer</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-
-
-                                <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagRelease}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagRelease}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Release</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagReleased}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagReleased}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Released</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True">
-
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagLabel}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagLabel}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Label</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True">
-
-
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagCatalogNo}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagCatalogNo}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Catalog #</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True">
-
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagGenre}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagGenre}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Genre</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-                                </DataGridTextColumn>
-
-                                <DataGridTextColumn Header="Key" Binding="{Binding Key,Converter={StaticResource KeyEnumConverter}}" Width="55" IsReadOnly="True">
-
-                                    <DataGridTextColumn.HeaderStyle>
-                                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                                            <Style.Setters>
-                                                <Setter Property="ContentTemplate">
-                                                    <Setter.Value>
-                                                        <DataTemplate>
-                                                            <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="25"/>
-                                                                    <ColumnDefinition Width="*"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagKey}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagKey}" />
-                                                                <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Key</Label>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style.Setters>
-                                        </Style>
-                                    </DataGridTextColumn.HeaderStyle>
-
-
-                                </DataGridTextColumn>
-
-
-
-                            </DataGrid.Columns>
-
-                        </DataGrid>
-                        <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="110" ItemsSource="{Binding TrackDataSources}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDataSource}" />
-
-
-                        <Button Content="Search" Margin="0,11,125,0" VerticalAlignment="Top" x:Name="searchButton" Command="{Binding SearchTrackDataCommand}" HorizontalAlignment="Right" Width="75"/>
-                        <Button x:Name="tagSelectedButton" Content="Tag Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="89" Command="{Binding TagSelectedCommand}"/>
-                        <Button Content="Load More Results" Margin="0,0,10,5" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="110" Command="{Binding LoadMoreResultsCommand}"/>
-                        <Label Content="{Binding SearchStatus}" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom"/>
-                        <TextBox Height="23" Margin="104,9,205,0" TextWrapping="Wrap" Text="{Binding TrackDataSearchText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-                    </Grid>
-
-                </GroupBox>
             </Grid>
+        </GroupBox>
+
+        <GridSplitter Grid.Row="2" HorizontalAlignment="Stretch" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+
+        <GroupBox Header="Track Data Search" Margin="7" Grid.Row="3" VerticalAlignment="Stretch">
+
+
+            <Grid>
+                <DataGrid SelectedItem="{Binding SelectedTrackData}" AutoGenerateColumns="False" Margin="10,38,10,36" x:Name="searchResultDataGrid" CanUserResizeRows="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TrackDataSearchResults}">
+
+                    <DataGrid.ContextMenu>
+
+                        <ContextMenu>
+                            <MenuItem Header="Copy Url" Command="{Binding CopyUrlCommand}" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+
+
+                        <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceTag.DataSource">
+
+
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+
+
+                                                    <CheckBox HorizontalAlignment="Center" Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagDataSource}" Margin="0" Padding="0" />
+
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+
+
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Name="img"/>
+
+
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="beatport.com">
+                                            <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding DataSourceTag.DataSource}" Value="discogs.com">
+                                            <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+
+
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagTitle}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagTitle}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Title</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+                        </DataGridTextColumn>
+
+
+
+                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagMix}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagMix}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Mix</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagArtist}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagArtist}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Artist</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True">
+
+
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagRemixer}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagRemixer}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Remixer</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+
+                        </DataGridTextColumn>
+
+
+                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagProducer}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagProducer}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Producer</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+
+
+                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagRelease}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagRelease}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Release</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagReleased}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagReleased}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Released</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True">
+
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagLabel}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagLabel}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Label</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True">
+
+
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagCatalogNo}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagCatalogNo}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Catalog #</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True">
+
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagGenre}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagGenre}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Genre</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key,Converter={StaticResource KeyEnumConverter}}" Width="55" IsReadOnly="True">
+
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                    <Style.Setters>
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Grid HorizontalAlignment="Stretch" Width="75" VerticalAlignment="Stretch" Height="15">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="25"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.TagKey}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.CanTagKey}" />
+                                                        <Label Grid.Column="1" VerticalAlignment="Stretch" Padding="0" Margin="0">Key</Label>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style.Setters>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+
+
+                        </DataGridTextColumn>
+
+
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="110" ItemsSource="{Binding TrackDataSources}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDataSource}" />
+
+
+                <Button Content="Search" Margin="0,9,220,0" VerticalAlignment="Top" x:Name="searchButton" Command="{Binding SearchTrackDataCommand}" HorizontalAlignment="Right" Width="75"/>
+                <Button x:Name="tagSelectedButton" Content="Tag Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="89" Command="{Binding TagSelectedCommand}"/>
+                <Button Content="Load More Results" Margin="0,0,10,5" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="110" Command="{Binding LoadMoreResultsCommand}"/>
+                <Label Content="{Binding SearchStatus}" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom"/>
+                <TextBox Height="23" Margin="104,9,300,0" TextWrapping="Wrap" Text="{Binding TrackDataSearchText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+                <ComboBox Margin="0,10,125,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="90" >
+
+                    <ComboBoxItem>All tracks at</ComboBoxItem>
+                    <ComboBoxItem>My tracks at</ComboBoxItem>
+                    
+                </ComboBox>
+            </Grid>
+
+        </GroupBox>
+    </Grid>
 </Window>
