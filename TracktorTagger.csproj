@@ -60,6 +60,7 @@
     </ApplicationDefinition>
     <Compile Include="BeatPortTrackDataSearch.cs" />
     <Compile Include="BeatportTrackDataSource.cs" />
+    <Compile Include="DiscogsTrackDataSearch.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
     <Compile Include="KeyEnumConverter.cs" />
     <Compile Include="KeyEnumList.cs" />

@@ -13,7 +13,7 @@ namespace TracktorTagger
         public MainWindowViewModel()
         {
 
-            this.TrackDataSearchText = "face to face daniel sanchez";
+            this.TrackDataSearchText = "Charlie Mike Psychopath";
 
             this.TrackDataSearchResults = new System.Collections.ObjectModel.ObservableCollection<TrackData>();
             this.TraktorTracks = new System.Collections.ObjectModel.ObservableCollection<TraktorTrack>();
@@ -21,10 +21,9 @@ namespace TracktorTagger
             this.TrackDataSources = new System.Collections.ObjectModel.ObservableCollection<ITrackDataSource>();
 
 
+            this.TrackDataSources.Add(new DiscogsTrackDataSource());
             this.TrackDataSources.Add(new BeatportTrackDataSource());
-            this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
-            //this.TrackDataSources.Add(new DiscogsTrackDataSource());
-
+            //this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
             this.SelectedDataSource = this.TrackDataSources[0];
 
             //commands
@@ -522,14 +521,13 @@ namespace TracktorTagger
             if(SelectedDataSource != null)
             {
 
-
                 TagTitle = SelectedDataSource.ProvidesTitle;
                 TagMix = SelectedDataSource.ProvidesMix;
                 TagArtist = SelectedDataSource.ProvidesArtist;
                 TagRemixer = SelectedDataSource.ProvidesRemixer;
                 TagProducer = SelectedDataSource.ProvidesProducer;
                 TagRelease = SelectedDataSource.ProvidesRelease;
-                TagReleased = SelectedDataSource.ProvidesReleased;
+                TagReleased = SelectedDataSource.ProvidesReleaseDate;
                 TagLabel = SelectedDataSource.ProvidesLabel;
                 TagCatalogNo = SelectedDataSource.ProvidesCatalogNo;
                 TagGenre = SelectedDataSource.ProvidesGenre;
@@ -537,21 +535,19 @@ namespace TracktorTagger
 
 
 
+
+                //Update enable status of check boxes
                 CanTagTitle = SelectedDataSource.ProvidesTitle;
                 CanTagMix = SelectedDataSource.ProvidesMix;
                 CanTagArtist = SelectedDataSource.ProvidesArtist;
                 CanTagRemixer = SelectedDataSource.ProvidesRemixer;
                 CanTagProducer = SelectedDataSource.ProvidesProducer;
                 CanTagRelease = SelectedDataSource.ProvidesRelease;
-                CanTagReleased = SelectedDataSource.ProvidesReleased;
+                CanTagReleased = SelectedDataSource.ProvidesReleaseDate;
                 CanTagLabel = SelectedDataSource.ProvidesLabel;
                 CanTagCatalogNo = SelectedDataSource.ProvidesCatalogNo;
                 CanTagGenre = SelectedDataSource.ProvidesGenre;
                 CanTagKey = SelectedDataSource.ProvidesKey;
-
-
-
-
 
             }
             else

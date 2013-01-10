@@ -84,7 +84,7 @@ namespace TracktorTagger
             get { return true; }
         }
 
-        public bool ProvidesReleased
+        public bool ProvidesReleaseDate
         {
             get { return true; }
         }

@@ -56,6 +56,9 @@ namespace TracktorTagger
 
         public IList<TrackData> LoadMoreResults()
         {
+            //if all results are loaded just return an empty list
+            if(_currentPage > _totalPages) return new List<TrackData>();
+
             var data = GetTrackData(SearchQuery, _currentPage, _trackPerPage);
 
             List<TrackData> newTracks = new List<TrackData>();

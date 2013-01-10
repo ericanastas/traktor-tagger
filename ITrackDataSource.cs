@@ -21,7 +21,7 @@ namespace TracktorTagger
         bool ProvidesRemixer { get; }
         bool ProvidesProducer { get; }
         bool ProvidesRelease { get; }
-        bool ProvidesReleased { get; }
+        bool ProvidesReleaseDate { get; }
         bool ProvidesLabel { get; }
         bool ProvidesCatalogNo { get; }
         bool ProvidesGenre { get; }
