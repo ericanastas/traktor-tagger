@@ -52,7 +52,13 @@
 
                         <ContextMenu>
                             <MenuItem Header="Search"/>
+                            <MenuItem Header="Copy Url" Command="{Binding CopyTraktorTrackUrlCommand}" />
+                            <MenuItem Header="Clear Data Source Tag" Command="{Binding ClearTraktorTrackDataSourceTagCommand}" />
                         </ContextMenu>
+
+
+
+
 
                     </DataGrid.ContextMenu>
 
@@ -97,41 +103,6 @@
 
                         <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False"/>
 
-                        <!--
-
-                    <DataGridTemplateColumn Header="Released" Width="105" IsReadOnly="False" SortMemberPath="ReleaseDate" >
-
-                        <DataGridTemplateColumn.CellTemplate>
-
-
-                            <DataTemplate>
-                                <TextBlock HorizontalAlignment="Center" Text="{Binding ReleaseDate, StringFormat={}\{0:d\}}"/>
-                            </DataTemplate>
-
-                         
-
-                            <DataTemplate>
-                                <DatePicker BorderThickness="0" SelectedDate="{Binding ReleaseDate}" Text="Not Set"/>
-                            </DataTemplate>
-
-                        </DataGridTemplateColumn.CellTemplate>
-                        
-                        
-
-               
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <DatePicker SelectedDate="{Binding ReleaseDate}"/>
-                            </DataTemplate>
-                            
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                        
-
-
-                    </DataGridTemplateColumn>
-                    -->
-
-
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False"/>
                         <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False"/>
 
@@ -174,7 +145,7 @@
                     <DataGrid.ContextMenu>
 
                         <ContextMenu>
-                            <MenuItem Header="Copy Url" Command="{Binding CopyUrlCommand}" />
+                            <MenuItem Header="Copy Url" Command="{Binding CopyTrackDataUrlCommand}" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 

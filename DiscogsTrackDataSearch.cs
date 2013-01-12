@@ -184,21 +184,27 @@ namespace TracktorTagger
                 }
 
 
-
+                int trackNumber = 0;
 
                 foreach(dynamic trackData in releaseData["tracklist"])
                 {
+                    //gets the trackId
+                    //appends the number of the track to the releaseId
+                    trackNumber++;
+                    int trackIdint = releaseData["id"];
+                    string trackId = trackIdint.ToString() + "_" + trackNumber.ToString();
 
-                    string titleString = trackData["title"];
-
-                    var titleMixRegex = new System.Text.RegularExpressions.Regex(@"^(.*)\((.*)\)");
-
-                    var titleMixMatch = titleMixRegex.Match(titleString);
 
 
+
+                    //Title and Mix
                     string title;
                     string mix;
 
+                    string titleString = trackData["title"];
+                    var titleMixRegex = new System.Text.RegularExpressions.Regex(@"^(.*)\((.*)\)");
+                    var titleMixMatch = titleMixRegex.Match(titleString);
+                   
                     if(titleMixMatch.Success)
                     {
                         title = titleMixMatch.Groups[1].Value;
@@ -211,19 +217,11 @@ namespace TracktorTagger
                     }
 
 
-
-
-                    int trackIdint = releaseData["id"];
-
-                    string trackId = trackIdint.ToString();
-
-
+                    //Artist(s), remixer(s), and producer(s)
 
                     List<string> trackArtists = new List<string>();
                     List<string> trackRemixers = new List<string>();
                     List<string> trackProducers = new List<string>();
-
-
 
                     if(trackData.ContainsKey("artists"))
                     {
@@ -259,13 +257,10 @@ namespace TracktorTagger
                         remixer = String.Join(", ", fullRemixerList);
                     }
 
-
                     if(fullProducerList.Count() > 0)
                     {
                         producer = String.Join(", ", fullProducerList);
                     }
-
-
 
                     TrackData newTrack = new TrackData(DataSource.Name, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
 
@@ -298,9 +293,6 @@ namespace TracktorTagger
                     returnName = anv;
                 }
 
-
-                
-
                 var numberedNameMatch = System.Text.RegularExpressions.Regex.Match(name, @"^(.*)\s\((\d*)\)$");
 
 
@@ -308,10 +300,6 @@ namespace TracktorTagger
                 {
                     returnName = numberedNameMatch.Groups[1].Value;
                 }
-
-
-
-
 
                 if(name == "Various") continue; //skip Various
 

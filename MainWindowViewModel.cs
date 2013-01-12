@@ -33,7 +33,8 @@ namespace TracktorTagger
             this.SearchTrackDataCommand = new RelayCommand(new Action<object>(this.SearchTrackData), new Predicate<object>(this.CanSearchTrackData));
             this.LoadMoreResultsCommand = new RelayCommand(new Action<object>(this.LoadMoreResults), new Predicate<object>(this.CanLoadMoreResults));
             this.TagSelectedCommand = new RelayCommand(new Action<object>(this.TagSelected), new Predicate<object>(this.CanTagSelected));
-            this.CopyUrlCommand = new RelayCommand(new Action<object>(this.CopyUrl), new Predicate<object>(this.CanCopyUrl));
+            this.CopyTrackDataUrlCommand = new RelayCommand(new Action<object>(this.CopyTrackDataUrl), new Predicate<object>(this.CanCopyTrackDataUrl));
+            this.CopyTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.CopyTraktorTrackDataUrl), new Predicate<object>(this.CanCopyTraktorTrackDataUrl));
 
 
 
@@ -671,13 +672,26 @@ namespace TracktorTagger
         #region Methods
 
 
-        private void CopyUrl(object o)
+        private void CopyTraktorTrackDataUrl(object o)
+        {
+            System.Windows.Clipboard.SetText(SelectedTraktorTrack.DataSourceTag.Uri.AbsoluteUri);
+        }
+
+
+        private bool CanCopyTraktorTrackDataUrl(object o)
+        {
+            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceTag != null) return true;
+            else return false;
+        }
+
+
+        private void CopyTrackDataUrl(object o)
         {
             System.Windows.Clipboard.SetText(SelectedTrackData.URL.AbsoluteUri);
         }
 
 
-        private bool CanCopyUrl(object o)
+        private bool CanCopyTrackDataUrl(object o)
         {
             if(SelectedTrackData != null) return true;
             else return false;
@@ -859,7 +873,8 @@ namespace TracktorTagger
         public ICommand SaveCollectionCommand { get; private set; }
         public ICommand OpenCollectionCommand { get; private set; }
         public ICommand SearchTrackDataCommand { get; private set; }
-        public ICommand CopyUrlCommand { get; private set; }
+        public ICommand CopyTrackDataUrlCommand { get; private set; }
+        public ICommand CopyTraktorTrackUrlCommand { get; private set; }
 
         #endregion
 
