@@ -8,41 +8,60 @@ using System.Web.Script.Serialization;
 
 namespace TracktorTagger
 {
-    public class DiscogsTrackDataSearch:ITrackDataSearch
+    public class DiscogsTrackDataSearch : ITrackDataSearch
     {
 
         string _query;
         int _perPage;
         int _totalPages;
         int _currentPage;
+        string _format;
+
 
         private List<TrackData> _results = new List<TrackData>();
 
+        
+        IList<string> _remixRoles;
+        IList<string> _producerRoles;
 
 
-        public DiscogsTrackDataSearch(DiscogsTrackDataSource dataSource, string query, int tracksPerPage)
+        public DiscogsTrackDataSearch(DiscogsTrackDataSource dataSource, string query, int tracksPerPage, string format)
         {
+            HasMoreResults = true;
+
             DataSource = dataSource;
             _query = query;
             _perPage = tracksPerPage;
 
-
             _currentPage = 1;
+            _format = format;
 
 
-            LoadMoreResults();            
+            InitRoles();
+
+
+
+            LoadMoreResults();
         }
 
+        private void InitRoles()
+        {
+            _remixRoles = new List<string>();
+            _remixRoles.Add("Remix");
+            _remixRoles.Add("Remixer");
+            _remixRoles.Add("remix");
+            _remixRoles.Add("remixer");
+
+
+            _producerRoles = new List<string>();
+            _producerRoles.Add("Producer");
+            _producerRoles.Add("producer");
+
+        }
 
         public string SearchQuery
         {
             get { return _query; }
-        }
-
-        public int TotalResults
-        {
-            get;
-            private set;
         }
 
         public IList<TrackData> Results
@@ -53,9 +72,11 @@ namespace TracktorTagger
         public IList<TrackData> LoadMoreResults()
         {
             //if all results are loaded just return an empty list
-            
 
-            var data = GetTrackData(_query,_currentPage,_perPage);
+            if(!HasMoreResults) return new List<TrackData>();
+
+
+            var data = GetTrackData(_query, _currentPage, _perPage);
 
 
             List<TrackData> newTracks = new List<TrackData>();
@@ -63,31 +84,21 @@ namespace TracktorTagger
 
             foreach(Dictionary<string, dynamic> result in data["results"])
             {
+                var tracks = GetResultsTracks(result);
 
-                string trackId = "id";
-                string artist = "art";
-                    string title = "tit";
-                string mix = "mix";
-                string remixer = "remix";
-                string release = "release";
-                string producer = "prod";
-                string label = "labl";
-                string catalogNo = "cat";
-                string genre = "genres";
-                DateTime releaseDate = DateTime.Now;
-                Uri url = new Uri("http://www.google.com");
-
-
-
-                TrackData newTrack = new TrackData(DataSource.Name, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
-                newTracks.Add(newTrack);
-
+                newTracks.AddRange(tracks);
             }
 
 
+            if(_currentPage == _totalPages)
+            {
 
-
-            _currentPage++;
+                HasMoreResults = false;
+            }
+            else
+            {
+                _currentPage++;
+            }
 
             _results.AddRange(newTracks);
 
@@ -95,13 +106,336 @@ namespace TracktorTagger
 
         }
 
+
+
+
+
+        private IList<TrackData> GetResultsTracks(Dictionary<string, dynamic> releaseSearchResult)
+        {
+            var returnTracks = new List<TrackData>();
+
+
+
+            using(var webclient = new WebClient())
+            {
+
+                string releaseUrl = releaseSearchResult["resource_url"];
+                Uri releaseDataUri = new Uri(releaseUrl);
+
+
+                string jsonString = webclient.DownloadString(releaseDataUri.AbsoluteUri);
+                var jss = new JavaScriptSerializer();
+                Dictionary<string, dynamic> releaseData = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
+
+
+                //release title
+                string release = releaseData["title"];
+
+                //get the url
+                string urlString = releaseData["uri"];
+                Uri url = new Uri(urlString);
+
+                string label = null;
+                string genre = null;
+                string catalogNo = null;
+                DateTime? releaseDate = null;
+
+
+
+                if(releaseData.ContainsKey("labels"))
+                {
+                    label = GetLabel(releaseData["labels"]);
+                    catalogNo = GetCatalogNo(releaseData["labels"]);
+                }
+
+                if(releaseData.ContainsKey("styles"))
+                {
+                    genre = GetGenres(releaseData["styles"]);
+                }
+
+                if(releaseData.ContainsKey("released"))
+                {
+                    releaseDate = GetReleaseDate(releaseData["released"]);
+                }
+
+
+
+
+
+
+
+                List<string> releaseArtists = new List<string>();
+                List<string> releaseRemixers = new List<string>();
+                List<string> releaseProducers = new List<string>();
+
+
+                if(releaseData.ContainsKey("artists"))
+                {
+                    releaseArtists.AddRange(GetArtists(releaseData["artists"], null));
+                    releaseRemixers.AddRange(GetArtists(releaseData["artists"], _remixRoles));
+                    releaseProducers.AddRange(GetArtists(releaseData["artists"], _producerRoles));
+                }
+
+                if(releaseData.ContainsKey("extraartists"))
+                {
+                    releaseArtists.AddRange(GetArtists(releaseData["extraartists"], null));
+                    releaseRemixers.AddRange(GetArtists(releaseData["extraartists"], _remixRoles));
+                    releaseProducers.AddRange(GetArtists(releaseData["extraartists"], _producerRoles));
+                }
+
+
+
+
+                foreach(dynamic trackData in releaseData["tracklist"])
+                {
+
+                    string titleString = trackData["title"];
+
+                    var titleMixRegex = new System.Text.RegularExpressions.Regex(@"^(.*)\((.*)\)");
+
+                    var titleMixMatch = titleMixRegex.Match(titleString);
+
+
+                    string title;
+                    string mix;
+
+                    if(titleMixMatch.Success)
+                    {
+                        title = titleMixMatch.Groups[1].Value;
+                        mix = titleMixMatch.Groups[2].Value;
+                    }
+                    else
+                    {
+                        title = titleString;
+                        mix = null;
+                    }
+
+
+
+
+                    int trackIdint = releaseData["id"];
+
+                    string trackId = trackIdint.ToString();
+
+
+
+                    List<string> trackArtists = new List<string>();
+                    List<string> trackRemixers = new List<string>();
+                    List<string> trackProducers = new List<string>();
+
+
+
+                    if(trackData.ContainsKey("artists"))
+                    {
+                        trackArtists.AddRange(GetArtists(trackData["artists"], null));
+                        trackRemixers.AddRange(GetArtists(trackData["artists"], _remixRoles));
+                        trackProducers.AddRange(GetArtists(trackData["artists"], _producerRoles));
+                    }
+
+                    if(trackData.ContainsKey("extraartists"))
+                    {
+                        trackArtists.AddRange(GetArtists(trackData["extraartists"], null));
+                        trackRemixers.AddRange(GetArtists(trackData["extraartists"], _remixRoles));
+                        trackProducers.AddRange(GetArtists(trackData["extraartists"], _producerRoles));
+                    }
+
+
+                    var fullArtistList = trackArtists.Union(releaseArtists).Distinct();
+                    var fullRemixerList = trackRemixers.Union(releaseRemixers).Distinct();
+                    var fullProducerList = trackProducers.Union(releaseProducers).Distinct();
+
+
+                    string artist = null;
+                    string remixer = null;
+                    string producer = null;
+
+                    if(fullArtistList.Count() > 0)
+                    {
+                        artist = String.Join(", ", fullArtistList);
+                    }
+
+                    if(fullRemixerList.Count() > 0)
+                    {
+                        remixer = String.Join(", ", fullRemixerList);
+                    }
+
+
+                    if(fullProducerList.Count() > 0)
+                    {
+                        producer = String.Join(", ", fullProducerList);
+                    }
+
+
+
+                    TrackData newTrack = new TrackData(DataSource.Name, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
+
+                    returnTracks.Add(newTrack);
+                }
+            }
+
+            return returnTracks;
+
+
+        }
+
+        private IEnumerable<string> GetArtists(dynamic artistsData, IList<string> allowableRoles)
+        {
+            foreach(Dictionary<string, dynamic> artistData in artistsData)
+            {
+                string name = artistData["name"];
+                string role = artistData["role"];
+                string anv = artistData["anv"];
+
+
+                string returnName;
+
+                if(anv == String.Empty)
+                {
+                    returnName = name;
+                }
+                else
+                {
+                    returnName = anv;
+                }
+
+
+                
+
+                var numberedNameMatch = System.Text.RegularExpressions.Regex.Match(name, @"^(.*)\s\((\d*)\)$");
+
+
+                if(numberedNameMatch.Success)
+                {
+                    returnName = numberedNameMatch.Groups[1].Value;
+                }
+
+
+
+
+
+                if(name == "Various") continue; //skip Various
+
+                
+                if(allowableRoles != null)
+                {
+                    bool matchesRoles = false;
+
+                    foreach(string r in allowableRoles)
+                    {
+                        if(role.Contains(r))
+                        {
+                            matchesRoles = true;
+                            break;
+                        }
+                    }
+
+                    if(matchesRoles)
+                    {
+                        yield return returnName;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else if(role == string.Empty)
+                {
+                    yield return returnName;
+                }
+                else
+                {
+                    continue;
+                }
+
+            }
+
+
+        }
+
+        private DateTime? GetReleaseDate(string dateString)
+        {
+            if(dateString == null) return null;
+
+
+
+            System.Text.RegularExpressions.Regex fullDateRegex = new System.Text.RegularExpressions.Regex(@"^(\d{4})-(\d{2})-(\d{2})$");
+            System.Text.RegularExpressions.Regex yearDateRegex = new System.Text.RegularExpressions.Regex(@"^\d{4}$");
+
+
+            var fullDateMatch = fullDateRegex.Match(dateString);
+            var yearMatch = yearDateRegex.Match(dateString);
+
+
+            if(fullDateMatch.Success)
+            {
+                int year = System.Convert.ToInt32(fullDateMatch.Groups[1].Value);
+                int month = System.Convert.ToInt32(fullDateMatch.Groups[2].Value);
+                int day = System.Convert.ToInt32(fullDateMatch.Groups[3].Value);
+
+                if(month == 0) month = 1;
+                if(day == 0) day = 1;
+
+                return new DateTime(year, month, day);
+            }
+            else if(yearMatch.Success)
+            {
+                int year = System.Convert.ToInt32(dateString);
+
+                return new DateTime(year, 1, 1);
+            }
+            else
+            {
+                throw new InvalidOperationException("Could not parse date: " + dateString);
+            }
+
+        }
+
+        private string GetGenres(System.Collections.ArrayList genres)
+        {
+            return string.Join(", ", genres.ToArray());
+        }
+
+        private string GetCatalogNo(System.Collections.ArrayList labels)
+        {
+            List<string> labelList = new List<string>();
+
+            foreach(dynamic labelData in labels)
+            {
+                labelList.Add((string)labelData["catno"]);
+            }
+
+            return string.Join(", ", labelList.ToArray());
+        }
+
+        private string GetLabel(System.Collections.ArrayList labels)
+        {
+            List<string> labelList = new List<string>();
+
+            foreach(dynamic labelData in labels)
+            {
+
+                string labelName = (string)labelData["name"];
+
+
+                var numberedNameMatch = System.Text.RegularExpressions.Regex.Match(labelName, @"^(.*)\s\((\d*)\)$");
+
+
+                if(numberedNameMatch.Success)
+                {
+                    labelName = numberedNameMatch.Groups[1].Value;
+                }
+
+                labelList.Add(labelName);
+            }
+
+            return string.Join(", ", labelList.ToArray());
+        }
+
         public ITrackDataSource DataSource
         {
             get;
             private set;
         }
-
-
 
         private Dictionary<String, dynamic> GetTrackData(string searchQuery, int page, int tracksPerPage)
         {
@@ -115,6 +449,12 @@ namespace TracktorTagger
 
                 //discogs does not have information about induvidual tracks
                 string query = "q=" + searchQuery + "&page=" + page.ToString() + "&type=release&per_page=" + tracksPerPage.ToString();
+
+                if(!String.IsNullOrEmpty(_format))
+                {
+                    query = query + "&format=" + _format;
+                }
+
                 trackDataUrlBuilder.Query = query;
 
                 string jsonString = webclient.DownloadString(trackDataUrlBuilder.Uri.AbsoluteUri);
@@ -123,14 +463,11 @@ namespace TracktorTagger
                 returnDict = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
 
                 //updates total results
-                TotalResults = returnDict["pagination"]["items"];
                 _totalPages = returnDict["pagination"]["pages"];
             }
 
             return returnDict;
         }
-
-
 
 
 
@@ -159,7 +496,7 @@ namespace TracktorTagger
 
 
 
-                    string query = "q=" + searchQuery + "&page=" + 1 + "&type=release&per_page=" + this._perPage .ToString();
+                    string query = "q=" + searchQuery + "&page=" + 1 + "&type=release&per_page=" + this._perPage.ToString();
 
                     trackDataUrlBuilder.Query = query;
 
@@ -480,7 +817,17 @@ namespace TracktorTagger
             return returnTracks;
         }
 
-
+        public bool HasMoreResults
+        {
+            get;
+            private set;
+        }
     }
 }
+
+
+
+
+
+
 

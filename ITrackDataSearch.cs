@@ -10,9 +10,11 @@ namespace TracktorTagger
     {
         string SearchQuery { get; }
 
-        int TotalResults { get; }
+        bool HasMoreResults { get; }
 
         IList<TrackData> Results { get; }
+
+
         IList<TrackData> LoadMoreResults();
 
 

@@ -13,7 +13,7 @@ namespace TracktorTagger
         public MainWindowViewModel()
         {
 
-            this.TrackDataSearchText = "Charlie Mike Psychopath";
+            this.TrackDataSearchText = "Shoot'em Up / Hey Boom";
 
             this.TrackDataSearchResults = new System.Collections.ObjectModel.ObservableCollection<TrackData>();
             this.TraktorTracks = new System.Collections.ObjectModel.ObservableCollection<TraktorTrack>();
@@ -21,14 +21,15 @@ namespace TracktorTagger
             this.TrackDataSources = new System.Collections.ObjectModel.ObservableCollection<ITrackDataSource>();
 
 
-            this.TrackDataSources.Add(new DiscogsTrackDataSource());
-            this.TrackDataSources.Add(new BeatportTrackDataSource());
             //this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
+            this.TrackDataSources.Add(new DiscogsTrackDataSource(15,"Vinyl"));
+            this.TrackDataSources.Add(new BeatportTrackDataSource(15));
+
             this.SelectedDataSource = this.TrackDataSources[0];
 
             //commands
             this.OpenCollectionCommand = new RelayCommand(new Action<object>(this.OpenCollection));
-            this.SaveCollectionCommand = new RelayCommand(new Action<object>(this.OpenCollection), new Predicate<object>(this.CanSaveCollection));
+            this.SaveCollectionCommand = new RelayCommand(new Action<object>(this.SaveCollection), new Predicate<object>(this.CanSaveCollection));
             this.SearchTrackDataCommand = new RelayCommand(new Action<object>(this.SearchTrackData), new Predicate<object>(this.CanSearchTrackData));
             this.LoadMoreResultsCommand = new RelayCommand(new Action<object>(this.LoadMoreResults), new Predicate<object>(this.CanLoadMoreResults));
             this.TagSelectedCommand = new RelayCommand(new Action<object>(this.TagSelected), new Predicate<object>(this.CanTagSelected));
@@ -686,60 +687,45 @@ namespace TracktorTagger
 
         private void TagSelected(object o)
         {
-
             if(TagDataSource)
             {
                 SelectedTraktorTrack.DataSourceTag = SelectedTrackData.DataSourceTag;
             }
-
 
             if(TagTitle && !string.IsNullOrEmpty(SelectedTrackData.Title))
             {
                 SelectedTraktorTrack.Title = SelectedTrackData.Title;
             }
 
-
-
             if(TagMix && !string.IsNullOrEmpty(SelectedTrackData.Mix))
             {
                 SelectedTraktorTrack.Mix = SelectedTrackData.Mix;
             }
-
 
             if(TagArtist && !string.IsNullOrEmpty(SelectedTrackData.Artist))
             {
                 SelectedTraktorTrack.Artist = SelectedTrackData.Artist;
             }
 
-
-
             if(TagRemixer && !string.IsNullOrEmpty(SelectedTrackData.Remixer))
             {
                 SelectedTraktorTrack.Remixer = SelectedTrackData.Remixer;
             }
-
-
 
             if(TagProducer && !string.IsNullOrEmpty(SelectedTrackData.Producer))
             {
                 SelectedTraktorTrack.Producer = SelectedTrackData.Producer;
             }
 
-
-
             if(TagRelease && !string.IsNullOrEmpty(SelectedTrackData.Release))
             {
                 SelectedTraktorTrack.Release = SelectedTrackData.Release;
             }
 
-
-
-
             if(TagReleased && SelectedTrackData.ReleaseDate.HasValue)
             {
                 SelectedTraktorTrack.ReleaseDate = SelectedTrackData.ReleaseDate;
             }
-
 
             if(TagLabel && !string.IsNullOrEmpty(SelectedTrackData.Label))
             {
@@ -758,19 +744,10 @@ namespace TracktorTagger
                 SelectedTraktorTrack.Genre = SelectedTrackData.Genre;
             }
 
-
             if(TagKey && SelectedTrackData.Key != null)
             {
                 SelectedTraktorTrack.Key = SelectedTrackData.Key;
             }
-
-
-
-
-
-
-
-
         }
 
         private bool CanTagSelected(object o)
@@ -783,8 +760,7 @@ namespace TracktorTagger
         {
             if(_currentSearch != null)
             {
-                if(TrackDataSearchResults.Count < _currentSearch.TotalResults) return true;
-                else return false;
+                return _currentSearch.HasMoreResults;
             }
             else return false;
         }
@@ -803,7 +779,17 @@ namespace TracktorTagger
 
         private void UpdateSearchStatus()
         {
-            string message = _currentSearch.Results.Count.ToString() + " of " + _currentSearch.TotalResults + " total results for \"" + _currentSearch.SearchQuery + "\"";
+            string message = _currentSearch.Results.Count.ToString() + " tracks found for \"" + _currentSearch.SearchQuery + "\"";
+
+            if(_currentSearch.HasMoreResults)
+            {
+                message = message + " (More results available)";
+            }
+            else
+            {
+                message = message + " (All results loaded)";
+            }
+
 
             this.SearchStatus = message;
         }
@@ -892,4 +878,5 @@ namespace TracktorTagger
         #endregion
     }
 }
+
 

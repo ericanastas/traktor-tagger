@@ -11,6 +11,11 @@ namespace TracktorTagger
     public class DiscogsTrackDataSource : ITrackDataSource
     {
         int _perPage;
+
+
+        public string FormatFilter { get; private set; }
+
+
         public int PerPage
         {
             get
@@ -24,13 +29,13 @@ namespace TracktorTagger
             }
         }
 
-        public DiscogsTrackDataSource()
+        public DiscogsTrackDataSource(int perPage, string formatFilter)
         {
-            PerPage = 10;
+            PerPage = perPage;
+            FormatFilter = formatFilter;
         }
 
 
-      
 
         public TrackData GetTrack(string trackId)
         {
@@ -52,7 +57,7 @@ namespace TracktorTagger
 
         ITrackDataSearch ITrackDataSource.GetTrackDataSearch(string searchQuery)
         {
-            return new DiscogsTrackDataSearch(this, searchQuery, PerPage);
+            return new DiscogsTrackDataSearch(this, searchQuery, PerPage, FormatFilter);
         }
 
 

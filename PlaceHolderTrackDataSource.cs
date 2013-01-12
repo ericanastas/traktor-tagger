@@ -100,9 +100,15 @@ namespace TracktorTagger
         }
 
 
-        public int TotalResults
+
+
+        public bool HasMoreResults
         {
-            get { return _total; }
+            get {
+
+                if(_tracks.Count < _total) return true;
+                else return false;            
+            }
         }
     }
 

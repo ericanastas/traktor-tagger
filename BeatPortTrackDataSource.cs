@@ -11,9 +11,9 @@ namespace TracktorTagger
     public class BeatportTrackDataSource : ITrackDataSource
     {
 
-        public BeatportTrackDataSource()
+        public BeatportTrackDataSource(int perPage)
         {
-            TrackPerPage = 10;
+            TrackPerPage = perPage;
         }
 
         int _perPage;

@@ -42,7 +42,7 @@
 
         <GroupBox Grid.Row="1" Header="Traktor Collection" Margin="7" VerticalAlignment="Stretch">
             <Grid>
-                <DataGrid RowHeight="25" SelectedItem="{Binding SelectedTraktorTrack}" x:Name="traktorColDataGrid" Margin="10,38,10,10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TraktorTracks}">
+                <DataGrid RowHeight="25" SelectedItem="{Binding SelectedTraktorTrack}" x:Name="traktorColDataGrid" Margin="10" CanUserResizeRows="False" AutoGenerateColumns="False" SelectionMode="Single" VerticalScrollBarVisibility="Visible" ItemsSource="{Binding TraktorTracks}">
 
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="DarkGray"/>
@@ -159,8 +159,6 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-                <TextBox Height="23" Margin="405,10,90,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top"/>
-                <Button Content="Search" Margin="0,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
 
             </Grid>
         </GroupBox>
@@ -530,17 +528,11 @@
                 <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="110" ItemsSource="{Binding TrackDataSources}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDataSource}" />
 
 
-                <Button Content="Search" Margin="0,9,220,0" VerticalAlignment="Top" x:Name="searchButton" Command="{Binding SearchTrackDataCommand}" HorizontalAlignment="Right" Width="75"/>
-                <Button x:Name="tagSelectedButton" Content="Tag Selected" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="89" Command="{Binding TagSelectedCommand}"/>
+                <Button Content="Search" Margin="0,10,125,0" VerticalAlignment="Top" x:Name="searchButton" Command="{Binding SearchTrackDataCommand}" HorizontalAlignment="Right" Width="75"/>
+                <Button x:Name="tagSelectedButton" Content="Tag Selected Track" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="117" Command="{Binding TagSelectedCommand}"/>
                 <Button Content="Load More Results" Margin="0,0,10,5" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="110" Command="{Binding LoadMoreResultsCommand}"/>
                 <Label Content="{Binding SearchStatus}" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom"/>
-                <TextBox Height="23" Margin="104,9,300,0" TextWrapping="Wrap" Text="{Binding TrackDataSearchText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-                <ComboBox Margin="0,10,125,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="90" >
-
-                    <ComboBoxItem>All tracks at</ComboBoxItem>
-                    <ComboBoxItem>My tracks at</ComboBoxItem>
-                    
-                </ComboBox>
+                <TextBox Height="23" Margin="132,9,205,0" TextWrapping="Wrap" Text="{Binding TrackDataSearchText, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
             </Grid>
 
         </GroupBox>
