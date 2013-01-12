@@ -144,7 +144,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram.cd" />
-    <None Include="collection.nml">
+    <None Include="sample collection.nml">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
