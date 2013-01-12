@@ -35,6 +35,7 @@ namespace TracktorTagger
             this.TagSelectedCommand = new RelayCommand(new Action<object>(this.TagSelected), new Predicate<object>(this.CanTagSelected));
             this.CopyTrackDataUrlCommand = new RelayCommand(new Action<object>(this.CopyTrackDataUrl), new Predicate<object>(this.CanCopyTrackDataUrl));
             this.CopyTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.CopyTraktorTrackDataUrl), new Predicate<object>(this.CanCopyTraktorTrackDataUrl));
+            this.ClearTraktorTrackDataSourceTagCommand = new RelayCommand(new Action<object>(this.ClearTraktorTrackDataSourceTag), new Predicate<object>(this.CanClearTraktorTrackDataSourceTag));
 
 
 
@@ -672,6 +673,19 @@ namespace TracktorTagger
         #region Methods
 
 
+
+            
+        private void ClearTraktorTrackDataSourceTag(object o)
+        {
+            this.SelectedTraktorTrack.DataSourceTag = null;
+        }
+
+        private bool CanClearTraktorTrackDataSourceTag(object o)
+        {
+            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceTag != null) return true;
+            else return false;
+        }
+
         private void CopyTraktorTrackDataUrl(object o)
         {
             System.Windows.Clipboard.SetText(SelectedTraktorTrack.DataSourceTag.Uri.AbsoluteUri);
@@ -696,8 +710,6 @@ namespace TracktorTagger
             if(SelectedTrackData != null) return true;
             else return false;
         }
-
-
 
         private void TagSelected(object o)
         {
@@ -875,7 +887,10 @@ namespace TracktorTagger
         public ICommand SearchTrackDataCommand { get; private set; }
         public ICommand CopyTrackDataUrlCommand { get; private set; }
         public ICommand CopyTraktorTrackUrlCommand { get; private set; }
+        public ICommand ClearTraktorTrackDataSourceTagCommand { get; private set; }
 
+
+       
         #endregion
 
 

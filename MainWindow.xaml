@@ -34,7 +34,6 @@
                 <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
                 <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
             </MenuItem>
-            <MenuItem Header="Settings"/>
         </Menu>
 
 
