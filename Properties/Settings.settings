@@ -2,8 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TracktorTagger.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ResultPerPage" Type="System.Int32" Scope="Application">
-      <Value Profile="(Default)">25</Value>
+    <Setting Name="BeatportTracksPerPage" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
+    <Setting Name="DiscogsReleasesPerPage" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="DiscogsFormatFilter" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Vinyl</Value>
     </Setting>
   </Settings>
 </SettingsFile>

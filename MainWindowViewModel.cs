@@ -13,7 +13,6 @@ namespace TracktorTagger
         public MainWindowViewModel()
         {
 
-            this.TrackDataSearchText = "Shoot'em Up / Hey Boom";
 
             this.TrackDataSearchResults = new System.Collections.ObjectModel.ObservableCollection<TrackData>();
             this.TraktorTracks = new System.Collections.ObjectModel.ObservableCollection<TraktorTrack>();
@@ -22,8 +21,10 @@ namespace TracktorTagger
 
 
             //this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
-            this.TrackDataSources.Add(new DiscogsTrackDataSource(15,"Vinyl"));
-            this.TrackDataSources.Add(new BeatportTrackDataSource(15));
+
+           
+            this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
+            this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
 
             this.SelectedDataSource = this.TrackDataSources[0];
 

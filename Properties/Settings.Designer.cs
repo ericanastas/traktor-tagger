@@ -25,10 +25,28 @@ namespace TracktorTagger.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("25")]
-        public int ResultPerPage {
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public int BeatportTracksPerPage {
             get {
-                return ((int)(this["ResultPerPage"]));
+                return ((int)(this["BeatportTracksPerPage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int DiscogsReleasesPerPage {
+            get {
+                return ((int)(this["DiscogsReleasesPerPage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Vinyl")]
+        public string DiscogsFormatFilter {
+            get {
+                return ((string)(this["DiscogsFormatFilter"]));
             }
         }
     }
