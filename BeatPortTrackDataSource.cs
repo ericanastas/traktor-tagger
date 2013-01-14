@@ -33,9 +33,6 @@ namespace TracktorTagger
         }
 
 
-
-
-
         public TrackData GetTrack(string trackId)
         {
             throw new NotImplementedException();
@@ -46,13 +43,12 @@ namespace TracktorTagger
             get { return "beatport.com"; }
         }
 
-        ITrackDataSearch ITrackDataSource.GetTrackDataSearch(string searchQuery)
+        public ITrackDataSearch GetTrackDataSearch(string searchQuery)
         {
             BeatPortTrackDataSearch search = new BeatPortTrackDataSearch(this,searchQuery,this.TrackPerPage);
 
             return search;
         }
-
 
         public bool ProvidesTitle
         {

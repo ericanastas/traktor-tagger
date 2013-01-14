@@ -55,7 +55,7 @@ namespace TracktorTagger
         }
 
 
-        ITrackDataSearch ITrackDataSource.GetTrackDataSearch(string searchQuery)
+        public ITrackDataSearch GetTrackDataSearch(string searchQuery)
         {
             return new DiscogsTrackDataSearch(this, searchQuery, PerPage, FormatFilter);
         }
