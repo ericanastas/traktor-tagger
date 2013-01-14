@@ -13,6 +13,7 @@ namespace TracktorTagger
         public string Remixer { get; private set; }
         public string Mix { get; private set; }
 
+
         public string Release { get; private set; }
         public string Producer { get; private set; }
 
