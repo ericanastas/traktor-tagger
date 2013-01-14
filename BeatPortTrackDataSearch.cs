@@ -148,7 +148,7 @@ namespace TracktorTagger
             return cat;
         }
 
-        private string GetArtist(System.Collections.ArrayList artists, string type)
+        private static string GetArtist(System.Collections.ArrayList artists, string type)
         {
             List<string> artistNames = new List<string>();
 
@@ -168,7 +168,7 @@ namespace TracktorTagger
 
         }
 
-        private Uri GetUri(int id, string slub)
+        private static Uri GetUri(int id, string slub)
         {
             UriBuilder builder = new UriBuilder("http://www.beatport.com");
 
@@ -177,7 +177,7 @@ namespace TracktorTagger
             return builder.Uri;
         }
 
-        private DateTime GetReleaseDate(string dateStr)
+        private static DateTime GetReleaseDate(string dateStr)
         {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^(\d{4})-(\d{2})-(\d{2})$");
 
@@ -194,7 +194,7 @@ namespace TracktorTagger
             return new DateTime(year, month, day);
         }
 
-        private KeyEnum GetKey(dynamic key)
+        private static KeyEnum GetKey(dynamic key)
         {
             StringBuilder keyStringBuilder = new StringBuilder();
 
@@ -223,7 +223,7 @@ namespace TracktorTagger
 
         }
 
-        private string GetGenre(System.Collections.ArrayList genres)
+        private static string GetGenre(System.Collections.ArrayList genres)
         {
             List<string> genreNames = new List<string>();
 

@@ -8,7 +8,7 @@ namespace TracktorTagger
 {
     public static class KeyEnumList
     {
-        public static IList<KeyViewModel> _keyEnumValues;
+        private static IList<KeyViewModel> _keyEnumValues;
 
         public static IList<KeyViewModel> GetKeyEnumValues()
         {

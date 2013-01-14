@@ -51,11 +51,11 @@ namespace TracktorTagger
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.A_sharp;
+                            return KeyEnum.ASharp;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.A_flat;
+                            return KeyEnum.AFlat;
                         }
                         else
                         {
@@ -67,15 +67,15 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.A_minor;
+                            return KeyEnum.AMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.A_sharp_minor;
+                            return KeyEnum.ASharpMinor;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.A_flat_minor;
+                            return KeyEnum.AFlatMinor;
                         }
                         else
                         {
@@ -101,7 +101,7 @@ namespace TracktorTagger
 
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.B_flat;
+                            return KeyEnum.BFlat;
                         }
                         else
                         {
@@ -113,12 +113,12 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.B_minor;
+                            return KeyEnum.BMinor;
                         }
 
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.B_flat_minor;
+                            return KeyEnum.BFlatMinor;
                         }
                         else
                         {
@@ -145,7 +145,7 @@ namespace TracktorTagger
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.C_sharp;
+                            return KeyEnum.CSharp;
                         }
                         else
                         {
@@ -158,11 +158,11 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.C_minor;
+                            return KeyEnum.CMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.C_sharp_minor;
+                            return KeyEnum.CSharpMinor;
                         }
                         else
                         {
@@ -188,11 +188,11 @@ namespace TracktorTagger
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.D_sharp;
+                            return KeyEnum.DSharp;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.D_flat;
+                            return KeyEnum.DFlat;
                         }
                         else
                         {
@@ -204,15 +204,15 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.D_minor;
+                            return KeyEnum.DMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.D_sharp_minor;
+                            return KeyEnum.DSharpMinor;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.D_flat_minor;
+                            return KeyEnum.DFlatMinor;
                         }
                         else
                         {
@@ -237,7 +237,7 @@ namespace TracktorTagger
 
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.E_flat;
+                            return KeyEnum.EFlat;
                         }
                         else
                         {
@@ -249,12 +249,12 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.E_minor;
+                            return KeyEnum.EMinor;
                         }
 
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.E_flat_minor;
+                            return KeyEnum.EFlatMinor;
                         }
                         else
                         {
@@ -281,7 +281,7 @@ namespace TracktorTagger
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.F_sharp;
+                            return KeyEnum.FSharp;
                         }
                         else
                         {
@@ -293,11 +293,11 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.F_minor;
+                            return KeyEnum.FMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.F_sharp_minor;
+                            return KeyEnum.FSharpMinor;
                         }
                         else
                         {
@@ -322,11 +322,11 @@ namespace TracktorTagger
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.G_sharp;
+                            return KeyEnum.GSharp;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.G_flat;
+                            return KeyEnum.GFlat;
                         }
                         else
                         {
@@ -338,15 +338,15 @@ namespace TracktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return KeyEnum.G_minor;
+                            return KeyEnum.GMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return KeyEnum.G_sharp_minor;
+                            return KeyEnum.GSharpMinor;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return KeyEnum.G_flat_minor;
+                            return KeyEnum.GFlatMinor;
                         }
                         else
                         {
@@ -385,73 +385,73 @@ namespace TracktorTagger
             {
                 case KeyEnum.Off:
                     return "Off";
-                case KeyEnum.A_flat:
+                case KeyEnum.AFlat:
                     return "Ab";
                 case KeyEnum.A:
                     return "A";
-                case KeyEnum.A_sharp:
+                case KeyEnum.ASharp:
                     return "A#";
-                case KeyEnum.B_flat:
+                case KeyEnum.BFlat:
                     return "Bb";
                 case KeyEnum.B:
                     return "B";
                 case KeyEnum.C:
                     return "C";
-                case KeyEnum.C_sharp:
+                case KeyEnum.CSharp:
                     return "C#";
-                case KeyEnum.D_flat:
+                case KeyEnum.DFlat:
                     return "Db";
                 case KeyEnum.D:
                     return "D";
-                case KeyEnum.D_sharp:
+                case KeyEnum.DSharp:
                     return "D#";
-                case KeyEnum.E_flat:
+                case KeyEnum.EFlat:
                     return "Eb";
                 case KeyEnum.E:
                     return "E";
                 case KeyEnum.F:
                     return "F";
-                case KeyEnum.F_sharp:
+                case KeyEnum.FSharp:
                     return "F#";
-                case KeyEnum.G_flat:
+                case KeyEnum.GFlat:
                     return "Gb";
                 case KeyEnum.G:
                     return "G";
-                case KeyEnum.G_sharp:
+                case KeyEnum.GSharp:
                     return "G#";
-                case KeyEnum.A_flat_minor:
+                case KeyEnum.AFlatMinor:
                     return "Abm";
-                case KeyEnum.A_minor:
+                case KeyEnum.AMinor:
                     return "Am";
-                case KeyEnum.A_sharp_minor:
+                case KeyEnum.ASharpMinor:
                     return "A#m";
-                case KeyEnum.B_flat_minor:
+                case KeyEnum.BFlatMinor:
                     return "Bbm";
-                case KeyEnum.B_minor:
+                case KeyEnum.BMinor:
                     return "Bm";;
-                case KeyEnum.C_minor:
+                case KeyEnum.CMinor:
                     return "Cm";;
-                case KeyEnum.C_sharp_minor:
+                case KeyEnum.CSharpMinor:
                     return "C#m";
-                case KeyEnum.D_flat_minor:
+                case KeyEnum.DFlatMinor:
                     return "Dbm";
-                case KeyEnum.D_minor:
+                case KeyEnum.DMinor:
                     return "Dm";
-                case KeyEnum.D_sharp_minor:
+                case KeyEnum.DSharpMinor:
                     return "D#m";
-                case KeyEnum.E_flat_minor:
+                case KeyEnum.EFlatMinor:
                     return "Ebm";
-                case KeyEnum.E_minor:
+                case KeyEnum.EMinor:
                     return "Em";
-                case KeyEnum.F_minor:
+                case KeyEnum.FMinor:
                     return "Fm";
-                case KeyEnum.F_sharp_minor:
+                case KeyEnum.FSharpMinor:
                     return "F#m";
-                case KeyEnum.G_flat_minor:
+                case KeyEnum.GFlatMinor:
                     return "Gbm";
-                case KeyEnum.G_minor:
+                case KeyEnum.GMinor:
                     return "Gm";
-                case KeyEnum.G_sharp_minor:
+                case KeyEnum.GSharpMinor:
                     return "G#m";
                 default:
                     throw new ArgumentException("Unexpected KeyEnum value", "key");

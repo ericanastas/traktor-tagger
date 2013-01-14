@@ -43,11 +43,6 @@ namespace TracktorTagger
         }
 
 
-        public int GetTotalResultCount(string searchQuery)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public string Name
         {

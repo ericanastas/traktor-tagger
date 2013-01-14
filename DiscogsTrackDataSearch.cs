@@ -340,7 +340,7 @@ namespace TracktorTagger
 
         }
 
-        private DateTime? GetReleaseDate(string dateString)
+        private static DateTime? GetReleaseDate(string dateString)
         {
             if(dateString == null) return null;
 
@@ -378,12 +378,12 @@ namespace TracktorTagger
 
         }
 
-        private string GetGenres(System.Collections.ArrayList genres)
+        private static string GetGenres(System.Collections.ArrayList genres)
         {
             return string.Join(", ", genres.ToArray());
         }
 
-        private string GetCatalogNo(System.Collections.ArrayList labels)
+        private static string GetCatalogNo(System.Collections.ArrayList labels)
         {
             List<string> labelList = new List<string>();
 
@@ -395,7 +395,7 @@ namespace TracktorTagger
             return string.Join(", ", labelList.ToArray());
         }
 
-        private string GetLabel(System.Collections.ArrayList labels)
+        private static string GetLabel(System.Collections.ArrayList labels)
         {
             List<string> labelList = new List<string>();
 

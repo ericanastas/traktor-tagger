@@ -24,10 +24,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <SupportUrl>https://sourceforge.net/projects/traktortagger/</SupportUrl>
+    <SupportUrl>https://code.google.com/p/traktor-tagger/</SupportUrl>
+    <ErrorReportUrl>https://code.google.com/p/traktor-tagger/issues/entry</ErrorReportUrl>
     <ProductName>Traktor Tagger</ProductName>
+    <PublisherName>Eric Anastas</PublisherName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>0.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -51,6 +53,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>0FA012273E64B66038213E27D0221E0AF9344D60</ManifestCertificateThumbprint>
@@ -96,10 +100,11 @@
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="DiscogsTrackDataSearch.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="KeyEnumConverter.cs" />
     <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
-    <Compile Include="KeyEnum.cs" />
+    <Compile Include="Key.cs" />
     <Compile Include="KeyEnumStringConverter.cs" />
     <Compile Include="KeyViewModel.cs" />
     <Compile Include="Location.cs" />
