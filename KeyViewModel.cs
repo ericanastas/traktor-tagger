@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class KeyViewModel
     {
-        public KeyEnum? Key { get; private set; }
+        public Key? Key { get; private set; }
         public string Description { get; private set; }
 
-        public KeyViewModel(KeyEnum? key)
+        public KeyViewModel(Key? key)
         {
             Key = key;
 

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
 
 

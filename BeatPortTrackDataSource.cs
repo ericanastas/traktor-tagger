@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web.Script.Serialization;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class BeatportTrackDataSource : ITrackDataSource
     {

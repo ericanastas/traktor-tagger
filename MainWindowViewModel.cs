@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class MainWindowViewModel : System.ComponentModel.INotifyPropertyChanged
     {
@@ -55,6 +55,30 @@ namespace TracktorTagger
         public System.Collections.ObjectModel.ObservableCollection<ITrackDataSource> TrackDataSources { get; private set; }
 
         public TracktorCollection Collection { get; private set; }
+
+
+        string _windowTitle;
+        public string WindowTitle
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(_windowTitle))
+                {
+                    var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
+                    _windowTitle = "Traktor Tagger " + version.Major.ToString() + "." + version.Minor.ToString()+"." + version.Build.ToString();
+                    return _windowTitle;
+
+                }
+                else
+                {
+                    return _windowTitle;
+                }
+            
+                
+            
+            }
+        }
 
 
 

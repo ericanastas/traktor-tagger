@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     /// <summary>
     /// A track in a Traktor catalog NML file
@@ -526,7 +526,7 @@ namespace TracktorTagger
         /// Track key
         /// </summary>
         /// <remarks>KEY attribtute is removed when set to NULL</remarks>
-        public KeyEnum? Key
+        public Key? Key
         {
             get
             {

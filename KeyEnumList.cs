@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public static class KeyEnumList
     {
@@ -16,11 +16,11 @@ namespace TracktorTagger
 
             _keyEnumValues = new List<KeyViewModel>();
 
-            Type type = typeof(KeyEnum);
+            Type type = typeof(Key);
 
             _keyEnumValues.Add(new KeyViewModel(null));
             
-            foreach(KeyEnum enumValue in Enum.GetValues(type)) _keyEnumValues.Add(new KeyViewModel(enumValue));
+            foreach(Key enumValue in Enum.GetValues(type)) _keyEnumValues.Add(new KeyViewModel(enumValue));
 
             return _keyEnumValues;
         }

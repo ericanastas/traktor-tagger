@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     /// <summary>
     /// Location of the audio file of a TraktorTrack 

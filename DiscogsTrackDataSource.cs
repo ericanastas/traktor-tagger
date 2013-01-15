@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Net;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class DiscogsTrackDataSource : ITrackDataSource
     {

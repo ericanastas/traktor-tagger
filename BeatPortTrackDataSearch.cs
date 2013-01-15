@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class BeatPortTrackDataSearch : ITrackDataSearch
     {
@@ -82,7 +82,7 @@ namespace TracktorTagger
                 //not sure how to get the producer out of beatport
                 string producer = null;
 
-                KeyEnum key = GetKey(result["key"]);
+                Key key = GetKey(result["key"]);
 
                 
                 
@@ -194,7 +194,7 @@ namespace TracktorTagger
             return new DateTime(year, month, day);
         }
 
-        private static KeyEnum GetKey(dynamic key)
+        private static Key GetKey(dynamic key)
         {
             StringBuilder keyStringBuilder = new StringBuilder();
 
@@ -216,7 +216,7 @@ namespace TracktorTagger
 
             var keyString = keyStringBuilder.ToString();
 
-            KeyEnum returnKey = KeyEnumStringConverter.ConvertFromString(keyString);
+            Key returnKey = KeyEnumStringConverter.ConvertFromString(keyString);
 
             return returnKey;
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class RelayCommand : ICommand
     {

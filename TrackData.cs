@@ -1,5 +1,5 @@
 ﻿using System;
-namespace TracktorTagger
+namespace TraktorTagger
 {
     public class TrackData
     {
@@ -22,7 +22,7 @@ namespace TracktorTagger
 
 
         public string Genre { get; private set; }
-        public KeyEnum? Key { get; private set; }
+        public Key? Key { get; private set; }
        
         public DateTime? ReleaseDate { get; private set; }
 
@@ -39,7 +39,7 @@ namespace TracktorTagger
             string label, 
             string catalogNo, 
             string genre, 
-            KeyEnum? key, 
+            Key? key, 
             DateTime? releaseDate, 
             Uri url)
         {

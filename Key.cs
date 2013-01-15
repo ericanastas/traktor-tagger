@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
     /// <summary>
     /// Track Key
     /// </summary>
-    public enum KeyEnum
+    public enum Key
     { 
         Off,
         AFlat,

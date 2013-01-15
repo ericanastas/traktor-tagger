@@ -1,15 +1,15 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:TracktorTagger" 
-        x:Class="TracktorTagger.MainWindow"
+        xmlns:local="clr-namespace:TraktorTagger" 
+        x:Class="TraktorTagger.MainWindow"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        Title="Traktor Tagger" Height="600" Width="800" WindowState="Maximized" Icon="Images/TraktorTaggerIcon.png">
+        Title="{Binding WindowTitle}" Height="600" Width="800" WindowState="Maximized" Icon="Images/TraktorTaggerIcon.png">
 
 
     <Window.Resources>
 
-        <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
+        <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:Key}" />
 
         <local:KeyEnumConverter x:Key="KeyEnumConverter" />
 
@@ -33,6 +33,11 @@
             <MenuItem Header="File">
                 <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
                 <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
+            </MenuItem>
+            
+            <MenuItem Header="Help">
+                <MenuItem Header="Help" />
+                <MenuItem Header="About" />
             </MenuItem>
         </Menu>
 

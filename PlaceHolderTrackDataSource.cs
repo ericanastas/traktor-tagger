@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TracktorTagger
+namespace TraktorTagger
 {
 
     public class PlaceHolderTrackDataSearch : ITrackDataSearch
@@ -76,7 +76,7 @@ namespace TracktorTagger
        "label " + trackId,
        "cat no " + trackId,
        "genre " + trackId,
-        KeyEnum.A,
+        Key.A,
         DateTime.Now,
         new Uri(@"http://www.google.com"));
 
@@ -134,7 +134,7 @@ namespace TracktorTagger
                 "label " + trackId,
                 "cat no " + trackId,
                 "genre " + trackId,
-                 KeyEnum.A,
+                 Key.A,
                  DateTime.Now,
                  new Uri(@"http://www.google.com"));
 
