@@ -163,40 +163,57 @@ namespace TraktorTagger
 
 
 
-        public TrackDataSourceTag DataSourceTag
+        public Uri DataSourceUri
         {
             get
             {
-                var dataSourceElement = entryNode.SelectSingleNode("./DataSource");
-
-                if(dataSourceElement == null) return null;
-
-                var provider = GetAttributeValue("DataSource", "Name");
-                var url = GetAttributeValue("DataSource", "TrackURL");
-                var TrackId = GetAttributeValue("DataSource", "TrackId");
-
-                TrackDataSourceTag tag = new TrackDataSourceTag(provider, TrackId, new Uri(url));
-
-                return tag;
+                if(Uri.IsWellFormedUriString(Comment2, UriKind.Absolute))
+                {
+                    Uri uri = new Uri(Comment2);
+                    return uri;
+                }
+                else
+                {
+                    return null;
+                }
             }
-
             set
             {
                 if(value != null)
                 {
-                    SetAttributeValue("DataSource", "Name", value.DataSource);
-                    SetAttributeValue("DataSource", "TrackURL", value.Uri.AbsoluteUri);
-                    SetAttributeValue("DataSource", "TrackId", value.TrackId);
+                    if(value.IsAbsoluteUri)
+                    {
+                        Comment2 = value.AbsoluteUri;
+                    }
                 }
                 else
                 {
-                    RemoveElement("DataSource");
+                    Comment2 = null;
                 }
 
-                OnPropertyChanged("DataSourceTag");
+                OnPropertyChanged("DataSourceUri");
+                OnPropertyChanged("DataSourceName");
 
             }
         }
+
+        public string DataSourceName
+        {
+            get
+            {
+                if(DataSourceUri != null)
+                {
+                    return DataSourceUri.Host;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+        }
+
+
 
 
         #region String Properties
@@ -513,7 +530,7 @@ namespace TraktorTagger
                     SetAttributeValue("INFO", "RATING", value);
                 }
 
-                OnPropertyChanged("Comment2");
+                OnPropertyChanged("Comment2");                
             }
         }
 
@@ -652,7 +669,7 @@ namespace TraktorTagger
                 {
                     RemoveAttribute("INFO", "RANKING");
                 }
-                
+
                 OnPropertyChanged("Rating");
             }
         }
@@ -765,7 +782,7 @@ namespace TraktorTagger
                 else
                 {
                     return DateTime.Parse(lastStr);
-                }   
+                }
             }
         }
 

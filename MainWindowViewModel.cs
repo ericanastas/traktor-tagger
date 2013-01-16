@@ -20,9 +20,11 @@ namespace TraktorTagger
             this.TrackDataSources = new System.Collections.ObjectModel.ObservableCollection<ITrackDataSource>();
 
 
-            //this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
 
-           
+            #if DEBUG
+            this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
+            #endif
+
             this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
             this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
 
@@ -702,24 +704,24 @@ namespace TraktorTagger
             
         private void ClearTraktorTrackDataSourceTag(object o)
         {
-            this.SelectedTraktorTrack.DataSourceTag = null;
+            this.SelectedTraktorTrack.DataSourceUri = null;
         }
 
         private bool CanClearTraktorTrackDataSourceTag(object o)
         {
-            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceTag != null) return true;
+            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
             else return false;
         }
 
         private void CopyTraktorTrackDataUrl(object o)
         {
-            System.Windows.Clipboard.SetText(SelectedTraktorTrack.DataSourceTag.Uri.AbsoluteUri);
+            System.Windows.Clipboard.SetText(SelectedTraktorTrack.DataSourceUri.AbsoluteUri);
         }
 
 
         private bool CanCopyTraktorTrackDataUrl(object o)
         {
-            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceTag != null) return true;
+            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
             else return false;
         }
 
@@ -728,7 +730,7 @@ namespace TraktorTagger
         {
             System.Windows.Clipboard.SetText(SelectedTrackData.URL.AbsoluteUri);
         }
-
+        
 
         private bool CanCopyTrackDataUrl(object o)
         {
@@ -740,7 +742,7 @@ namespace TraktorTagger
         {
             if(TagDataSource)
             {
-                SelectedTraktorTrack.DataSourceTag = SelectedTrackData.DataSourceTag;
+                SelectedTraktorTrack.DataSourceUri = SelectedTrackData.URL;
             }
 
             if(TagTitle && !string.IsNullOrEmpty(SelectedTrackData.Title))
@@ -850,7 +852,21 @@ namespace TraktorTagger
         private void SearchTrackData(object o)
         {
             this.TrackDataSearchResults.Clear();
-            _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
+
+
+            if(Uri.IsWellFormedUriString(this.TrackDataSearchText,UriKind.Absolute))
+            {
+                Uri searchUri = new Uri(this.TrackDataSearchText);
+
+                _currentSearch = this.SelectedDataSource.GetTrackDataSearch(searchUri);
+            }
+            else
+            {
+                _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
+            }
+
+
+            
 
 
             foreach(var r in _currentSearch.Results)

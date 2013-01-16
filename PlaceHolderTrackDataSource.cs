@@ -27,6 +27,8 @@ namespace TraktorTagger
             _loadedPages = 0;
 
             this._tracks = new List<TrackData>();
+
+            LoadMoreResults();
         }
 
         public string SearchQuery
@@ -149,8 +151,7 @@ namespace TraktorTagger
         public ITrackDataSearch GetTrackDataSearch(string searchQuery)
         {
             var s = new PlaceHolderTrackDataSearch(this, searchQuery, 100, 10);
-            s.LoadMoreResults();
-
+            
             return s;
         }
 
@@ -208,6 +209,14 @@ namespace TraktorTagger
         public bool ProvidesKey
         {
             get { return true; }
+        }
+
+
+        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
+        {
+            var s = new PlaceHolderTrackDataSearch(this, searchUri.ToString(), 2, 2);
+
+            return s;
         }
     }
 }

@@ -27,10 +27,13 @@ namespace TraktorTagger
         public DateTime? ReleaseDate { get; private set; }
 
 
-        public TrackDataSourceTag DataSourceTag { get; private set; }
+        public string DataSourceName { get; private set; }
 
 
-        public TrackData(string dataSource, string trackId, string artist, 
+
+
+
+        public TrackData(string dataSourceName, string trackId, string artist, 
             string title, 
             string mix,
             string remixer, 
@@ -45,6 +48,7 @@ namespace TraktorTagger
         {
             this.TrackId = trackId;
 
+            this.DataSourceName = dataSourceName;
 
             this.Artist = artist;
             this.Title = title;
@@ -59,8 +63,6 @@ namespace TraktorTagger
             this.ReleaseDate = releaseDate;
             this.URL = url;
 
-            
-            DataSourceTag = new TrackDataSourceTag(dataSource, trackId, url);
         }
 
     }

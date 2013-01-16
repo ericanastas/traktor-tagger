@@ -41,7 +41,7 @@ namespace TraktorTagger
 
         public string Name
         {
-            get { return "beatport.com"; }
+            get { return "www.beatport.com"; }
         }
 
         public ITrackDataSearch GetTrackDataSearch(string searchQuery)
@@ -104,6 +104,12 @@ namespace TraktorTagger
         public bool ProvidesKey
         {
             get { return true; }
+        }
+
+
+        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
+        {
+            throw new NotImplementedException();
         }
     }
 }

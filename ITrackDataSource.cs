@@ -12,6 +12,8 @@ namespace TraktorTagger
 
         ITrackDataSearch GetTrackDataSearch(string searchQuery);
 
+        ITrackDataSearch GetTrackDataSearch(Uri searchUri);
+
         TrackData GetTrack(string trackId);
 
 

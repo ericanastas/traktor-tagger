@@ -119,7 +119,6 @@
     <Compile Include="Rating.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TrackData.cs" />
-    <Compile Include="TrackDataSourceTag.cs" />
     <Compile Include="ITrackDataSource.cs" />
     <Compile Include="TracktorCollection.cs" />
     <Compile Include="TraktorTrack.cs" />

@@ -46,7 +46,7 @@ namespace TraktorTagger
 
         public string Name
         {
-            get { return "discogs.com"; }
+            get { return "www.discogs.com"; }
         }
 
 
@@ -109,6 +109,12 @@ namespace TraktorTagger
         public bool ProvidesKey
         {
             get { return false; }
+        }
+
+
+        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
+        {
+            throw new NotImplementedException();
         }
     }
 }
