@@ -44,7 +44,7 @@ namespace TraktorTagger
 
 
 
-        public string Name
+        public string HostName
         {
             get { return "www.discogs.com"; }
         }

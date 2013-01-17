@@ -8,7 +8,12 @@ namespace TraktorTagger
 {
     public interface ITrackDataSource
     {
-        string Name { get; }
+
+        /// <summary>
+        /// Host URL of datasource
+        /// </summary>
+        /// <remarks>This is used to identify the datasource</remarks>
+        string HostName { get; }
 
         ITrackDataSearch GetTrackDataSearch(string searchQuery);
 

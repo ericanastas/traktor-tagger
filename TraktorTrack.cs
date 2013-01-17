@@ -163,6 +163,10 @@ namespace TraktorTagger
 
 
 
+        /// <summary>
+        /// Uri to page with track data used to tag track
+        /// </summary>
+        /// <remarks>This should be the humman readable WWW page and not and API resource</remarks>
         public Uri DataSourceUri
         {
             get
@@ -197,7 +201,12 @@ namespace TraktorTagger
             }
         }
 
-        public string DataSourceName
+
+        /// <summary>
+        /// Host of the datasource used to tag the track
+        /// </summary>
+        /// <remarks>This value is pulled automaticaly from the value of DataSourceUri</remarks>
+        public string DataSourceHostName
         {
             get
             {

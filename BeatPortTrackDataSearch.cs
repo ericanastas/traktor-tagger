@@ -87,7 +87,7 @@ namespace TraktorTagger
                 
                 
 
-                TrackData track = new TrackData(DataSource.Name, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
+                TrackData track = new TrackData(DataSource.HostName, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
 
                 newTracks.Add(track);
             }
