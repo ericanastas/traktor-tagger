@@ -33,11 +33,15 @@
             <MenuItem Header="File">
                 <MenuItem Header="Open Traktor Collection" Command="{Binding OpenCollectionCommand}"/>
                 <MenuItem Header="Save Traktor Collection" Command="{Binding SaveCollectionCommand}"/>
+                
             </MenuItem>
             
             <MenuItem Header="Help">
-                <MenuItem Header="Help" />
-                <MenuItem Header="About" />
+                
+                <MenuItem Header="Buy me a beer!" Command="{Binding DonateCommand}"/>
+                <MenuItem Header="Help" Command="{Binding OpenHelpCommand}"/>
+                <MenuItem Header="About" Command="{Binding AboutCommand}"/>
+                
             </MenuItem>
         </Menu>
 
@@ -518,7 +522,14 @@
                             <Style.Resources>
                                 <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
                                     <VisualBrush.Visual>
-                                        <Label Content=" Search Text or Track URL" Foreground="LightGray" />
+
+                                        <Label Content=" Enter search query, track, or release URL" Foreground="LightGray" />
+
+                                        <!--                    <Label Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=SelectedDataSource.SearchPrompt}" Foreground="LightGray" /> -->
+
+
+
+
                                     </VisualBrush.Visual>
                                 </VisualBrush>
                             </Style.Resources>

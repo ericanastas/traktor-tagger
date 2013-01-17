@@ -218,5 +218,11 @@ namespace TraktorTagger
 
             return s;
         }
+
+
+        public string SearchPrompt
+        {
+            get { return "Enter a search string for the placeholder data provider"; }
+        }
     }
 }

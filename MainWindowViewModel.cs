@@ -21,9 +21,9 @@ namespace TraktorTagger
 
 
 
-            #if DEBUG
+#if DEBUG
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
-            #endif
+#endif
 
             this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
             this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
@@ -39,6 +39,9 @@ namespace TraktorTagger
             this.CopyTrackDataUrlCommand = new RelayCommand(new Action<object>(this.CopyTrackDataUrl), new Predicate<object>(this.CanCopyTrackDataUrl));
             this.CopyTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.CopyTraktorTrackDataUrl), new Predicate<object>(this.CanCopyTraktorTrackDataUrl));
             this.ClearTraktorTrackDataSourceTagCommand = new RelayCommand(new Action<object>(this.ClearTraktorTrackDataSourceTag), new Predicate<object>(this.CanClearTraktorTrackDataSourceTag));
+            this.DonateCommand = new RelayCommand(new Action<object>(this.Donate));
+            this.OpenHelpCommand = new RelayCommand(new Action<object>(this.OpenHelp));
+            this.AboutCommand = new RelayCommand(new Action<object>(this.About));
 
 
 
@@ -68,7 +71,7 @@ namespace TraktorTagger
                 {
                     var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
-                    _windowTitle = "Traktor Tagger " + version.Major.ToString() + "." + version.Minor.ToString()+"." + version.Build.ToString();
+                    _windowTitle = "Traktor Tagger " + version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Build.ToString();
                     return _windowTitle;
 
                 }
@@ -76,9 +79,9 @@ namespace TraktorTagger
                 {
                     return _windowTitle;
                 }
-            
-                
-            
+
+
+
             }
         }
 
@@ -701,7 +704,7 @@ namespace TraktorTagger
 
 
 
-            
+
         private void ClearTraktorTrackDataSourceTag(object o)
         {
             this.SelectedTraktorTrack.DataSourceUri = null;
@@ -730,7 +733,7 @@ namespace TraktorTagger
         {
             System.Windows.Clipboard.SetText(SelectedTrackData.URL.AbsoluteUri);
         }
-        
+
 
         private bool CanCopyTrackDataUrl(object o)
         {
@@ -803,6 +806,22 @@ namespace TraktorTagger
             }
         }
 
+        private void OpenHelp(object o)
+        {
+            System.Diagnostics.Process.Start(Properties.Settings.Default.HelpURL);
+        }
+
+
+        private void About(object o)
+        {
+            System.Diagnostics.Process.Start(Properties.Settings.Default.AboutURL);
+        }
+
+        private void Donate(object o)
+        {
+            System.Diagnostics.Process.Start(Properties.Settings.Default.DonateURL);        
+        }
+
         private bool CanTagSelected(object o)
         {
             if(SelectedTrackData != null && SelectedTraktorTrack != null) return true;
@@ -854,19 +873,11 @@ namespace TraktorTagger
             this.TrackDataSearchResults.Clear();
 
 
-            if(Uri.IsWellFormedUriString(this.TrackDataSearchText,UriKind.Absolute))
-            {
-                Uri searchUri = new Uri(this.TrackDataSearchText);
 
-                _currentSearch = this.SelectedDataSource.GetTrackDataSearch(searchUri);
-            }
-            else
-            {
-                _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
-            }
+            _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
 
 
-            
+
 
 
             foreach(var r in _currentSearch.Results)
@@ -929,9 +940,12 @@ namespace TraktorTagger
         public ICommand CopyTrackDataUrlCommand { get; private set; }
         public ICommand CopyTraktorTrackUrlCommand { get; private set; }
         public ICommand ClearTraktorTrackDataSourceTagCommand { get; private set; }
+        public ICommand DonateCommand { get; private set; }
+        public ICommand OpenHelpCommand { get; private set; }
+        public ICommand AboutCommand { get; private set; }
 
 
-       
+
         #endregion
 
 

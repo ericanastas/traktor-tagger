@@ -116,6 +116,12 @@ namespace TraktorTagger
         {
             throw new NotImplementedException();
         }
+
+
+        public string SearchPrompt
+        {
+            get { return "Search query, or discogs.com release URL"; }
+        }
     }
 }
 

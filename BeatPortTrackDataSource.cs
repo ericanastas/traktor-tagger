@@ -111,5 +111,11 @@ namespace TraktorTagger
         {
             throw new NotImplementedException();
         }
+
+
+        public string SearchPrompt
+        {
+            get { return "Search query, beatport.com track URL, or beatport.com release URL"; }
+        }
     }
 }

@@ -49,5 +49,33 @@ namespace TraktorTagger.Properties {
                 return ((string)(this["DiscogsFormatFilter"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RXJ2FTG86K9X" +
+            "6")]
+        public string DonateURL {
+            get {
+                return ((string)(this["DonateURL"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://code.google.com/p/traktor-tagger/wiki/Overview")]
+        public string HelpURL {
+            get {
+                return ((string)(this["HelpURL"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://code.google.com/p/traktor-tagger/")]
+        public string AboutURL {
+            get {
+                return ((string)(this["AboutURL"]));
+            }
+        }
     }
 }

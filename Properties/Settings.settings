@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TracktorTagger.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TraktorTagger.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="BeatportTracksPerPage" Type="System.Int32" Scope="Application">
@@ -10,6 +10,15 @@
     </Setting>
     <Setting Name="DiscogsFormatFilter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Vinyl</Value>
+    </Setting>
+    <Setting Name="DonateURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=RXJ2FTG86K9X6</Value>
+    </Setting>
+    <Setting Name="HelpURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://code.google.com/p/traktor-tagger/wiki/Overview</Value>
+    </Setting>
+    <Setting Name="AboutURL" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://code.google.com/p/traktor-tagger/</Value>
     </Setting>
   </Settings>
 </SettingsFile>
