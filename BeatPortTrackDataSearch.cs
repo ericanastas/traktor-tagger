@@ -82,7 +82,7 @@ namespace TraktorTagger
                 //not sure how to get the producer out of beatport
                 string producer = null;
 
-                Key key = GetKey(result["key"]);
+                KeyEnum key = GetKey(result["key"]);
 
                 
                 
@@ -194,7 +194,7 @@ namespace TraktorTagger
             return new DateTime(year, month, day);
         }
 
-        private static Key GetKey(dynamic key)
+        private static KeyEnum GetKey(dynamic key)
         {
             StringBuilder keyStringBuilder = new StringBuilder();
 
@@ -216,7 +216,7 @@ namespace TraktorTagger
 
             var keyString = keyStringBuilder.ToString();
 
-            Key returnKey = KeyEnumStringConverter.ConvertFromString(keyString);
+            KeyEnum returnKey = KeyEnumStringConverter.ConvertFromString(keyString);
 
             return returnKey;
 

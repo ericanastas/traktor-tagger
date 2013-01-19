@@ -189,6 +189,10 @@ namespace TraktorTagger
                     {
                         Comment2 = value.AbsoluteUri;
                     }
+                    else
+                    {
+                        throw new InvalidOperationException("DataSource URI can not be set to a relative URI");
+                    }
                 }
                 else
                 {
@@ -196,7 +200,7 @@ namespace TraktorTagger
                 }
 
                 OnPropertyChanged("DataSourceUri");
-                OnPropertyChanged("DataSourceName");
+                OnPropertyChanged("DataSourceHostName");
 
             }
         }
@@ -552,7 +556,7 @@ namespace TraktorTagger
         /// Track key
         /// </summary>
         /// <remarks>KEY attribtute is removed when set to NULL</remarks>
-        public Key? Key
+        public KeyEnum? Key
         {
             get
             {

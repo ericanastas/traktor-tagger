@@ -78,7 +78,7 @@ namespace TraktorTagger
        "label " + trackId,
        "cat no " + trackId,
        "genre " + trackId,
-        Key.A,
+        KeyEnum.A,
         DateTime.Now,
         new Uri(@"http://www.google.com"));
 
@@ -136,7 +136,7 @@ namespace TraktorTagger
                 "label " + trackId,
                 "cat no " + trackId,
                 "genre " + trackId,
-                 Key.A,
+                 KeyEnum.A,
                  DateTime.Now,
                  new Uri(@"http://www.google.com"));
 

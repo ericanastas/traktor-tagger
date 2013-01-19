@@ -114,7 +114,7 @@ namespace TraktorTagger
 
         public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
         {
-            throw new NotImplementedException();
+            return new DiscogsTrackDataSearch(this, "Test Search", 4, "Vinyl");
         }
 
 

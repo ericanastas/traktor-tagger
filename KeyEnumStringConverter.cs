@@ -18,12 +18,12 @@ namespace TraktorTagger
         /// </summary>
         /// <param name="keyString">The string to convert</param>
         /// <returns>Key enum value</returns>
-        public static Key ConvertFromString(string keyString)
+        public static KeyEnum ConvertFromString(string keyString)
         {
             if(string.IsNullOrEmpty(keyString)) throw new ArgumentNullException("keyString");
 
            
-            if(string.Compare(keyString, "off",StringComparison.OrdinalIgnoreCase)==0) return Key.Off;
+            if(string.Compare(keyString, "off",StringComparison.OrdinalIgnoreCase)==0) return KeyEnum.Off;
 
             string keyStrPattern = @"^([ABCDEFG])([#b]?)(m?)$";
 
@@ -47,15 +47,15 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.A;
+                            return KeyEnum.A;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.ASharp;
+                            return KeyEnum.ASharp;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return Key.AFlat;
+                            return KeyEnum.AFlat;
                         }
                         else
                         {
@@ -67,15 +67,15 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.AMinor;
+                            return KeyEnum.AMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.ASharpMinor;
+                            return KeyEnum.ASharpMinor;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return Key.AFlatMinor;
+                            return KeyEnum.AFlatMinor;
                         }
                         else
                         {
@@ -96,12 +96,12 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.B;
+                            return KeyEnum.B;
                         }
 
                         else if(accidentalStr == "b")
                         {
-                            return Key.BFlat;
+                            return KeyEnum.BFlat;
                         }
                         else
                         {
@@ -113,12 +113,12 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.BMinor;
+                            return KeyEnum.BMinor;
                         }
 
                         else if(accidentalStr == "b")
                         {
-                            return Key.BFlatMinor;
+                            return KeyEnum.BFlatMinor;
                         }
                         else
                         {
@@ -141,11 +141,11 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.C;
+                            return KeyEnum.C;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.CSharp;
+                            return KeyEnum.CSharp;
                         }
                         else
                         {
@@ -158,11 +158,11 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.CMinor;
+                            return KeyEnum.CMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.CSharpMinor;
+                            return KeyEnum.CSharpMinor;
                         }
                         else
                         {
@@ -184,15 +184,15 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.D;
+                            return KeyEnum.D;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.DSharp;
+                            return KeyEnum.DSharp;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return Key.DFlat;
+                            return KeyEnum.DFlat;
                         }
                         else
                         {
@@ -204,15 +204,15 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.DMinor;
+                            return KeyEnum.DMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.DSharpMinor;
+                            return KeyEnum.DSharpMinor;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return Key.DFlatMinor;
+                            return KeyEnum.DFlatMinor;
                         }
                         else
                         {
@@ -232,12 +232,12 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.E;
+                            return KeyEnum.E;
                         }
 
                         else if(accidentalStr == "b")
                         {
-                            return Key.EFlat;
+                            return KeyEnum.EFlat;
                         }
                         else
                         {
@@ -249,12 +249,12 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.EMinor;
+                            return KeyEnum.EMinor;
                         }
 
                         else if(accidentalStr == "b")
                         {
-                            return Key.EFlatMinor;
+                            return KeyEnum.EFlatMinor;
                         }
                         else
                         {
@@ -277,11 +277,11 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.F;
+                            return KeyEnum.F;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.FSharp;
+                            return KeyEnum.FSharp;
                         }
                         else
                         {
@@ -293,11 +293,11 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.FMinor;
+                            return KeyEnum.FMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.FSharpMinor;
+                            return KeyEnum.FSharpMinor;
                         }
                         else
                         {
@@ -318,15 +318,15 @@ namespace TraktorTagger
 
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.G;
+                            return KeyEnum.G;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.GSharp;
+                            return KeyEnum.GSharp;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return Key.GFlat;
+                            return KeyEnum.GFlat;
                         }
                         else
                         {
@@ -338,15 +338,15 @@ namespace TraktorTagger
                         //minor chord
                         if(string.IsNullOrEmpty(accidentalStr))
                         {
-                            return Key.GMinor;
+                            return KeyEnum.GMinor;
                         }
                         else if(accidentalStr == "#")
                         {
-                            return Key.GSharpMinor;
+                            return KeyEnum.GSharpMinor;
                         }
                         else if(accidentalStr == "b")
                         {
-                            return Key.GFlatMinor;
+                            return KeyEnum.GFlatMinor;
                         }
                         else
                         {
@@ -379,79 +379,79 @@ namespace TraktorTagger
         /// </summary>
         /// <param name="key">Key to convert</param>
         /// <returns>Key string value</returns>
-        public static string ConvertToString(Key key)
+        public static string ConvertToString(KeyEnum key)
         {
             switch(key)
             {
-                case Key.Off:
+                case KeyEnum.Off:
                     return "Off";
-                case Key.AFlat:
+                case KeyEnum.AFlat:
                     return "Ab";
-                case Key.A:
+                case KeyEnum.A:
                     return "A";
-                case Key.ASharp:
+                case KeyEnum.ASharp:
                     return "A#";
-                case Key.BFlat:
+                case KeyEnum.BFlat:
                     return "Bb";
-                case Key.B:
+                case KeyEnum.B:
                     return "B";
-                case Key.C:
+                case KeyEnum.C:
                     return "C";
-                case Key.CSharp:
+                case KeyEnum.CSharp:
                     return "C#";
-                case Key.DFlat:
+                case KeyEnum.DFlat:
                     return "Db";
-                case Key.D:
+                case KeyEnum.D:
                     return "D";
-                case Key.DSharp:
+                case KeyEnum.DSharp:
                     return "D#";
-                case Key.EFlat:
+                case KeyEnum.EFlat:
                     return "Eb";
-                case Key.E:
+                case KeyEnum.E:
                     return "E";
-                case Key.F:
+                case KeyEnum.F:
                     return "F";
-                case Key.FSharp:
+                case KeyEnum.FSharp:
                     return "F#";
-                case Key.GFlat:
+                case KeyEnum.GFlat:
                     return "Gb";
-                case Key.G:
+                case KeyEnum.G:
                     return "G";
-                case Key.GSharp:
+                case KeyEnum.GSharp:
                     return "G#";
-                case Key.AFlatMinor:
+                case KeyEnum.AFlatMinor:
                     return "Abm";
-                case Key.AMinor:
+                case KeyEnum.AMinor:
                     return "Am";
-                case Key.ASharpMinor:
+                case KeyEnum.ASharpMinor:
                     return "A#m";
-                case Key.BFlatMinor:
+                case KeyEnum.BFlatMinor:
                     return "Bbm";
-                case Key.BMinor:
+                case KeyEnum.BMinor:
                     return "Bm";;
-                case Key.CMinor:
+                case KeyEnum.CMinor:
                     return "Cm";;
-                case Key.CSharpMinor:
+                case KeyEnum.CSharpMinor:
                     return "C#m";
-                case Key.DFlatMinor:
+                case KeyEnum.DFlatMinor:
                     return "Dbm";
-                case Key.DMinor:
+                case KeyEnum.DMinor:
                     return "Dm";
-                case Key.DSharpMinor:
+                case KeyEnum.DSharpMinor:
                     return "D#m";
-                case Key.EFlatMinor:
+                case KeyEnum.EFlatMinor:
                     return "Ebm";
-                case Key.EMinor:
+                case KeyEnum.EMinor:
                     return "Em";
-                case Key.FMinor:
+                case KeyEnum.FMinor:
                     return "Fm";
-                case Key.FSharpMinor:
+                case KeyEnum.FSharpMinor:
                     return "F#m";
-                case Key.GFlatMinor:
+                case KeyEnum.GFlatMinor:
                     return "Gbm";
-                case Key.GMinor:
+                case KeyEnum.GMinor:
                     return "Gm";
-                case Key.GSharpMinor:
+                case KeyEnum.GSharpMinor:
                     return "G#m";
                 default:
                     throw new ArgumentException("Unexpected KeyEnum value", "key");

@@ -9,7 +9,10 @@
 
     <Window.Resources>
 
-        <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:Key}" />
+
+
+
+        <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
 
         <local:KeyEnumConverter x:Key="KeyEnumConverter" />
 
@@ -59,9 +62,12 @@
                     <DataGrid.ContextMenu>
 
                         <ContextMenu>
-                            <MenuItem Header="Search"/>
-                            <MenuItem Header="Copy Url" Command="{Binding CopyTraktorTrackUrlCommand}" />
+                            <MenuItem Header="Search Track Data" Command="{Binding SearchTraktorTrackDataSourceCommand}"/>
+                            <MenuItem Header="Browse to Url"  Command="{Binding BrowseToTraktorTrackUrlCommand}"/>
+                            <MenuItem Header="Copy Url to Clipboard" Command="{Binding CopyTraktorTrackUrlCommand}" />
                             <MenuItem Header="Clear Data Source Tag" Command="{Binding ClearTraktorTrackDataSourceTagCommand}" />
+                            
+                            
                         </ContextMenu>
 
 
@@ -72,7 +78,7 @@
 
                     <DataGrid.Columns>
 
-                        <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceName">
+                        <DataGridTemplateColumn Width="25" IsReadOnly="True" SortMemberPath="DataSourceHostName" CanUserResize="False">
 
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -80,11 +86,11 @@
 
 
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding DataSourceName}" Value="www.beatport.com">
+                                        <DataTrigger Binding="{Binding DataSourceHostName}" Value="www.beatport.com">
                                             <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding DataSourceName}" Value="www.discogs.com">
+                                        <DataTrigger Binding="{Binding DataSourceHostName}" Value="www.discogs.com">
                                             <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
@@ -120,6 +126,7 @@
 
 
                         <DataGridComboBoxColumn Header="Key" Width="55" 
+                                                CanUserResize="False"
                                                 IsReadOnly="False" 
                                                 SelectedValueBinding="{Binding Key}"
                                                 SelectedValuePath="Key"
@@ -153,7 +160,8 @@
                     <DataGrid.ContextMenu>
 
                         <ContextMenu>
-                            <MenuItem Header="Copy Url" Command="{Binding CopyTrackDataUrlCommand}" />
+                            <MenuItem Header="Copy Url to Clipboard" Command="{Binding CopyTrackDataUrlCommand}" />
+                            <MenuItem Header="Browse to Url"  Command="{Binding BrowseToTrackDataURLCommand}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 
@@ -504,7 +512,7 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-                <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="128" ItemsSource="{Binding TrackDataSources}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedDataSource}" />
+                <ComboBox Name="dataSourceCombo" Margin="0,10,10,0" VerticalAlignment="Top" SelectedIndex="0" HorizontalAlignment="Right" Width="128" ItemsSource="{Binding TrackDataSources}" DisplayMemberPath="HostName" SelectedItem="{Binding SelectedDataSource}" />
 
 
                 <Button Content="Search" Margin="0,10,143,0" VerticalAlignment="Top" x:Name="searchButton" Command="{Binding SearchTrackDataCommand}" HorizontalAlignment="Right" Width="75" RenderTransformOrigin="0.613,0.364"/>
@@ -523,7 +531,7 @@
                                 <VisualBrush x:Key="CueBannerBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
                                     <VisualBrush.Visual>
 
-                                        <Label Content=" Enter search query, track, or release URL" Foreground="LightGray" />
+                                        <Label Content=" Enter search query, track/release URL" Foreground="Gray" />
 
                                         <!--                    <Label Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=SelectedDataSource.SearchPrompt}" Foreground="LightGray" /> -->
 

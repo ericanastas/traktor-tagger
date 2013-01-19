@@ -17,11 +17,16 @@ namespace TraktorTagger
 
         ITrackDataSearch GetTrackDataSearch(string searchQuery);
 
+        ITrackDataSearch GetTrackDataSearch(Uri searchUri);
         
 
         TrackData GetTrack(string trackId);
 
 
+
+        /// <summary>
+        /// Short message which identifies the format(s) of search queries for the data source
+        /// </summary>
         String SearchPrompt { get; }
 
 

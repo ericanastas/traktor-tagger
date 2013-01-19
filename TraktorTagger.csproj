@@ -110,7 +110,7 @@
     <Compile Include="KeyEnumConverter.cs" />
     <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
-    <Compile Include="Key.cs" />
+    <Compile Include="KeyEnum.cs" />
     <Compile Include="KeyEnumStringConverter.cs" />
     <Compile Include="KeyViewModel.cs" />
     <Compile Include="Location.cs" />

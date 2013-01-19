@@ -8,10 +8,10 @@ namespace TraktorTagger
 {
     public class KeyViewModel
     {
-        public Key? Key { get; private set; }
+        public KeyEnum? Key { get; private set; }
         public string Description { get; private set; }
 
-        public KeyViewModel(Key? key)
+        public KeyViewModel(KeyEnum? key)
         {
             Key = key;
 

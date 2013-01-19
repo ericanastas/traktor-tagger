@@ -9,7 +9,7 @@ namespace TraktorTagger
     /// <summary>
     /// Track Key
     /// </summary>
-    public enum Key
+    public enum KeyEnum
     { 
         Off,
         AFlat,

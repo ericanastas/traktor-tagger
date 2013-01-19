@@ -43,6 +43,13 @@ namespace TraktorTagger
             this.OpenHelpCommand = new RelayCommand(new Action<object>(this.OpenHelp));
             this.AboutCommand = new RelayCommand(new Action<object>(this.About));
 
+            this.BrowseToTrackDataURLCommand = new RelayCommand(new Action<object>(this.BrowseToTrackDataURL),new Predicate<object>(this.CanBrowseToTrackDataURL));
+            this.SearchTraktorTrackDataSourceCommand = new RelayCommand(new Action<object>(this.SearchTraktorTrackDataSource), new Predicate<object>(this.CanSearchTraktorTrackDataSource));
+            this.BrowseToTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.BrowseToTraktorTrackDataURL),new Predicate<object>(CanBrowseToTraktorTrackDataURL));
+
+
+
+
 
 
             this.TagDataSource = true;
@@ -873,8 +880,31 @@ namespace TraktorTagger
             this.TrackDataSearchResults.Clear();
 
 
+            if(Uri.IsWellFormedUriString(this.TrackDataSearchText,UriKind.Absolute))
+            {
 
-            _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
+                Uri searchUri = new Uri(this.TrackDataSearchText);
+
+                foreach(var dataSource in TrackDataSources)
+                {
+
+                    if(dataSource.HostName == searchUri.Host)
+                    {
+                        SelectedDataSource = dataSource;
+
+                        _currentSearch = this.SelectedDataSource.GetTrackDataSearch(searchUri);
+
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
+            }
+
+
+
 
 
 
@@ -928,6 +958,47 @@ namespace TraktorTagger
             }
         }
 
+
+
+        private void BrowseToTraktorTrackDataURL(object o)
+        {
+            System.Diagnostics.Process.Start(SelectedTraktorTrack.DataSourceUri.AbsoluteUri);
+        }
+
+        private void BrowseToTrackDataURL(object o)
+        {
+            System.Diagnostics.Process.Start(SelectedTrackData.URL.AbsoluteUri);
+        }
+
+
+        private void SearchTraktorTrackDataSource(object o)
+        {
+            this.TrackDataSearchText = SelectedTraktorTrack.DataSourceUri.AbsoluteUri;
+            SearchTrackDataCommand.Execute(null);
+        }
+
+
+
+        private bool CanBrowseToTraktorTrackDataURL(object o)
+        {
+            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
+            else return false;
+        }
+
+        private bool CanBrowseToTrackDataURL(object o)
+        {
+            if(this.SelectedTrackData != null) return true;
+            else return false;
+        }
+
+
+        private bool CanSearchTraktorTrackDataSource(object o)
+        {
+            if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
+            else return false;
+        }
+
+
         #endregion
 
         #region ICommands
@@ -943,6 +1014,10 @@ namespace TraktorTagger
         public ICommand DonateCommand { get; private set; }
         public ICommand OpenHelpCommand { get; private set; }
         public ICommand AboutCommand { get; private set; }
+
+        public ICommand SearchTraktorTrackDataSourceCommand { get; private set; }
+        public ICommand BrowseToTraktorTrackUrlCommand { get; private set; }
+        public ICommand BrowseToTrackDataURLCommand { get; private set; }
 
 
 

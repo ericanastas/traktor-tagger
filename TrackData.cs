@@ -22,7 +22,7 @@ namespace TraktorTagger
 
 
         public string Genre { get; private set; }
-        public Key? Key { get; private set; }
+        public KeyEnum? Key { get; private set; }
        
         public DateTime? ReleaseDate { get; private set; }
 
@@ -42,7 +42,7 @@ namespace TraktorTagger
             string label, 
             string catalogNo, 
             string genre, 
-            Key? key, 
+            KeyEnum? key, 
             DateTime? releaseDate, 
             Uri url)
         {
