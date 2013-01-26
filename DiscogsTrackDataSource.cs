@@ -114,14 +114,11 @@ namespace TraktorTagger
 
         public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
         {
-            return new DiscogsTrackDataSearch(this, "Test Search", 4, "Vinyl");
+            return new DiscogsTrackDataSearch(this,searchUri);
         }
 
 
-        public string SearchPrompt
-        {
-            get { return "Search query, or discogs.com release URL"; }
-        }
+
     }
 }
 

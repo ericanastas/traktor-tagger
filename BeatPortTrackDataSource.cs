@@ -109,13 +109,10 @@ namespace TraktorTagger
 
         public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
         {
-            throw new NotImplementedException();
+            return new BeatPortTrackDataSearch(this,searchUri);
         }
 
 
-        public string SearchPrompt
-        {
-            get { return "Search query, beatport.com track URL, or beatport.com release URL"; }
-        }
+
     }
 }

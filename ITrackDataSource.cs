@@ -24,12 +24,6 @@ namespace TraktorTagger
 
 
 
-        /// <summary>
-        /// Short message which identifies the format(s) of search queries for the data source
-        /// </summary>
-        String SearchPrompt { get; }
-
-
         bool ProvidesTitle { get; }
         bool ProvidesMix { get; }
         bool ProvidesArtist { get; }

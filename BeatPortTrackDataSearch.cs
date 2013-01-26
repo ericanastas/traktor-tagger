@@ -19,6 +19,39 @@ namespace TraktorTagger
         List<TrackData> _trackData;
 
 
+
+        public BeatPortTrackDataSearch(BeatportTrackDataSource source, Uri searchUri)
+        {
+            this.DataSource = source;
+            this.HasMoreResults = false;
+            this._query = searchUri.AbsoluteUri;
+
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/track/.*/(\d*)");
+
+
+            var match = regex.Match(searchUri.AbsoluteUri);
+
+            if(!match.Success) throw new ArgumentException("Invalid Beatport track URL format", "searchUri");
+
+
+
+            int trackId = System.Convert.ToInt32(match.Groups[1].Value);
+
+
+            var trackData = GetTrackData(trackId);
+
+
+            var results = ParseTrackResults(trackData["results"]);
+
+            foreach(var r in results)
+            {
+                _trackData.Add(r);
+            }
+
+
+        }
+
+
         public BeatPortTrackDataSearch(BeatportTrackDataSource source, string query, int trackPerPage)
         {
             HasMoreResults = true;
@@ -59,38 +92,12 @@ namespace TraktorTagger
 
             var data = GetTrackData(SearchQuery, _currentPage, _trackPerPage);
 
-            List<TrackData> newTracks = new List<TrackData>();
 
 
-            foreach(Dictionary<string, dynamic> result in data["results"])
-            {
-                string trackId = result["id"].ToString();
-                string title = result["name"];
-                string mix = result["mixName"];
-                string label = result["label"]["name"];
-
-                //done
-                DateTime releaseDate = GetReleaseDate(result["releaseDate"]);
-                string release = result["release"]["name"];
-                string catalogNo = GetCatalogNumber(result["release"]["id"]);
-                Uri url = GetUri(result["id"], result["slug"]);
-                string genre = GetGenre(result["genres"]);
-                string artist = GetArtist(result["artists"], "artist");
-                string remixer = GetArtist(result["artists"], "remixer");
+            var tracks = ParseTrackResults(data);
+            List<TrackData> newTracks = new List<TrackData>(tracks);
 
 
-                //not sure how to get the producer out of beatport
-                string producer = null;
-
-                KeyEnum key = GetKey(result["key"]);
-
-                
-                
-
-                TrackData track = new TrackData(DataSource.HostName, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
-
-                newTracks.Add(track);
-            }
 
             _trackData.AddRange(newTracks);
 
@@ -108,7 +115,7 @@ namespace TraktorTagger
             return newTracks.AsReadOnly();
         }
 
-        
+
 
         private string GetCatalogNumber(int p)
         {
@@ -128,12 +135,12 @@ namespace TraktorTagger
 
                 builder.Path = "/catalog/3/beatport/release";
 
-                   
-
-                    builder.Query = "id="+p.ToString();
 
 
-                
+                builder.Query = "id=" + p.ToString();
+
+
+
                 string jsonString = wc.DownloadString(builder.Uri.AbsoluteUri);
 
                 var jss = new JavaScriptSerializer();
@@ -142,7 +149,7 @@ namespace TraktorTagger
                 cat = returnData["results"]["release"]["catalogNumber"];
 
                 _catalogNumberCache.Add(p, cat);
-            
+
             }
 
             return cat;
@@ -183,7 +190,7 @@ namespace TraktorTagger
 
             var m = regex.Match(dateStr);
 
-            if(!m.Success) throw new InvalidOperationException("Error reading date string:"+dateStr);
+            if(!m.Success) throw new InvalidOperationException("Error reading date string:" + dateStr);
 
 
             int year = System.Convert.ToInt32(m.Groups[1].Value);
@@ -227,7 +234,7 @@ namespace TraktorTagger
         {
             List<string> genreNames = new List<string>();
 
-            foreach(Dictionary<string,dynamic> genre in genres)
+            foreach(Dictionary<string, dynamic> genre in genres)
             {
                 genreNames.Add((string)genre["name"]);
             }
@@ -236,6 +243,63 @@ namespace TraktorTagger
 
             return genreStr;
         }
+
+
+        private IEnumerable<TrackData> ParseTrackResults(Dictionary<string, dynamic> resultsData)
+        {
+
+            foreach(Dictionary<string, dynamic> result in resultsData)
+            {
+                string trackId = result["id"].ToString();
+                string title = result["name"];
+                string mix = result["mixName"];
+                string label = result["label"]["name"];
+
+                //done
+                DateTime releaseDate = GetReleaseDate(result["releaseDate"]);
+                string release = result["release"]["name"];
+                string catalogNo = GetCatalogNumber(result["release"]["id"]);
+                Uri url = GetUri(result["id"], result["slug"]);
+                string genre = GetGenre(result["genres"]);
+                string artist = GetArtist(result["artists"], "artist");
+                string remixer = GetArtist(result["artists"], "remixer");
+
+
+                //not sure how to get the producer out of beatport
+                string producer = null;
+
+                KeyEnum key = GetKey(result["key"]);
+
+                TrackData track = new TrackData(DataSource.HostName, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
+
+                yield return track;
+            }
+        }
+
+
+
+        private Dictionary<string, dynamic> GetTrackData(int trackId)
+        {
+
+            Dictionary<String, dynamic> returnDict;
+
+            using(var webclient = new WebClient())
+            {
+                System.UriBuilder trackDataUrlBuilder = new UriBuilder("http:", "api.beatport.com");
+                trackDataUrlBuilder.Path = "catalog/3/beatport/track";
+
+                trackDataUrlBuilder.Query = "id="+trackId.ToString();
+
+
+                string jsonString = webclient.DownloadString(trackDataUrlBuilder.Uri.AbsoluteUri);
+
+                var jss = new JavaScriptSerializer();
+                returnDict = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
+            }
+
+            return returnDict;
+        }
+
 
         private Dictionary<String, dynamic> GetTrackData(string searchQuery, int page, int tracksPerPage)
         {

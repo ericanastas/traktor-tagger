@@ -25,6 +25,23 @@ namespace TraktorTagger
         IList<string> _producerRoles;
 
 
+        public DiscogsTrackDataSearch(DiscogsTrackDataSource dataSource, Uri discogsTrackUrl)
+        {
+            this._query = discogsTrackUrl.AbsoluteUri;
+            this.HasMoreResults = false;
+            this.DataSource = dataSource;
+
+            throw new NotImplementedException();
+
+
+
+
+
+
+        }
+
+
+
         public DiscogsTrackDataSearch(DiscogsTrackDataSource dataSource, string query, int tracksPerPage, string format)
         {
             HasMoreResults = true;
