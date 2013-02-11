@@ -951,7 +951,9 @@ namespace TraktorTagger
 
         public void OpenNML(string nmlFilePath)
         {
-            Collection = new TracktorCollection(nmlFilePath);
+            if(Collection != null) Collection.Dispose();
+
+            Collection = new TracktorCollection(nmlFilePath,false);
 
             this.TraktorTracks.Clear();
 

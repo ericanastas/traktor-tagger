@@ -9,10 +9,17 @@ namespace TraktorTagger
     /// <summary>
     /// Class used to read and modify the contents of a Traktor NML collection file.
     /// </summary>
-    public class TracktorCollection
+    public class TracktorCollection:IDisposable
     {
+        
         private List<TraktorTrack> _entries;
         private System.Xml.XmlDocument _collectionXmlDoc;
+
+        private System.IO.FileStream _fileStream;
+
+        
+
+        public bool ReadOnly { get; private set; }
 
 
         /// <summary>
@@ -37,7 +44,12 @@ namespace TraktorTagger
         /// </summary>
         public void SaveCollection()
         {
-            _collectionXmlDoc.Save(FileName);
+            if(ReadOnly) throw new InvalidOperationException("Collection is opened as read only");
+
+
+            _fileStream.Position = 0;
+
+            _collectionXmlDoc.Save(_fileStream);
 
             this.HasUnsavedChanges = false;
         }
@@ -52,16 +64,33 @@ namespace TraktorTagger
         /// Opens a Traktor collection NML file
         /// </summary>
         /// <param name="fileName">The path to the collection NML file</param>
-        public TracktorCollection(string fileName)
+        public TracktorCollection(string fileName, bool readOnly)
         {
             if(string.IsNullOrEmpty(fileName)) throw new ArgumentNullException("fileName");
             if(!System.IO.File.Exists(fileName)) throw new System.IO.FileNotFoundException("Traktor collection file not found", fileName);
             
             FileName = fileName;
 
-            _collectionXmlDoc = new System.Xml.XmlDocument();
-            _collectionXmlDoc.Load(fileName);
+            ReadOnly = readOnly;
 
+
+            _fileStream = new System.IO.FileStream(fileName, System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.Read);
+
+            
+
+            //creates new xml document
+            _collectionXmlDoc = new System.Xml.XmlDocument();
+            _collectionXmlDoc.Load(_fileStream);
+
+            if(ReadOnly)
+            {
+                _fileStream.Close();
+                _fileStream = null;
+            }
+
+
+
+            //subscribes to change events
             _collectionXmlDoc.NodeChanged += _collectionXmlDoc_NodeChanged;
             _collectionXmlDoc.NodeInserted += _collectionXmlDoc_NodeInserted;
             _collectionXmlDoc.NodeRemoved += _collectionXmlDoc_NodeRemoved;
@@ -98,5 +127,38 @@ namespace TraktorTagger
             this.HasUnsavedChanges = true;
         }
 
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                // Free other state (managed objects).
+            }
+            // Free your own state (unmanaged objects).
+            // Set large fields to null.
+
+
+            _collectionXmlDoc.NodeChanged -= _collectionXmlDoc_NodeChanged;
+            _collectionXmlDoc.NodeInserted -= _collectionXmlDoc_NodeInserted;
+            _collectionXmlDoc.NodeRemoved -= _collectionXmlDoc_NodeRemoved;
+
+            if(_fileStream != null)
+            {
+                _fileStream.Close();
+                _fileStream = null;
+            }
+        }
+
+        ~TracktorCollection()
+        {
+            // Simply call Dispose(false).
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this); 
+        }
     }
 }
