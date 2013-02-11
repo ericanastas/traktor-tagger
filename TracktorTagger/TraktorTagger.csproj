@@ -106,7 +106,6 @@
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="DiscogsTrackDataSearch.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="KeyEnumConverter.cs" />
     <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
