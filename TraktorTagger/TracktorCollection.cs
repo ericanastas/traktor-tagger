@@ -38,6 +38,14 @@ namespace TraktorTagger
         public void SaveCollection()
         {
             _collectionXmlDoc.Save(FileName);
+
+            this.HasUnsavedChanges = false;
+        }
+
+        public bool HasUnsavedChanges
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -54,6 +62,11 @@ namespace TraktorTagger
             _collectionXmlDoc = new System.Xml.XmlDocument();
             _collectionXmlDoc.Load(fileName);
 
+            _collectionXmlDoc.NodeChanged += _collectionXmlDoc_NodeChanged;
+            _collectionXmlDoc.NodeInserted += _collectionXmlDoc_NodeInserted;
+            _collectionXmlDoc.NodeRemoved += _collectionXmlDoc_NodeRemoved;
+
+
             //checks the NML Version
             var nmlNode = _collectionXmlDoc.DocumentElement.SelectNodes("/NML")[0];
             var versionString = nmlNode.Attributes["VERSION"].Value;
@@ -68,6 +81,21 @@ namespace TraktorTagger
             {
                 _entries.Add(new TraktorTrack(entryNode));
             }
+        }
+
+        void _collectionXmlDoc_NodeRemoved(object sender, System.Xml.XmlNodeChangedEventArgs e)
+        {
+            this.HasUnsavedChanges = true;
+        }
+
+        void _collectionXmlDoc_NodeInserted(object sender, System.Xml.XmlNodeChangedEventArgs e)
+        {
+            this.HasUnsavedChanges = true;
+        }
+
+        void _collectionXmlDoc_NodeChanged(object sender, System.Xml.XmlNodeChangedEventArgs e)
+        {
+            this.HasUnsavedChanges = true;
         }
 
     }

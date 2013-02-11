@@ -814,18 +814,18 @@ namespace TraktorTagger
 
         private void OpenHelp(object o)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.HelpURL);
+            System.Diagnostics.Process.Start(Properties.Resources.HelpURL);
         }
 
 
         private void About(object o)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.AboutURL);
+            System.Diagnostics.Process.Start(Properties.Resources.AboutURL);
         }
 
         private void Donate(object o)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.DonateURL);
+            System.Diagnostics.Process.Start(Properties.Resources.DonateURL);
         }
 
         private bool CanTagSelected(object o)

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
+  
 
-
-  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.2" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
+  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.3" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"  Id="*" Description="Traktor Tagger Installer"/>
 
+    <Property Id="MSIFASTINSTALL" Value="3" />
+    
+    
+    <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
 
     <Media Id="1" Cabinet="TraktorTaggerSetup.cab" EmbedCab="yes"/>
 
@@ -13,6 +17,7 @@
 
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLDIR" Name ="Traktor Tagger">
+          
           
           
           <Component Id="MainExecutable" Guid="1563C0F2-CD5B-48C6-8C35-3202B7F9C674">
@@ -30,7 +35,7 @@
 
 
           <Component Id="ConfigFile" Guid ="916418DE-3741-4147-B2AB-FC6DB207FEA2">
-            <File Id="TraktorTaggerCONFIG" Name="TraktorTagger.exe.config" Source="..\TraktorTagger\bin\Release\TraktorTagger.exe.config" Vital="yes" KeyPath="yes" />
+            <File Id="TraktorTaggerCONFIG" Name="TraktorTagger.exe.config" Source="..\TraktorTagger\bin\Release\TraktorTagger.exe.config" Vital="yes" KeyPath="yes"  />
           </Component>
 
 

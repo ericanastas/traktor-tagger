@@ -25,12 +25,50 @@ namespace TraktorTagger
     public partial class MainWindow : Window
     {
 
+        public MainWindowViewModel ViewModel { get; private set; }
+
+
+
+
         public MainWindow()
         {
             InitializeComponent();
 
-            this.DataContext = new MainWindowViewModel();
+            ViewModel = new MainWindowViewModel();
+            this.DataContext = ViewModel;
         }
+
+       
+
+
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            //prompts user to save unsaved changes
+            if(this.ViewModel.Collection != null && this.ViewModel.Collection.HasUnsavedChanges)
+            {
+                var res = System.Windows.MessageBox.Show("There are unsaved changes made to the collection.\n\n Do you want to save these changes?", "Traktor Tagger", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+
+                if(res == MessageBoxResult.Yes)
+                {
+                    this.ViewModel.Collection.SaveCollection();
+                }
+                else if(res == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+                else if(res == MessageBoxResult.No)
+                {
+                    //just continue to close
+                }
+            }
+
+
+            base.OnClosing(e);
+
+        }
+
+
 
 
 

@@ -59,5 +59,41 @@ namespace TraktorTagger.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://code.google.com/p/traktor-tagger/.
+        /// </summary>
+        internal static string AboutURL {
+            get {
+                return ResourceManager.GetString("AboutURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=RXJ2FTG86K9X6.
+        /// </summary>
+        internal static string DonateURL {
+            get {
+                return ResourceManager.GetString("DonateURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://code.google.com/p/traktor-tagger/wiki/Overview.
+        /// </summary>
+        internal static string HelpURL {
+            get {
+                return ResourceManager.GetString("HelpURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to traktor.exe.
+        /// </summary>
+        internal static string TraktorEXE {
+            get {
+                return ResourceManager.GetString("TraktorEXE", resourceCulture);
+            }
+        }
     }
 }
