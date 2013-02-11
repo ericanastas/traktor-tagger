@@ -42,8 +42,6 @@ namespace TraktorTagger
             throw new NotImplementedException();
         }
 
-
-
         public string Host
         {
             get { return "www.discogs.com"; }
@@ -54,6 +52,13 @@ namespace TraktorTagger
         {
             return new DiscogsTrackDataSearch(this, searchQuery, PerPage, FormatFilter);
         }
+
+        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
+        {
+            return new DiscogsTrackDataSearch(this, searchUri);
+        }
+
+        #region Provides properties
 
 
         public bool ProvidesTitle
@@ -111,11 +116,8 @@ namespace TraktorTagger
             get { return false; }
         }
 
+        #endregion
 
-        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
-        {
-            return new DiscogsTrackDataSearch(this,searchUri);
-        }
 
 
 

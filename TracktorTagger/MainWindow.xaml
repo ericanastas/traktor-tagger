@@ -200,11 +200,11 @@
 
 
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding DataSourceName}" Value="www.beatport.com">
+                                        <DataTrigger Binding="{Binding DataSourceHost}" Value="www.beatport.com">
                                             <Setter TargetName="img" Property="Source" Value="Images/beatport_24.jpg"/>
                                         </DataTrigger>
 
-                                        <DataTrigger Binding="{Binding DataSourceName}" Value="www.discogs.com">
+                                        <DataTrigger Binding="{Binding DataSourceHost}" Value="www.discogs.com">
                                             <Setter TargetName="img" Property="Source" Value="Images/discogs_24.jpg"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>

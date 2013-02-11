@@ -27,7 +27,7 @@ namespace TraktorTagger
         public DateTime? ReleaseDate { get; private set; }
 
 
-        public string DataSourceHostName { get; private set; }
+        public string DataSourceHost { get; private set; }
 
 
 
@@ -48,7 +48,7 @@ namespace TraktorTagger
         {
             this.TrackId = trackId;
 
-            this.DataSourceHostName = dataSourceHostName;
+            this.DataSourceHost = dataSourceHostName;
 
             this.Artist = artist;
             this.Title = title;

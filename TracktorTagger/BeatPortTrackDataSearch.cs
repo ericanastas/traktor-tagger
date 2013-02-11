@@ -60,8 +60,8 @@ namespace TraktorTagger
 
 
             //Beatport.com URL regex
-            System.Text.RegularExpressions.Regex trackURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/track/(.*)/(\d*)");
-            System.Text.RegularExpressions.Regex releaseURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/release/(.*)/(\d*)");
+            System.Text.RegularExpressions.Regex trackURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/track/(.*)/(\d*)$");
+            System.Text.RegularExpressions.Regex releaseURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/release/(.*)/(\d*)$");
 
 
             //attempts to match URL
@@ -85,13 +85,25 @@ namespace TraktorTagger
             }
             else if(releaseMatch.Success)
             {
-                int releaseId = System.Convert.ToInt32(trackMatch.Groups[2].Value);
+                int releaseId = System.Convert.ToInt32(releaseMatch.Groups[2].Value);
 
                 var releaseResults = GetReleaseData(releaseId);
 
 
-                //need to download track information for release
-                throw new NotImplementedException();
+                _trackData = new List<TrackData>();
+
+                var releaseData = releaseResults["results"]["release"];
+
+                foreach(Dictionary<string, dynamic> trackData in releaseResults["results"]["tracks"])
+                {
+                    var newTrack = ParseResponse(trackData, releaseData,this.Source.Host);
+
+                    _trackData.Add(newTrack);
+                }
+
+
+
+    
             }
             else
             {
@@ -122,7 +134,7 @@ namespace TraktorTagger
             if(!HasMoreResults) throw new InvalidOperationException("Can not load more results. BeatportTrackDataSearch.HasMoreResults == false");
 
 
-            var trackSearchData = GetSearchTrackData(_query, _currentPage, _trackPerPage);
+            var trackSearchData = GetSearchResultsData(_query, _currentPage, _trackPerPage);
 
             _totalPages = trackSearchData["metadata"]["totalPages"];
 
@@ -143,8 +155,8 @@ namespace TraktorTagger
                 }
                 else
                 {
-                    releaseData = GetReleaseData(releaseId);
-                    _releaseDataCache.Add(releaseId, releaseData["results"]["release"]);
+                    releaseData = GetReleaseData(releaseId)["results"]["release"];
+                    _releaseDataCache.Add(releaseId, releaseData);
                 }
 
                 TrackData newTrack = ParseResponse(trackData, releaseData, this.Source.Host);
@@ -357,7 +369,7 @@ namespace TraktorTagger
         }
 
 
-        private static Dictionary<string, dynamic> GetSearchTrackData(string searchQuery, int page, int tracksPerPage)
+        private static Dictionary<string, dynamic> GetSearchResultsData(string searchQuery, int page, int tracksPerPage)
         {
             Dictionary<String, dynamic> returnDict;
 
