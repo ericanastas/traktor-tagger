@@ -19,6 +19,9 @@ namespace TraktorTagger
         {
             base.OnStartup(e);
 
+            
+
+
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
 

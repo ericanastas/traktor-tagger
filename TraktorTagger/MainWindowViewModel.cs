@@ -10,22 +10,33 @@ namespace TraktorTagger
 {
     public class MainWindowViewModel : System.ComponentModel.INotifyPropertyChanged
     {
+
+        private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(MainWindowViewModel));
+
         public MainWindowViewModel()
         {
+
+
+            log.Debug("MainWindowViewModel constructor called");
+
+
+
+            log.Debug("Initializing ObservableCollections");
             this.TrackDataSearchResults = new System.Collections.ObjectModel.ObservableCollection<TrackData>();
             this.TraktorTracks = new System.Collections.ObjectModel.ObservableCollection<TraktorTrack>();
-
             this.TrackDataSources = new System.Collections.ObjectModel.ObservableCollection<ITrackDataSource>();
 
 
 
 #if DEBUG
+            log.Debug("Debugging. Adding placeholder track data source.");
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
 #endif
 
+
+            log.Debug("Debugging. Adding placeholder track data source.");
             this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
             this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
-
             this.SelectedDataSource = this.TrackDataSources[0];
 
             //commands
