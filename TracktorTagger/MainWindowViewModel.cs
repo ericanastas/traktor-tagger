@@ -43,20 +43,23 @@ namespace TraktorTagger
             this.OpenHelpCommand = new RelayCommand(new Action<object>(this.OpenHelp));
             this.AboutCommand = new RelayCommand(new Action<object>(this.About));
 
-            this.BrowseToTrackDataURLCommand = new RelayCommand(new Action<object>(this.BrowseToTrackDataURL),new Predicate<object>(this.CanBrowseToTrackDataURL));
+            this.BrowseToTrackDataURLCommand = new RelayCommand(new Action<object>(this.BrowseToTrackDataURL), new Predicate<object>(this.CanBrowseToTrackDataURL));
             this.SearchTraktorTrackDataSourceCommand = new RelayCommand(new Action<object>(this.SearchTraktorTrackDataSource), new Predicate<object>(this.CanSearchTraktorTrackDataSource));
-            this.BrowseToTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.BrowseToTraktorTrackDataURL),new Predicate<object>(CanBrowseToTraktorTrackDataURL));
-
-
-
-
+            this.BrowseToTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.BrowseToTraktorTrackDataURL), new Predicate<object>(CanBrowseToTraktorTrackDataURL));
 
 
             this.TagDataSource = true;
 
+
+
+            if(System.IO.File.Exists(Properties.Settings.Default.PreviousNML))
+            {
+                OpenNML(Properties.Settings.Default.PreviousNML);
+            }
+
+
+
             UpdateColumnCheckBoxes();
-
-
         }
 
 
@@ -69,26 +72,22 @@ namespace TraktorTagger
         public TracktorCollection Collection { get; private set; }
 
 
-        string _windowTitle;
+
         public string WindowTitle
         {
             get
             {
-                if(string.IsNullOrEmpty(_windowTitle))
-                {
-                    var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                string windowTitle;
+                var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
-                    _windowTitle = "Traktor Tagger " + version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Build.ToString();
-                    return _windowTitle;
+                windowTitle = "Traktor Tagger " + version.Major.ToString() + "." + version.Minor.ToString() + "." + version.Build.ToString();
 
-                }
-                else
+                if(Collection != null)
                 {
-                    return _windowTitle;
+                    windowTitle = windowTitle + " - " + Collection.FileName;
                 }
 
-
-
+                return windowTitle;
             }
         }
 
@@ -826,7 +825,7 @@ namespace TraktorTagger
 
         private void Donate(object o)
         {
-            System.Diagnostics.Process.Start(Properties.Settings.Default.DonateURL);        
+            System.Diagnostics.Process.Start(Properties.Settings.Default.DonateURL);
         }
 
         private bool CanTagSelected(object o)
@@ -880,7 +879,7 @@ namespace TraktorTagger
             this.TrackDataSearchResults.Clear();
 
 
-            if(Uri.IsWellFormedUriString(this.TrackDataSearchText,UriKind.Absolute))
+            if(Uri.IsWellFormedUriString(this.TrackDataSearchText, UriKind.Absolute))
             {
                 Uri searchUri = new Uri(this.TrackDataSearchText);
 
@@ -944,15 +943,27 @@ namespace TraktorTagger
 
             if(res.HasValue && res.Value)
             {
-                Collection = new TracktorCollection(odiag.FileName);
-
-                this.TraktorTracks.Clear();
-
-                foreach(TraktorTrack t in Collection.Entries)
-                {
-                    this.TraktorTracks.Add(t);
-                }
+                OpenNML(odiag.FileName);
             }
+
+
+        }
+
+        public void OpenNML(string nmlFilePath)
+        {
+            Collection = new TracktorCollection(nmlFilePath);
+
+            this.TraktorTracks.Clear();
+
+            foreach(TraktorTrack t in Collection.Entries)
+            {
+                this.TraktorTracks.Add(t);
+            }
+
+            Properties.Settings.Default.PreviousNML = nmlFilePath;
+            Properties.Settings.Default.Save();
+
+            RaisePropertyChanged("WindowTitle");
         }
 
 

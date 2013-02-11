@@ -20,5 +20,8 @@
     <Setting Name="AboutURL" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://code.google.com/p/traktor-tagger/</Value>
     </Setting>
+    <Setting Name="PreviousNML" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

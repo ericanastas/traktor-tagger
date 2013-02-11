@@ -77,5 +77,17 @@ namespace TraktorTagger.Properties {
                 return ((string)(this["AboutURL"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PreviousNML {
+            get {
+                return ((string)(this["PreviousNML"]));
+            }
+            set {
+                this["PreviousNML"] = value;
+            }
+        }
     }
 }
