@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TraktorTaggerSetup", "TraktorTaggerSetup\TraktorTaggerSetup.wixproj", "{8180AC6F-DBB3-403F-A0D8-352B79413C80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktorTagger", "TracktorTagger\TraktorTagger.csproj", "{FBFBC7CF-C952-42AA-80FA-727166C4158B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraktorTagger", "TraktorTagger\TraktorTagger.csproj", "{FBFBC7CF-C952-42AA-80FA-727166C4158B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,7 @@
 
 
 
-  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.1" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
+  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.2" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"  Id="*" Description="Traktor Tagger Installer"/>
 
 
@@ -13,8 +13,10 @@
 
       <Directory Id="ProgramFilesFolder" Name="PFiles">
         <Directory Id="INSTALLDIR" Name ="Traktor Tagger">
+          
+          
           <Component Id="MainExecutable" Guid="1563C0F2-CD5B-48C6-8C35-3202B7F9C674">
-            <File Id="TraktorTaggerEXE" Name="TraktorTagger.exe" Source="..\bin\Release\TraktorTagger.exe" Vital="yes" KeyPath="yes">
+            <File Id="TraktorTaggerEXE" Name="TraktorTagger.exe" Source="..\TraktorTagger\bin\Release\TraktorTagger.exe" Vital="yes" KeyPath="yes">
               <Shortcut Id="StartMenuIcon" Directory="ProgramMenuDir" Name="Traktor Tagger" WorkingDirectory="INSTALLDIR" Advertise="yes"/>
               <Shortcut Id ="DesktopIcon" Directory="DesktopFolder" Name ="Traktor Tagger" WorkingDirectory="INSTALLDIR" Advertise="yes"/>
             </File>
@@ -22,13 +24,18 @@
 
           <Component Id="Log4NetAssembly" Guid="40BE0F38-D1FA-4BA7-AB6E-359BFE29F9E3">
 
-            <File Id="Log4NetDLL" Name="log4net.dll" Source="..\bin\Release\log4net.dll" Vital="yes" KeyPath="yes" />
+            <File Id="Log4NetDLL" Name="log4net.dll" Source="..\TraktorTagger\bin\Release\log4net.dll" Vital="yes" KeyPath="yes" />
 
           </Component>
 
 
           <Component Id="ConfigFile" Guid ="916418DE-3741-4147-B2AB-FC6DB207FEA2">
-          <File Id="TraktorTaggerCONFIG" Name="TraktorTagger.exe.config" Source="..\bin\Release\TraktorTagger.exe.config" Vital="yes" KeyPath="yes" />
+            <File Id="TraktorTaggerCONFIG" Name="TraktorTagger.exe.config" Source="..\TraktorTagger\bin\Release\TraktorTagger.exe.config" Vital="yes" KeyPath="yes" />
+          </Component>
+
+
+          <Component Id="DebugFile" Guid ="00C6C2DD-2BFD-49D4-B7CF-81F669AD87AA">
+            <File Id="TraktorTaggerPDB" Name="TraktorTagger.pdb" Source="..\TraktorTagger\bin\Release\TraktorTagger.pdb" Vital="yes" KeyPath="yes" />
           </Component>
 
         </Directory>
@@ -55,7 +62,7 @@
       <ComponentRef Id="ProgramMenuDir"/>
       <ComponentRef Id="ConfigFile"/>
       <ComponentRef Id="Log4NetAssembly"/>
-
+      <ComponentRef Id ="DebugFile"/>
 
     </Feature>
 
