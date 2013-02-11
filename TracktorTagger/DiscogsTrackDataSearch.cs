@@ -11,10 +11,9 @@ namespace TraktorTagger
     public class DiscogsTrackDataSearch : ITrackDataSearch
     {
 
-
         int _perPage;
         int _totalPages;
-        int _currentPage;
+        int _nextPage;
         string _format;
 
         public bool HasMoreResults
@@ -35,13 +34,12 @@ namespace TraktorTagger
         IList<string> _remixRoles;
         IList<string> _producerRoles;
 
-
-        public DiscogsTrackDataSearch(DiscogsTrackDataSource source, Uri searchUri)
+        public DiscogsTrackDataSearch(DiscogsTrackDataSource source, Uri releaseUri)
         {
             if(source == null) throw new ArgumentNullException("source");
-            if(searchUri == null) throw new ArgumentNullException("searchUri");
+            if(releaseUri == null) throw new ArgumentNullException("releaseUri");
 
-            this.SearchQuery = searchUri.AbsoluteUri;
+            this.SearchQuery = releaseUri.AbsoluteUri;
             this.HasMoreResults = false;
             this.Source = source;
 
@@ -49,7 +47,7 @@ namespace TraktorTagger
             System.Text.RegularExpressions.Regex releaseURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.discogs.com/(.*)/release/(\d*)$");
 
 
-            var uriMatch = releaseURIRegex.Match(searchUri.AbsoluteUri);
+            var uriMatch = releaseURIRegex.Match(releaseUri.AbsoluteUri);
 
             if(uriMatch.Success)
             {
@@ -58,22 +56,15 @@ namespace TraktorTagger
 
                 Dictionary<string, dynamic> releaseData = GetReleaseData(releaseId);
 
-                IEnumerable<TrackData> releaseTracks = ParseReleaseData(releaseData);
+                IEnumerable<TrackData> releaseTracks = ParseReleaseData(releaseData,this.Source.Host);
 
                 _results = new List<TrackData>(releaseTracks);
             }
             else
             {
-                throw new ArgumentException("Invalid Discogs release URL format", "searchUri");
+                throw new ArgumentException("Invalid Discogs release URI format", "searchUri");
             }
         }
-
-
-
-
-
-
-
 
         public DiscogsTrackDataSearch(DiscogsTrackDataSource dataSource, string query, int tracksPerPage, string format)
         {
@@ -83,13 +74,14 @@ namespace TraktorTagger
             SearchQuery = query;
             _perPage = tracksPerPage;
 
-            _currentPage = 1;
+            _nextPage = 1;
             _format = format;
 
 
+            _results = new List<TrackData>();
+
+
             InitRoles();
-
-
 
             LoadMoreResults();
         }
@@ -106,7 +98,6 @@ namespace TraktorTagger
             _producerRoles = new List<string>();
             _producerRoles.Add("Producer");
             _producerRoles.Add("producer");
-
         }
 
         public string SearchQuery
@@ -127,28 +118,31 @@ namespace TraktorTagger
             if(!HasMoreResults) return new List<TrackData>();
 
 
-            var data = GetSearchResultsData(SearchQuery, _currentPage, _perPage,this._format);
+            var data = GetSearchResultsData(SearchQuery, _nextPage, _perPage,this._format);
 
+            _totalPages = data["pagination"]["pages"];
 
             List<TrackData> newTracks = new List<TrackData>();
 
-
             foreach(Dictionary<string, dynamic> result in data["results"])
             {
-                var tracks = GetResultsTracks(result);
 
+                int releaseId = result["id"];
+
+                var releaseData = GetReleaseData(releaseId);
+
+                var tracks = ParseReleaseData(releaseData, this.Source.Host);
+                
                 newTracks.AddRange(tracks);
             }
 
-
-            if(_currentPage == _totalPages)
+            if(_nextPage == _totalPages)
             {
-
                 HasMoreResults = false;
             }
             else
             {
-                _currentPage++;
+                _nextPage++;
             }
 
             _results.AddRange(newTracks);
@@ -157,252 +151,11 @@ namespace TraktorTagger
 
         }
 
-
-
-
-
-        private IList<TrackData> GetResultsTracks(Dictionary<string, dynamic> releaseSearchResult)
-        {
-            var returnTracks = new List<TrackData>();
-
-
-
-            using(var webclient = new WebClient())
-            {
-
-                string releaseUrl = releaseSearchResult["resource_url"];
-                Uri releaseDataUri = new Uri(releaseUrl);
-
-
-                string jsonString = webclient.DownloadString(releaseDataUri.AbsoluteUri);
-                var jss = new JavaScriptSerializer();
-                Dictionary<string, dynamic> releaseData = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
-
-
-                //release title
-                string release = releaseData["title"];
-
-                //get the url
-                string urlString = releaseData["uri"];
-                Uri url = new Uri(urlString);
-
-                string label = null;
-                string genre = null;
-                string catalogNo = null;
-                DateTime? releaseDate = null;
-
-
-
-                if(releaseData.ContainsKey("labels"))
-                {
-                    label = GetLabel(releaseData["labels"]);
-                    catalogNo = GetCatalogNo(releaseData["labels"]);
-                }
-
-                if(releaseData.ContainsKey("styles"))
-                {
-                    genre = GetGenres(releaseData["styles"]);
-                }
-
-                if(releaseData.ContainsKey("released"))
-                {
-                    releaseDate = GetReleaseDate(releaseData["released"]);
-                }
-
-
-
-
-
-
-
-                List<string> releaseArtists = new List<string>();
-                List<string> releaseRemixers = new List<string>();
-                List<string> releaseProducers = new List<string>();
-
-
-                if(releaseData.ContainsKey("artists"))
-                {
-                    releaseArtists.AddRange(GetArtists(releaseData["artists"], null));
-                    releaseRemixers.AddRange(GetArtists(releaseData["artists"], _remixRoles));
-                    releaseProducers.AddRange(GetArtists(releaseData["artists"], _producerRoles));
-                }
-
-                if(releaseData.ContainsKey("extraartists"))
-                {
-                    releaseArtists.AddRange(GetArtists(releaseData["extraartists"], null));
-                    releaseRemixers.AddRange(GetArtists(releaseData["extraartists"], _remixRoles));
-                    releaseProducers.AddRange(GetArtists(releaseData["extraartists"], _producerRoles));
-                }
-
-
-                int trackNumber = 0;
-
-                foreach(dynamic trackData in releaseData["tracklist"])
-                {
-                    //gets the trackId
-                    //appends the number of the track to the releaseId
-                    trackNumber++;
-                    int trackIdint = releaseData["id"];
-                    string trackId = trackIdint.ToString() + "_" + trackNumber.ToString();
-
-
-
-
-                    //Title and Mix
-                    string title;
-                    string mix;
-
-                    string titleString = trackData["title"];
-                    var titleMixRegex = new System.Text.RegularExpressions.Regex(@"^(.*)\((.*)\)");
-                    var titleMixMatch = titleMixRegex.Match(titleString);
-
-                    if(titleMixMatch.Success)
-                    {
-                        title = titleMixMatch.Groups[1].Value;
-                        mix = titleMixMatch.Groups[2].Value;
-                    }
-                    else
-                    {
-                        title = titleString;
-                        mix = null;
-                    }
-
-
-                    //Artist(s), remixer(s), and producer(s)
-
-                    List<string> trackArtists = new List<string>();
-                    List<string> trackRemixers = new List<string>();
-                    List<string> trackProducers = new List<string>();
-
-                    if(trackData.ContainsKey("artists"))
-                    {
-                        trackArtists.AddRange(GetArtists(trackData["artists"], null));
-                        trackRemixers.AddRange(GetArtists(trackData["artists"], _remixRoles));
-                        trackProducers.AddRange(GetArtists(trackData["artists"], _producerRoles));
-                    }
-
-                    if(trackData.ContainsKey("extraartists"))
-                    {
-                        trackArtists.AddRange(GetArtists(trackData["extraartists"], null));
-                        trackRemixers.AddRange(GetArtists(trackData["extraartists"], _remixRoles));
-                        trackProducers.AddRange(GetArtists(trackData["extraartists"], _producerRoles));
-                    }
-
-
-                    var fullArtistList = trackArtists.Union(releaseArtists).Distinct();
-                    var fullRemixerList = trackRemixers.Union(releaseRemixers).Distinct();
-                    var fullProducerList = trackProducers.Union(releaseProducers).Distinct();
-
-
-                    string artist = null;
-                    string remixer = null;
-                    string producer = null;
-
-                    if(fullArtistList.Count() > 0)
-                    {
-                        artist = String.Join(", ", fullArtistList);
-                    }
-
-                    if(fullRemixerList.Count() > 0)
-                    {
-                        remixer = String.Join(", ", fullRemixerList);
-                    }
-
-                    if(fullProducerList.Count() > 0)
-                    {
-                        producer = String.Join(", ", fullProducerList);
-                    }
-
-                    TrackData newTrack = new TrackData(Source.Host, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
-
-                    returnTracks.Add(newTrack);
-                }
-            }
-
-            return returnTracks;
-
-
-        }
-
-
-
-
-
-
-        public IEnumerable<TrackData> SearchTracks(string searchQuery)
-        {
-
-            string providerName = this.GetType().FullName;
-
-            if(string.IsNullOrEmpty(searchQuery)) throw new ArgumentNullException("searchQuery");
-
-
-            List<TrackData> returnTracks = new List<TrackData>();
-
-
-            var jss = new JavaScriptSerializer();
-
-            try
-            {
-
-                using(var webclient = new WebClient())
-                {
-
-
-                    System.UriBuilder trackDataUrlBuilder = new UriBuilder("http:", "api.discogs.com");
-                    trackDataUrlBuilder.Path = "database/search";
-
-
-
-                    string query = "q=" + searchQuery + "&page=" + 1 + "&type=release&per_page=" + this._perPage.ToString();
-
-                    trackDataUrlBuilder.Query = query;
-
-
-
-                    string releaseSearchResultsString = webclient.DownloadString(trackDataUrlBuilder.Uri.AbsoluteUri);
-
-
-
-                    var releaseSearchResultsDict = jss.Deserialize<Dictionary<string, dynamic>>(releaseSearchResultsString);
-
-                    var results = releaseSearchResultsDict["results"];
-
-                    foreach(Dictionary<string, object> releaseSearchResults in results)
-                    {
-
-                        var releaseDataUrl = (string)releaseSearchResults["resource_url"];
-
-
-                        string releaseResultsString = webclient.DownloadString(new Uri(releaseDataUrl));
-
-
-                        var releaseData = jss.Deserialize<Dictionary<string, dynamic>>(releaseResultsString);
-
-
-
-
-
-                    }
-
-                }
-            }
-            catch
-            {
-
-            }
-
-
-            return returnTracks;
-        }
-
-
-
         #region Parsing Methods
 
 
 
-        private static IEnumerable<TrackData> ParseReleaseData(Dictionary<string, dynamic> releaseData)
+        private static IEnumerable<TrackData> ParseReleaseData(Dictionary<string, dynamic> releaseData, string host)
         {
             //url
             string URL = (string)releaseData["uri"];
@@ -410,12 +163,27 @@ namespace TraktorTagger
             //release
             string Release = (string)releaseData["title"];
 
-            string Label = null;
-            string CatalogNumber = null;
+            
 
+            //Label and catalog number
             System.Collections.ArrayList labels = releaseData["labels"];
 
+            List<string> labelNames = new List<string>();
+            List<string> catNumbers = new List<string>();
 
+            foreach(Dictionary<string,dynamic> labelData in labels)
+            {
+                labelNames.Add(labelData["name"]);
+                catNumbers.Add(labelData["catno"]);
+            }
+
+            string Label = string.Join(", ", labelNames);
+            string CatalogNumber = string.Join(", ", catNumbers);
+
+            
+
+
+            
 
             
 
@@ -509,45 +277,9 @@ namespace TraktorTagger
 
             }
 
-            //if (releaseData.ContainsKey("extraartists"))
-            //{
-
-            //    foreach (Dictionary<string, object> artist in releaseData["extraartists"])
-            //    {
-            //        var name = (string)artist["name"];
-            //        var anv = (string)artist["anv"];
-            //        var role = (string)artist["role"];
-
-            //        if (name == "Various") continue;
-
-            //        if (!string.IsNullOrEmpty(anv)) name = anv;
-
-
-            //        if (!string.IsNullOrEmpty(role))
-            //        {
-            //            releaseArtists.Add(name);
-            //        }
-            //        else if (role == "Remix")
-            //        {
-            //            releaseRemixers.Add(name);
-            //        }
-            //        else if (role.Contains("Producer"))
-            //        {
-            //            releaseProducers.Add(name);
-            //        }
-            //        else
-            //        {
-            //            throw new InvalidOperationException("found release extra artist with an unknown roll: " + role);
-            //        }
-
-
-            //    }
-            //}
 
             foreach(Dictionary<string, object> trackData in releaseData["tracklist"])
             {
-
-
                 int trackIdInt = (int)releaseData["id"];
                 string TrackId = trackIdInt.ToString();
 
@@ -575,16 +307,10 @@ namespace TraktorTagger
                 }
 
 
-
-
-
                 //track artists
-
-
                 List<string> trackArtists = new List<string>();
                 List<string> trackRemixers = new List<string>();
                 List<string> trackProducers = new List<string>();
-
 
 
                 if(trackData.ContainsKey("artists"))
@@ -660,7 +386,7 @@ namespace TraktorTagger
                 if(!String.IsNullOrEmpty(producerStr)) Producer = producerStr;
 
 
-                TrackData track = new TrackData("discogs.com", TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Genre, null, ReleaseDate, new Uri(URL));
+                TrackData track = new TrackData(host, TrackId, Artist, Title, Mix, Remixer, Release, Producer, Label, CatalogNumber, Genre, null, ReleaseDate, new Uri(URL));
 
                 yield return track;
             }
@@ -735,9 +461,6 @@ namespace TraktorTagger
 
 
         }
-
-
-
 
         private static DateTime? GetReleaseDate(string dateString)
         {
@@ -852,9 +575,6 @@ namespace TraktorTagger
             return returnDict;
         }
 
-
-
-
         private static Dictionary<string, dynamic> GetReleaseData(int releaseId)
         {
             Dictionary<String, dynamic> returnDict;
@@ -872,8 +592,6 @@ namespace TraktorTagger
 
             return returnDict;
         }
-
-
 
         #endregion
 

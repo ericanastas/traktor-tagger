@@ -41,9 +41,11 @@ namespace TraktorTagger
 
         public TrackData GetTrack(string trackId)
         {
-            throw new NotImplementedException();
+            int trackIdNum = System.Convert.ToInt32(trackId);
+            return BeatPortTrackDataSearch.GetTrack(trackIdNum,Host)
+                
+                ;
         }
-
 
         public string Host
         {

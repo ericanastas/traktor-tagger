@@ -75,10 +75,7 @@ namespace TraktorTagger
 
                 var trackResults = GetTrackData(trackId);
 
-                var trackData = trackResults["results"]["track"];
-                var releaseData = trackResults["results"]["release"];
-
-                var track = ParseResponse(trackData, releaseData, this.Source.Host);
+                var track = GetTrack(trackId,this.Source.Host);
 
                 _trackData = new List<TrackData>();
                 _trackData.Add(track);
@@ -100,10 +97,6 @@ namespace TraktorTagger
 
                     _trackData.Add(newTrack);
                 }
-
-
-
-    
             }
             else
             {
@@ -318,12 +311,28 @@ namespace TraktorTagger
 
         #region Data Retrival Methods
 
+
+        internal static TrackData GetTrack(int trackId, string host)
+        {
+
+            var trackResults = GetTrackData(trackId);
+
+            var trackData = trackResults["results"]["track"];
+            var releaseData = trackResults["results"]["release"];
+
+            var track = ParseResponse(trackData, releaseData, host);
+
+            return track;
+       
+        }
+
+
         /// <summary>
         /// Returns results for querying a specific track id 
         /// </summary>
         /// <param name="trackId"></param>
         /// <returns></returns>
-        private static Dictionary<string, dynamic> GetTrackData(int trackId)
+        internal static Dictionary<string, dynamic> GetTrackData(int trackId)
         {
             Dictionary<String, dynamic> returnDict;
 
