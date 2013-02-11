@@ -13,10 +13,13 @@ namespace TraktorTagger
     /// </summary>
     public partial class App : Application
     {
+        private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
 
             var traktorProcesses = System.Diagnostics.Process.GetProcessesByName(TraktorTagger.Properties.Resources.TraktorEXE);
@@ -46,6 +49,11 @@ namespace TraktorTagger
                     this.Shutdown();
                 }
             }
+        }
+
+        void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            log.Error("An Unhandled exception was thrown", e.Exception);
         }
 
 

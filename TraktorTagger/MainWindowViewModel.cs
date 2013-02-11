@@ -12,8 +12,6 @@ namespace TraktorTagger
     {
         public MainWindowViewModel()
         {
-
-
             this.TrackDataSearchResults = new System.Collections.ObjectModel.ObservableCollection<TrackData>();
             this.TraktorTracks = new System.Collections.ObjectModel.ObservableCollection<TraktorTrack>();
 
