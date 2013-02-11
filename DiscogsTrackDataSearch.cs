@@ -279,7 +279,7 @@ namespace TraktorTagger
                         producer = String.Join(", ", fullProducerList);
                     }
 
-                    TrackData newTrack = new TrackData(DataSource.HostName, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
+                    TrackData newTrack = new TrackData(DataSource.Host, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
 
                     returnTracks.Add(newTrack);
                 }

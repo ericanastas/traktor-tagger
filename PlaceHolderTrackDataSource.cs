@@ -143,7 +143,7 @@ namespace TraktorTagger
             return data;
         }
 
-        public string HostName
+        public string Host
         {
             get { return "Placeholder Datasource"; }
         }

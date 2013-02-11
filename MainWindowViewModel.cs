@@ -882,16 +882,13 @@ namespace TraktorTagger
 
             if(Uri.IsWellFormedUriString(this.TrackDataSearchText,UriKind.Absolute))
             {
-
                 Uri searchUri = new Uri(this.TrackDataSearchText);
 
                 foreach(var dataSource in TrackDataSources)
                 {
-
-                    if(dataSource.HostName == searchUri.Host)
+                    if(dataSource.Host == searchUri.Host)
                     {
                         SelectedDataSource = dataSource;
-
                         _currentSearch = this.SelectedDataSource.GetTrackDataSearch(searchUri);
 
                         break;

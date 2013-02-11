@@ -270,7 +270,7 @@ namespace TraktorTagger
 
                 KeyEnum key = GetKey(result["key"]);
 
-                TrackData track = new TrackData(DataSource.HostName, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
+                TrackData track = new TrackData(DataSource.Host, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
 
                 yield return track;
             }
@@ -278,6 +278,11 @@ namespace TraktorTagger
 
 
 
+        /// <summary>
+        /// Returns the 
+        /// </summary>
+        /// <param name="trackId"></param>
+        /// <returns></returns>
         private Dictionary<string, dynamic> GetTrackData(int trackId)
         {
 

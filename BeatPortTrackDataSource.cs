@@ -39,7 +39,7 @@ namespace TraktorTagger
         }
 
 
-        public string HostName
+        public string Host
         {
             get { return "www.beatport.com"; }
         }
@@ -111,8 +111,6 @@ namespace TraktorTagger
         {
             return new BeatPortTrackDataSearch(this,searchUri);
         }
-
-
 
     }
 }

@@ -13,7 +13,7 @@ namespace TraktorTagger
         /// Host URL of datasource
         /// </summary>
         /// <remarks>This is used to identify the datasource</remarks>
-        string HostName { get; }
+        string Host { get; }
 
         ITrackDataSearch GetTrackDataSearch(string searchQuery);
 
