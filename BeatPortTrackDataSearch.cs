@@ -15,55 +15,12 @@ namespace TraktorTagger
         private int _trackPerPage;
         private int _currentPage;
         private int _totalPages;
-        Dictionary<int, string> _catalogNumberCache = new Dictionary<int, string>();
-        List<TrackData> _trackData;
 
 
+        private List<TrackData> _trackData;
 
-        public BeatPortTrackDataSearch(BeatportTrackDataSource source, Uri searchUri)
-        {
-            this.DataSource = source;
-            this.HasMoreResults = false;
-            this._query = searchUri.AbsoluteUri;
+        private Dictionary<int, Dictionary<string, dynamic>> _releaseDataCache = new Dictionary<int, Dictionary<string, dynamic>>();
 
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/track/.*/(\d*)");
-
-
-            var match = regex.Match(searchUri.AbsoluteUri);
-
-            if(!match.Success) throw new ArgumentException("Invalid Beatport track URL format", "searchUri");
-
-
-
-            int trackId = System.Convert.ToInt32(match.Groups[1].Value);
-
-
-            var trackData = GetTrackData(trackId);
-
-
-            var results = ParseTrackResults(trackData["results"]);
-
-            foreach(var r in results)
-            {
-                _trackData.Add(r);
-            }
-
-
-        }
-
-
-        public BeatPortTrackDataSearch(BeatportTrackDataSource source, string query, int trackPerPage)
-        {
-            HasMoreResults = true;
-            _query = query;
-            _trackPerPage = trackPerPage;
-            _currentPage = 1;
-            _trackData = new List<TrackData>();
-
-            DataSource = source;
-
-            LoadMoreResults();
-        }
 
 
         public string SearchQuery
@@ -71,7 +28,7 @@ namespace TraktorTagger
             get { return _query; }
         }
 
-        public ITrackDataSource DataSource
+        public ITrackDataSource Source
         {
             get;
             private set;
@@ -83,26 +40,122 @@ namespace TraktorTagger
             get { return _trackData.AsReadOnly(); }
         }
 
+        public bool HasMoreResults
+        {
+            get;
+            private set;
+        }
+
+
+
+        public BeatPortTrackDataSearch(BeatportTrackDataSource source, Uri searchUri)
+        {
+
+            if(source == null) throw new ArgumentNullException("source");
+            if(searchUri == null) throw new ArgumentNullException("searchUri");
+
+            this.Source = source;
+            this.HasMoreResults = false; //sets HasMoreResults to false initaly
+            this._query = searchUri.AbsoluteUri;
+
+
+            //Beatport.com URL regex
+            System.Text.RegularExpressions.Regex trackURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/track/(.*)/(\d*)");
+            System.Text.RegularExpressions.Regex releaseURIRegex = new System.Text.RegularExpressions.Regex(@"^http://www.beatport.com/release/(.*)/(\d*)");
+
+
+            //attempts to match URL
+            var trackMatch = trackURIRegex.Match(searchUri.AbsoluteUri);
+            var releaseMatch = releaseURIRegex.Match(searchUri.AbsoluteUri);
+
+
+            if(trackMatch.Success)
+            {
+                int trackId = System.Convert.ToInt32(trackMatch.Groups[2].Value);
+
+                var trackResults = GetTrackData(trackId);
+
+                var trackData = trackResults["results"]["track"];
+                var releaseData = trackResults["results"]["release"];
+
+                var track = ParseResponse(trackData, releaseData, this.Source.Host);
+
+                _trackData = new List<TrackData>();
+                _trackData.Add(track);
+            }
+            else if(releaseMatch.Success)
+            {
+                int releaseId = System.Convert.ToInt32(trackMatch.Groups[2].Value);
+
+                var releaseResults = GetReleaseData(releaseId);
+
+
+                //need to download track information for release
+                throw new NotImplementedException();
+            }
+            else
+            {
+                throw new ArgumentException("Invalid Beatport track URL format", "searchUri");
+            }
+        }
+
+
+        public BeatPortTrackDataSearch(BeatportTrackDataSource source, string query, int trackPerPage)
+        {
+            HasMoreResults = true;
+            _query = query;
+            _trackPerPage = trackPerPage;
+            _currentPage = 1;
+            _trackData = new List<TrackData>();
+
+            Source = source;
+
+
+            //loads the inital resuts
+            LoadMoreResults();
+        }
 
 
         public IList<TrackData> LoadMoreResults()
         {
             //if all results are loaded just return an empty list
-            if(!HasMoreResults) return new List<TrackData>();
-
-            var data = GetTrackData(SearchQuery, _currentPage, _trackPerPage);
+            if(!HasMoreResults) throw new InvalidOperationException("Can not load more results. BeatportTrackDataSearch.HasMoreResults == false");
 
 
+            var trackSearchData = GetSearchTrackData(_query, _currentPage, _trackPerPage);
 
-            var tracks = ParseTrackResults(data);
-            List<TrackData> newTracks = new List<TrackData>(tracks);
+            _totalPages = trackSearchData["metadata"]["totalPages"];
 
 
+            List<TrackData> newTracks = new List<TrackData>();
 
+
+            foreach(Dictionary<string, dynamic> trackData in trackSearchData["results"])
+            {
+                int releaseId = trackData["release"]["id"];
+
+                Dictionary<string, dynamic> releaseData;
+
+
+                if(_releaseDataCache.ContainsKey(releaseId))
+                {
+                    releaseData = _releaseDataCache[releaseId];
+                }
+                else
+                {
+                    releaseData = GetReleaseData(releaseId);
+                    _releaseDataCache.Add(releaseId, releaseData["results"]["release"]);
+                }
+
+                TrackData newTrack = ParseResponse(trackData, releaseData, this.Source.Host);
+                newTracks.Add(newTrack);
+            }
+
+            //adds the new tracks to the full list
             _trackData.AddRange(newTracks);
 
 
-
+            //check if at the last page
             if(_currentPage == _totalPages)
             {
                 HasMoreResults = false;
@@ -116,44 +169,7 @@ namespace TraktorTagger
         }
 
 
-
-        private string GetCatalogNumber(int p)
-        {
-
-            if(_catalogNumberCache.ContainsKey(p))
-            {
-                return _catalogNumberCache[p];
-            }
-
-            String cat;
-
-            using(var wc = new WebClient())
-            {
-
-
-                UriBuilder builder = new UriBuilder(@"http://api.beatport.com");
-
-                builder.Path = "/catalog/3/beatport/release";
-
-
-
-                builder.Query = "id=" + p.ToString();
-
-
-
-                string jsonString = wc.DownloadString(builder.Uri.AbsoluteUri);
-
-                var jss = new JavaScriptSerializer();
-                var returnData = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
-
-                cat = returnData["results"]["release"]["catalogNumber"];
-
-                _catalogNumberCache.Add(p, cat);
-
-            }
-
-            return cat;
-        }
+        #region Parsing Methods
 
         private static string GetArtist(System.Collections.ArrayList artists, string type)
         {
@@ -184,7 +200,7 @@ namespace TraktorTagger
             return builder.Uri;
         }
 
-        private static DateTime GetReleaseDate(string dateStr)
+        private static DateTime ParseReleaseDate(string dateStr)
         {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(@"^(\d{4})-(\d{2})-(\d{2})$");
 
@@ -244,48 +260,59 @@ namespace TraktorTagger
             return genreStr;
         }
 
-
-        private IEnumerable<TrackData> ParseTrackResults(Dictionary<string, dynamic> resultsData)
+        private static TrackData ParseResponse(Dictionary<string, dynamic> trackData, Dictionary<string, dynamic> releaseData, string host)
         {
-
-            foreach(Dictionary<string, dynamic> result in resultsData)
-            {
-                string trackId = result["id"].ToString();
-                string title = result["name"];
-                string mix = result["mixName"];
-                string label = result["label"]["name"];
-
-                //done
-                DateTime releaseDate = GetReleaseDate(result["releaseDate"]);
-                string release = result["release"]["name"];
-                string catalogNo = GetCatalogNumber(result["release"]["id"]);
-                Uri url = GetUri(result["id"], result["slug"]);
-                string genre = GetGenre(result["genres"]);
-                string artist = GetArtist(result["artists"], "artist");
-                string remixer = GetArtist(result["artists"], "remixer");
+            string trackId = trackData["id"].ToString();
+            string title = trackData["name"];
+            string mix = trackData["mixName"];
+            string label = trackData["label"]["name"];
+            DateTime releaseDate = ParseReleaseDate(trackData["releaseDate"]);
+            string release = trackData["release"]["name"];
+            Uri url = GetUri(trackData["id"], trackData["slug"]);
+            string genre = GetGenre(trackData["genres"]);
+            string artist = GetArtist(trackData["artists"], "artist");
+            string remixer = GetArtist(trackData["artists"], "remixer");
+            KeyEnum key = GetKey(trackData["key"]);
 
 
-                //not sure how to get the producer out of beatport
-                string producer = null;
+            string catalogNo = releaseData["catalogNumber"]; //catalog number is the only value I need the releaseData for
+            string producer = null; //not sure how to get the producer out of beatport
 
-                KeyEnum key = GetKey(result["key"]);
 
-                TrackData track = new TrackData(DataSource.Host, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, key, releaseDate, url);
+            TrackData track = new TrackData(host,
+                trackId,
+                artist,
+                title,
+                mix,
+                remixer,
+                release,
+                producer,
+                label,
+                catalogNo,
+                genre,
+                key,
+                releaseDate,
+                url);
 
-                yield return track;
-            }
+            return track;
+
+
+
         }
 
 
+        #endregion
+
+
+        #region Data Retrival Methods
 
         /// <summary>
-        /// Returns the 
+        /// Returns results for querying a specific track id 
         /// </summary>
         /// <param name="trackId"></param>
         /// <returns></returns>
-        private Dictionary<string, dynamic> GetTrackData(int trackId)
+        private static Dictionary<string, dynamic> GetTrackData(int trackId)
         {
-
             Dictionary<String, dynamic> returnDict;
 
             using(var webclient = new WebClient())
@@ -293,7 +320,7 @@ namespace TraktorTagger
                 System.UriBuilder trackDataUrlBuilder = new UriBuilder("http:", "api.beatport.com");
                 trackDataUrlBuilder.Path = "catalog/3/beatport/track";
 
-                trackDataUrlBuilder.Query = "id="+trackId.ToString();
+                trackDataUrlBuilder.Query = "id=" + trackId.ToString();
 
 
                 string jsonString = webclient.DownloadString(trackDataUrlBuilder.Uri.AbsoluteUri);
@@ -306,7 +333,31 @@ namespace TraktorTagger
         }
 
 
-        private Dictionary<String, dynamic> GetTrackData(string searchQuery, int page, int tracksPerPage)
+        private static Dictionary<string, dynamic> GetReleaseData(int releaseId)
+        {
+            Dictionary<String, dynamic> returnDict;
+
+            using(var webclient = new WebClient())
+            {
+                System.UriBuilder trackDataUrlBuilder = new UriBuilder("http:", "api.beatport.com");
+                trackDataUrlBuilder.Path = "catalog/3/beatport/release";
+
+                trackDataUrlBuilder.Query = "id=" + releaseId.ToString();
+
+
+                string jsonString = webclient.DownloadString(trackDataUrlBuilder.Uri.AbsoluteUri);
+
+                var jss = new JavaScriptSerializer();
+                returnDict = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
+            }
+
+            return returnDict;
+
+
+        }
+
+
+        private static Dictionary<string, dynamic> GetSearchTrackData(string searchQuery, int page, int tracksPerPage)
         {
             Dictionary<String, dynamic> returnDict;
 
@@ -323,10 +374,6 @@ namespace TraktorTagger
 
                 var jss = new JavaScriptSerializer();
                 returnDict = jss.Deserialize<Dictionary<string, dynamic>>(jsonString);
-
-                //updates total results
-                _totalPages = returnDict["metadata"]["totalPages"];
-
             }
 
             return returnDict;
@@ -334,12 +381,10 @@ namespace TraktorTagger
 
 
 
-        public bool HasMoreResults
-        {
-            get;
-            private set;
-        }
+
     }
+
+        #endregion
 }
 
 

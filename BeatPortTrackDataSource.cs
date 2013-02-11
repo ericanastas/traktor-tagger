@@ -22,12 +22,18 @@ namespace TraktorTagger
         public int TrackPerPage
         {
             get
-            { return _perPage; }
+            { 
+                return _perPage; 
+            }
             set
             {
                 if(value > 0 & value <= 150)
                 {
                     _perPage = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("BeatportTrackDataSource.TrackPerPage must be greater then 0 and less then or equal to 150");
                 }
             }
         }
@@ -50,6 +56,13 @@ namespace TraktorTagger
 
             return search;
         }
+
+        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
+        {
+            return new BeatPortTrackDataSearch(this, searchUri);
+        }
+
+
 
         public bool ProvidesTitle
         {
@@ -107,10 +120,7 @@ namespace TraktorTagger
         }
 
 
-        public ITrackDataSearch GetTrackDataSearch(Uri searchUri)
-        {
-            return new BeatPortTrackDataSearch(this,searchUri);
-        }
+
 
     }
 }

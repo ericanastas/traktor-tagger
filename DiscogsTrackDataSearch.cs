@@ -29,7 +29,7 @@ namespace TraktorTagger
         {
             this._query = discogsTrackUrl.AbsoluteUri;
             this.HasMoreResults = false;
-            this.DataSource = dataSource;
+            this.Source = dataSource;
 
             throw new NotImplementedException();
 
@@ -46,7 +46,7 @@ namespace TraktorTagger
         {
             HasMoreResults = true;
 
-            DataSource = dataSource;
+            Source = dataSource;
             _query = query;
             _perPage = tracksPerPage;
 
@@ -279,7 +279,7 @@ namespace TraktorTagger
                         producer = String.Join(", ", fullProducerList);
                     }
 
-                    TrackData newTrack = new TrackData(DataSource.Host, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
+                    TrackData newTrack = new TrackData(Source.Host, trackId, artist, title, mix, remixer, release, producer, label, catalogNo, genre, null, releaseDate, url);
 
                     returnTracks.Add(newTrack);
                 }
@@ -436,7 +436,7 @@ namespace TraktorTagger
             return string.Join(", ", labelList.ToArray());
         }
 
-        public ITrackDataSource DataSource
+        public ITrackDataSource Source
         {
             get;
             private set;

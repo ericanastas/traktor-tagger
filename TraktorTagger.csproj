@@ -115,6 +115,7 @@
     <Compile Include="KeyViewModel.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="PlaceHolderTrackDataSearch.cs" />
     <Compile Include="PlaceHolderTrackDataSource.cs" />
     <Compile Include="Rating.cs" />
     <Compile Include="RelayCommand.cs" />

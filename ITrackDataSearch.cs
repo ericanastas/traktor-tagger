@@ -10,14 +10,30 @@ namespace TraktorTagger
     {
         string SearchQuery { get; }
 
-        bool HasMoreResults { get; }
-
+        /// <summary>
+        /// Full list of track results from the search
+        /// </summary>
+        /// <remarks></remarks>
         IList<TrackData> Results { get; }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        bool HasMoreResults { get; }
+        
+
+        /// <summary>
+        /// Loads more results
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">If HasMoreResults is false.</exception>
         IList<TrackData> LoadMoreResults();
 
 
-        ITrackDataSource DataSource { get; }
+        /// <summary>
+        /// The ITrackDataSource which provided the TrackDataSearch
+        /// </summary>
+        ITrackDataSource Source { get; }
     }
 }
