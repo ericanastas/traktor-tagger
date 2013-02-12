@@ -11,6 +11,7 @@ namespace TraktorTagger
     /// </summary>
     public class Location
     {
+        public string FilePath { get; private set; }
         public string Directory { get; private set; }
         public string FileName { get; private set; }
         public string Volume { get; private set; }

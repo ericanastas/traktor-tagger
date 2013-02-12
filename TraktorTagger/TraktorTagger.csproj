@@ -85,8 +85,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -106,8 +108,10 @@
     </ApplicationDefinition>
     <Compile Include="BeatPortTrackDataSearch.cs" />
     <Compile Include="BeatportTrackDataSource.cs" />
+    <Compile Include="ColumnSettingsViewModel.cs" />
     <Compile Include="DiscogsTrackDataSearch.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
+    <Compile Include="FileSizeConverter.cs" />
     <Compile Include="KeyEnumConverter.cs" />
     <Compile Include="KeyEnumList.cs" />
     <Compile Include="ITrackDataSearch.cs" />
@@ -158,6 +162,7 @@
     <None Include="ClassDiagram.cd" />
     <None Include="Log4Net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Properties\app.manifest" />
     <None Include="sample collection.nml">

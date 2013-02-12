@@ -11,7 +11,29 @@ namespace TraktorTagger
     public class MainWindowViewModel : System.ComponentModel.INotifyPropertyChanged
     {
 
+        private bool _ShowTrackTitleColumn;
+        public bool ShowTrackTitleColumn
+        {
+            get
+            {
+                return _ShowTrackTitleColumn;
+            }
+            set
+            {
+                if(_ShowTrackTitleColumn != value)
+                {
+                    _ShowTrackTitleColumn = value;
+                    RaisePropertyChanged("ShowTrackTitleColumn");
+                }
+            }
+        }
+
+
+
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(MainWindowViewModel));
+
+
+        public ColumnSettingsViewModel ColumnSettings { get;  private set; }
 
         public MainWindowViewModel()
         {
@@ -33,11 +55,14 @@ namespace TraktorTagger
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
 #endif
 
-
-            log.Debug("Debugging. Adding placeholder track data source.");
             this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
             this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
             this.SelectedDataSource = this.TrackDataSources[0];
+
+
+
+            ColumnSettings = new ColumnSettingsViewModel();
+
 
             //commands
             this.OpenCollectionCommand = new RelayCommand(new Action<object>(this.OpenCollection));
@@ -47,7 +72,7 @@ namespace TraktorTagger
             this.TagSelectedCommand = new RelayCommand(new Action<object>(this.TagSelected), new Predicate<object>(this.CanTagSelected));
             this.CopyTrackDataUrlCommand = new RelayCommand(new Action<object>(this.CopyTrackDataUrl), new Predicate<object>(this.CanCopyTrackDataUrl));
             this.CopyTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.CopyTraktorTrackDataUrl), new Predicate<object>(this.CanCopyTraktorTrackDataUrl));
-            this.ClearTraktorTrackDataSourceTagCommand = new RelayCommand(new Action<object>(this.ClearTraktorTrackDataSourceTag), new Predicate<object>(this.CanClearTraktorTrackDataSourceTag));
+            this.ClearURLCommentCommand = new RelayCommand(new Action<object>(this.ClearURLComment), new Predicate<object>(this.CanClearURLComment));
             this.DonateCommand = new RelayCommand(new Action<object>(this.Donate));
             this.OpenHelpCommand = new RelayCommand(new Action<object>(this.OpenHelp));
             this.AboutCommand = new RelayCommand(new Action<object>(this.About));
@@ -720,12 +745,12 @@ namespace TraktorTagger
 
 
 
-        private void ClearTraktorTrackDataSourceTag(object o)
+        private void ClearURLComment(object o)
         {
             this.SelectedTraktorTrack.DataSourceUri = null;
         }
 
-        private bool CanClearTraktorTrackDataSourceTag(object o)
+        private bool CanClearURLComment(object o)
         {
             if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
             else return false;
@@ -1029,7 +1054,7 @@ namespace TraktorTagger
         public ICommand SearchTrackDataCommand { get; private set; }
         public ICommand CopyTrackDataUrlCommand { get; private set; }
         public ICommand CopyTraktorTrackUrlCommand { get; private set; }
-        public ICommand ClearTraktorTrackDataSourceTagCommand { get; private set; }
+        public ICommand ClearURLCommentCommand { get; private set; }
         public ICommand DonateCommand { get; private set; }
         public ICommand OpenHelpCommand { get; private set; }
         public ICommand AboutCommand { get; private set; }

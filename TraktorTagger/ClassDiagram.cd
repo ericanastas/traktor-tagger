@@ -1,35 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
-  <Class Name="TracktorTagger.Location">
-    <Position X="2.75" Y="0.5" Width="2.5" />
+  <Class Name="TraktorTagger.TraktorTrack">
+    <Position X="0.5" Y="1" Width="4.75" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAAAAAAAQAAAAAAAAAAAAAIAAABAAAA=</HashCode>
-      <FileName>TracktorTrack.cs</FileName>
+      <HashCode>AACqAgAgEAAIAEVEMFKAAAAAg4DSCAEAIAAAAJAAAAE=</HashCode>
+      <FileName>TraktorTrack.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
-  <Class Name="TracktorTagger.TracktorTrack">
-    <Position X="6.75" Y="0.5" Width="2.75" />
+  <Class Name="TraktorTagger.TrackData">
+    <Position X="5.5" Y="0.75" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAArAAAgEAAIAEVEEBKAAAAAA4AQCAEAIAAAAJgQAAE=</HashCode>
-      <FileName>TracktorTrack.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Location" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="TracktorTagger.TrackData">
-    <Position X="0.5" Y="2.5" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAIAAAAEAAIAEQAEAIAAABAAKAUAAAAIAAAABAAAAA=</HashCode>
+      <HashCode>AAAIAAAAEAAIAEQAEAIAAAAAAKAVAAAAAAAAABAAAAA=</HashCode>
       <FileName>TrackData.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Interface Name="TracktorTagger.ITrackDataProvider">
-    <Position X="1" Y="7" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
-      <FileName>TrackDataProvider.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

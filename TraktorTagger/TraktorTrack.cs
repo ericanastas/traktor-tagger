@@ -201,6 +201,7 @@ namespace TraktorTagger
 
                 OnPropertyChanged("DataSourceUri");
                 OnPropertyChanged("DataSourceHostName");
+                OnPropertyChanged("Comment2");
 
             }
         }
@@ -543,7 +544,9 @@ namespace TraktorTagger
                     SetAttributeValue("INFO", "RATING", value);
                 }
 
-                OnPropertyChanged("Comment2");                
+                OnPropertyChanged("Comment2");
+                OnPropertyChanged("DataSourceUri");
+                OnPropertyChanged("DataSourceHostName");
             }
         }
 
@@ -809,7 +812,7 @@ namespace TraktorTagger
             {
                 string sizeStr = GetAttributeValue("INFO", "FILESIZE");
                 if(sizeStr == null) return 0;
-                return System.Convert.ToInt64(sizeStr);
+                return System.Convert.ToInt64(sizeStr)*1024;
             }
         }
 

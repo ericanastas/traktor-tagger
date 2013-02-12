@@ -38,7 +38,7 @@ namespace TraktorTagger
             this.DataContext = ViewModel;
         }
 
-       
+
 
 
 
@@ -65,6 +65,22 @@ namespace TraktorTagger
 
 
             base.OnClosing(e);
+
+        }
+
+        private void Window_DataContextChanged_1(object sender, DependencyPropertyChangedEventArgs e)
+        {
+
+            foreach(DataGridColumn col in traktorColDataGrid.Columns)
+            {
+                col.SetValue(FrameworkElement.DataContextProperty, e.NewValue);
+            }
+
+            foreach(DataGridColumn col in searchResultDataGrid.Columns)
+            {                
+                col.SetValue(FrameworkElement.DataContextProperty, e.NewValue);
+
+            }
 
         }
 
