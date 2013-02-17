@@ -86,6 +86,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
@@ -109,6 +110,7 @@
     <Compile Include="BeatPortTrackDataSearch.cs" />
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="ColumnSettingsViewModel.cs" />
+    <Compile Include="RatingEnumList.cs" />
     <Compile Include="DiscogsTrackDataSearch.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
     <Compile Include="FileSizeConverter.cs" />
@@ -118,11 +120,11 @@
     <Compile Include="KeyEnum.cs" />
     <Compile Include="KeyEnumStringConverter.cs" />
     <Compile Include="KeyViewModel.cs" />
-    <Compile Include="Location.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="PlaceHolderTrackDataSearch.cs" />
     <Compile Include="PlaceHolderTrackDataSource.cs" />
     <Compile Include="Rating.cs" />
+    <Compile Include="RatingViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TrackData.cs" />
     <Compile Include="ITrackDataSource.cs" />
@@ -165,9 +167,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\app.manifest" />
-    <None Include="sample collection.nml">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

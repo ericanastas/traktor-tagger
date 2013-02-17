@@ -15,7 +15,11 @@
         <local:FileSizeConverter x:Key="fileSizeConverter" />
 
 
+        <ObjectDataProvider x:Key="RatingValueList" MethodName="GetRatingEnumValues" ObjectType="{x:Type local:RatingEnumList}" />
         <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
+        
+
+        
 
         <local:KeyEnumConverter x:Key="KeyEnumConverter" />
 
@@ -96,22 +100,22 @@
                 <MenuItem Header="Track Data Search">
 
 
-                    <MenuItem Header="Title" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Mix" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem Header="Title" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataTitleColumn,Mode=TwoWay}" />
+                    <MenuItem Header="Mix" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataMixColumn,Mode=TwoWay}"/>
                     <Separator/>
-                    <MenuItem Header="Artist" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Remixer" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Producer" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem Header="Artist" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataArtistColumn,Mode=TwoWay}"/>
+                    <MenuItem Header="Remixer" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataRemixerColumn,Mode=TwoWay}"/>
+                    <MenuItem Header="Producer" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataProducerColumn,Mode=TwoWay}"/>
                     <Separator/>
-                    <MenuItem Header="Release" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Released" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Label" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Catalog Number" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem Header="Release" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataReleaseColumn,Mode=TwoWay}"/>
+                    <MenuItem Header="Released" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataReleasedColumn,Mode=TwoWay}"/>
+                    <MenuItem Header="Label" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataLabelColumn,Mode=TwoWay}"/>
+                    <MenuItem Header="Catalog Number" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataCatalogNoColumn,Mode=TwoWay}"/>
                     <Separator/>
-                    <MenuItem Header="Genre" IsCheckable="True" IsChecked="True"/>
-                    <MenuItem Header="Key" IsCheckable="True" IsChecked="True"/>
+                    <MenuItem Header="Genre" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataGenreColumn,Mode=TwoWay}"/>
+                    <MenuItem Header="Key" IsCheckable="True" IsChecked="{Binding Path=ColumnSettings.ShowTrackDataKeyColumn,Mode=TwoWay}"/>
                     <Separator/>
-                    <MenuItem Header="Reset to Default" />
+                    <MenuItem Header="Reset to Default" Command="{Binding Path=ColumnSettings.ResetTrackDataColumnsCommand}" />
 
                 </MenuItem>
 
@@ -190,7 +194,7 @@
                         <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackReleaseColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
 
-                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackReleasedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                        <DataGridTextColumn Header="Released" CanUserResize="False" Binding="{Binding Released, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackReleasedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackLabelColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
                         <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackCatalogNoColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
@@ -203,9 +207,12 @@
                         <DataGridComboBoxColumn Header="Key" Width="55" 
                                                 CanUserResize="False"
                                                 IsReadOnly="False" 
+                                                
+                                                
                                                 SelectedValueBinding="{Binding Key}"
                                                 SelectedValuePath="Key"
                                                 DisplayMemberPath="Description"
+                                                
                                                 ItemsSource="{Binding Source={StaticResource KeyEnumValueList}}"
                                                 Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackKeyColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
                                                 >
@@ -213,20 +220,37 @@
 
 
 
-                        <DataGridTextColumn Header="BPM" Binding="{Binding BPM}" Width="100*" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackBPMColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
-                        <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" Width="100*" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackRatingColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
-                        <DataGridTextColumn Header="Imported" Binding="{Binding Imported,StringFormat={}\{0:d\}}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackImportedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                 
 
-                        <DataGridTextColumn Header="Modified" Binding="{Binding Modified,StringFormat={}\{0:d\}}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackModifiedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                        <DataGridTextColumn Header="BPM" Binding="{Binding BPM}" Width="50" CanUserResize="False" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackBPMColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
 
-                        <DataGridTextColumn Header="Last Played" Binding="{Binding LastPlayed,StringFormat={}\{0:d\}}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackLastPlayedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
-                        <DataGridTextColumn Header="Play Count" Binding="{Binding PlayCount}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackPlayCountColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                        <DataGridComboBoxColumn 
+                            Header="Rating" 
+                            SelectedValueBinding="{Binding Rating}" 
+                            SelectedValuePath="Rating" 
+                            DisplayMemberPath="Description" 
+                            ItemsSource="{Binding Source={StaticResource RatingValueList}}" 
+                            Width="70" 
+                            CanUserResize="False"
+                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackRatingColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}" 
+                            />
+                        
+                        
+                        
+                        <DataGridTextColumn Header="Imported" CanUserResize="False" Binding="{Binding Imported,StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackImportedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+
+                        <DataGridTextColumn Header="Modified" CanUserResize="False" Binding="{Binding Modified,StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackModifiedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
 
-                        <DataGridTextColumn Header="Play Time" Binding="{Binding PlayTime}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackPlayTimeColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                        <DataGridTextColumn Header="Last Played" CanUserResize="False" Binding="{Binding LastPlayed,StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackLastPlayedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+
+                        <DataGridTextColumn Header="Play Count" CanUserResize="False" Binding="{Binding PlayCount}" Width="75" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackPlayCountColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+
+
+                        <DataGridTextColumn Header="Play Time" CanUserResize="False" Binding="{Binding PlayTimeSpan}" Width="75" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackPlayTimeColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
 
                         <DataGridTextColumn Header="File Name" Binding="{Binding FileName}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackFileNameColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
@@ -235,7 +259,7 @@
 
 
                         <DataGridTextColumn Header="File Size" Binding="{Binding FileSize,Converter={StaticResource fileSizeConverter}}" Width="60" CanUserResize="False" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackFileSizeColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
-                        <DataGridTextColumn Header="Bit Rate" Binding="{Binding BitRate}" Width="100*" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackBitRateColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                        <DataGridTextColumn Header="Bit Rate" CanUserResize="False" Binding="{Binding BitRate}" Width="60" IsReadOnly="True" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackBitRateColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
                         <DataGridTextColumn Header="Comment 1" Binding="{Binding Comment1}" Width="100*" IsReadOnly="false" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackComment1Column, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
@@ -323,7 +347,9 @@
 
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataTitleColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -350,7 +376,9 @@
 
 
 
-                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Mix" Binding="{Binding Mix}" Width="125*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataMixColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -376,7 +404,9 @@
 
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" Width="125*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataArtistColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -401,7 +431,9 @@
 
 
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Remixer" Binding="{Binding Remixer}" Width="100*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataRemixerColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
 
 
@@ -431,7 +463,9 @@
                         </DataGridTextColumn>
 
 
-                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataProducerColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -458,7 +492,9 @@
                         </DataGridTextColumn>
 
 
-                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="100*"  IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataReleaseColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -484,7 +520,9 @@
 
 
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Released" Binding="{Binding ReleaseDate, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True">
+                        <DataGridTextColumn Header="Released" CanUserResize="False" Binding="{Binding Released, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataReleasedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -509,7 +547,9 @@
 
 
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataLabelColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
 
                             <DataGridTextColumn.HeaderStyle>
@@ -535,7 +575,9 @@
 
 
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataCatalogNoColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
 
 
@@ -562,7 +604,10 @@
 
 
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True">
+                        <DataGridTextColumn Header="Genre" Binding="{Binding Genre}" Width="100*" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataGenreColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            
+                                            >
 
 
                             <DataGridTextColumn.HeaderStyle>
@@ -588,7 +633,9 @@
 
                         </DataGridTextColumn>
 
-                        <DataGridTextColumn Header="Key" Binding="{Binding Key,Converter={StaticResource KeyEnumConverter}}" Width="55" IsReadOnly="True">
+                        <DataGridTextColumn Header="Key" Binding="{Binding Key,Converter={StaticResource KeyEnumConverter}}" Width="55" IsReadOnly="True"
+                                            Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackDataKeyColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"
+                                            >
 
                             <DataGridTextColumn.HeaderStyle>
                                 <Style TargetType="{x:Type DataGridColumnHeader}">

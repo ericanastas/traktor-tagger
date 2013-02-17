@@ -21,7 +21,7 @@ namespace TraktorTagger
             }
             else
             {
-                Description = "";
+                Description = String.Empty;
             }
         }
     }

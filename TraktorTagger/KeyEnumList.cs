@@ -16,11 +16,14 @@ namespace TraktorTagger
 
             _keyEnumValues = new List<KeyViewModel>();
 
-            Type type = typeof(KeyEnum);
+
 
             _keyEnumValues.Add(new KeyViewModel(null));
-            
-            foreach(KeyEnum enumValue in Enum.GetValues(type)) _keyEnumValues.Add(new KeyViewModel(enumValue));
+
+            foreach(KeyEnum enumValue in Enum.GetValues(typeof(KeyEnum)))
+            {
+                _keyEnumValues.Add(new KeyViewModel(enumValue));
+            }
 
             return _keyEnumValues;
         }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +14,9 @@ namespace TraktorTagger
     /// <remarks>Returned from the TracktorCollection class</remarks>
     public class TraktorTrack : System.ComponentModel.INotifyPropertyChanged
     {
-        private System.Xml.XmlElement entryNode; //
+        private System.Xml.XmlElement entryNode;
+
+        private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(TraktorTrack));
 
         /// <summary>
         /// Constructor to create a new TracktorTrack
@@ -600,7 +604,7 @@ namespace TraktorTagger
         /// The date/time the entry in the catalog was last modified
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
-        public DateTime ModifiedDate
+        public DateTime Modified
         {
 
             get
@@ -696,7 +700,7 @@ namespace TraktorTagger
         /// Track release date
         /// </summary>
         /// <remarks>RELEASE_DATE attribute is removed when set to NULL.</remarks>
-        public DateTime? ReleaseDate
+        public DateTime? Released
         {
             get
             {
@@ -737,15 +741,113 @@ namespace TraktorTagger
         /// Location of the track audio file.
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
-        public Location Location
+        public string FileName
         {
             get
             {
-                return null;
+                return System.IO.Path.GetFileName(FilePath);
+            }
+        }
+
+
+        public string FilePath
+        {
+
+            //<LOCATION DIR="/:Beatport/:" FILE="Agora - Soul Budda (Deep Tribal Dub) - Slopshop Records.wav" VOLUME="E:" VOLUMEID="96c1318d">
+
+
+
+            get
+            {
+                string dir = GetAttributeValue("LOCATION", "DIR");
+                string file = GetAttributeValue("LOCATION", "FILE");
+                string vol = GetAttributeValue("LOCATION", "VOLUME");
+
+                if(String.IsNullOrEmpty(dir) || String.IsNullOrEmpty(file) || String.IsNullOrEmpty(vol))
+                {
+                    return null;
+                }
+
+                string pathStr = vol + dir.Replace("/:", "\\") + file;
+
+                return pathStr;
             }
             set
             {
-                throw new NotImplementedException();
+                throw new NotImplementedException("Can't set FilePath. Need to figure out how to set the correct VOLUMEID value");
+
+                log.Debug("Setting TraktorTrak.FilePath to " + value);
+
+                if(System.IO.File.Exists(value))
+                {
+                    log.Debug("File was found: " + value);
+                    string root = System.IO.Path.GetPathRoot(value);
+                    string file = System.IO.Path.GetFileName(value);
+
+
+                    log.Debug("FILE: " + file);
+
+                    var volRegex = new System.Text.RegularExpressions.Regex(@"^[A-Z]:\\");
+                    var volMatch = volRegex.Match(root);
+
+                    if(volMatch.Success)
+                    {
+                        string vol = root.Substring(0, 2);
+
+                        string dir = System.IO.Path.GetDirectoryName(value).Substring(2) + "\\";
+
+                        dir = dir.Replace("\\", "/:");
+
+
+                        string volumeId = string.Empty;
+
+
+                        System.Management.ManagementObjectSearcher ms3 = new System.Management.ManagementObjectSearcher("SELECT * FROM Win32_LogicalDisk");
+                        foreach(ManagementObject mo in ms3.Get())
+                        {
+                            string id = (string)mo["DeviceID"];
+
+                            if(id == vol)
+                            {
+                                volumeId = (string)mo["VolumeSerialNumber"];
+                                break;
+                            }
+                        }
+
+                        if(string.IsNullOrEmpty(volumeId))
+                        {
+                            string m = "Could not determine the VOLUMEID of " + vol;
+                            log.Error(m);
+                            throw new InvalidOperationException("Could not determine the VOLUMEID of " + vol);
+                        }
+                        
+
+                        log.Debug("Setting location attributes...");
+                        log.Debug("FILE: " + file);
+                        log.Debug("VOLUME: " + vol);
+                        log.Debug("DIR: " + dir);
+                        log.Debug("VOLUMEID: " + volumeId);
+
+
+                        SetAttributeValue("LOCAL", "FILE", file);
+                        SetAttributeValue("LOCAL", "VOLUME", vol);
+                        SetAttributeValue("LOCAL", "DIR", dir);
+                        SetAttributeValue("LOCAL", "VOLUMEID", volumeId);
+
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Path volume not in format C:\\");
+                    
+                    }
+                }
+                else
+                {
+                    log.Debug("File was not found: "+ value);
+                    throw new FileNotFoundException("Could not find the file", value);
+                }
+
+
             }
         }
 
@@ -773,7 +875,7 @@ namespace TraktorTagger
         /// Date the track was imported into the catalog
         /// </summary>
         /// <remarks>Available when track is first imported</remarks>
-        public DateTime ImportDate
+        public DateTime Imported
         {
             get
             {
@@ -812,20 +914,20 @@ namespace TraktorTagger
             {
                 string sizeStr = GetAttributeValue("INFO", "FILESIZE");
                 if(sizeStr == null) return 0;
-                return System.Convert.ToInt64(sizeStr)*1024;
+                return System.Convert.ToInt64(sizeStr) * 1024;
             }
         }
 
         /// <summary>
         /// Bit rate of the audio file
         /// </summary>
-        public int BitRate
+        public double BitRate
         {
             get
             {
                 string bitRateStr = GetAttributeValue("INFO", "BITRATE");
                 if(bitRateStr == null) return 0;
-                return System.Convert.ToInt32(bitRateStr);
+                return System.Convert.ToDouble(bitRateStr)/1000.0;
             }
         }
 

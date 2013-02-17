@@ -820,7 +820,7 @@ namespace TraktorTagger
 
             if(TagReleased && SelectedTrackData.ReleaseDate.HasValue)
             {
-                SelectedTraktorTrack.ReleaseDate = SelectedTrackData.ReleaseDate;
+                SelectedTraktorTrack.Released = SelectedTrackData.ReleaseDate;
             }
 
             if(TagLabel && !string.IsNullOrEmpty(SelectedTrackData.Label))
