@@ -3,10 +3,12 @@
 
   
 
-  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.4" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
+  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.5" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"  Id="*" Description="Traktor Tagger Installer"/>
 
     <Property Id="MSIFASTINSTALL" Value="3" />
+    <Icon Id="TraktorTagger.ico" SourceFile="..\TraktorTagger\Images\TraktorTagger.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="TraktorTagger.ico" />
     
     
     <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
@@ -19,12 +21,17 @@
         <Directory Id="INSTALLDIR" Name ="Traktor Tagger">
           
           
-          
           <Component Id="MainExecutable" Guid="1563C0F2-CD5B-48C6-8C35-3202B7F9C674">
+            
             <File Id="TraktorTaggerEXE" Name="TraktorTagger.exe" Source="..\TraktorTagger\bin\Release\TraktorTagger.exe" Vital="yes" KeyPath="yes">
-              <Shortcut Id="StartMenuIcon" Directory="ProgramMenuDir" Name="Traktor Tagger" WorkingDirectory="INSTALLDIR" Advertise="yes"/>
-              <Shortcut Id ="DesktopIcon" Directory="DesktopFolder" Name ="Traktor Tagger" WorkingDirectory="INSTALLDIR" Advertise="yes"/>
+              
+              <Shortcut Id="StartMenuIcon" Icon="TraktorTagger.ico" Directory="ProgramMenuDir" Name="Traktor Tagger" WorkingDirectory="INSTALLDIR" Advertise="yes"/>
+              <Shortcut Id ="DesktopIcon" Icon="TraktorTagger.ico" Directory="DesktopFolder" Name ="Traktor Tagger" WorkingDirectory="INSTALLDIR" Advertise="yes"/>
+              
+            
             </File>
+          
+          
           </Component>
 
           <Component Id="Log4NetAssembly" Guid="40BE0F38-D1FA-4BA7-AB6E-359BFE29F9E3">

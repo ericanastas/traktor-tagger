@@ -68,7 +68,7 @@ namespace TraktorTagger
 
         }
 
-        private void Window_DataContextChanged_1(object sender, DependencyPropertyChangedEventArgs e)
+        private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
 
             foreach(DataGridColumn col in traktorColDataGrid.Columns)

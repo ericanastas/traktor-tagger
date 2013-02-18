@@ -79,6 +79,9 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\TraktorTagger.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -184,9 +187,6 @@
     <Resource Include="Images\discogs_24.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\TraktorTaggerIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
@@ -202,6 +202,29 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TraktorTagger_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TraktorTagger_16.png" />
+    <Resource Include="Images\TraktorTagger_24.png" />
+    <Resource Include="Images\TraktorTagger_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TraktorTagger_16.ico" />
+    <Resource Include="Images\TraktorTagger_24.ico" />
+    <Resource Include="Images\TraktorTagger_32.ico" />
+    <Resource Include="Images\TraktorTagger_48.ico" />
+    <Resource Include="Images\TraktorTagger_64.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TraktorTagger_128.png" />
+    <Resource Include="Images\TraktorTagger_256.png" />
+    <Resource Include="Images\TraktorTagger_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TraktorTagger.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

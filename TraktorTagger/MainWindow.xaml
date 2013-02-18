@@ -4,7 +4,7 @@
         xmlns:local="clr-namespace:TraktorTagger" 
         x:Class="TraktorTagger.MainWindow"
         xmlns:core="clr-namespace:System;assembly=mscorlib"
-        Title="{Binding WindowTitle}" Height="600" Width="800" WindowState="Maximized" Icon="Images/TraktorTaggerIcon.png" DataContextChanged="Window_DataContextChanged_1">
+        Title="{Binding WindowTitle}" Height="600" Width="800" WindowState="Maximized" Icon="Images/TraktorTagger.ico" DataContextChanged="Window_DataContextChanged">
 
 
     <Window.Resources>

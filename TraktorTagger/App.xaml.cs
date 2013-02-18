@@ -20,8 +20,6 @@ namespace TraktorTagger
             base.OnStartup(e);
 
             
-
-
             this.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
 
@@ -42,8 +40,6 @@ namespace TraktorTagger
                 {
                     continue;
                 }
-
-                
 
                 if(String.Compare(module.ModuleName, TraktorTagger.Properties.Resources.TraktorEXE,true) == 0)
                 {
