@@ -14,6 +14,11 @@
         <BooleanToVisibilityConverter x:Key="boolToVis" />
         <local:FileSizeConverter x:Key="fileSizeConverter" />
 
+        <local:DateConverter x:Key="dateConverter" />
+
+
+        
+
 
         <ObjectDataProvider x:Key="RatingValueList" MethodName="GetRatingEnumValues" ObjectType="{x:Type local:RatingEnumList}" />
         <ObjectDataProvider x:Key="KeyEnumValueList" MethodName="GetKeyEnumValues" ObjectType="{x:Type local:KeyEnumList}" />
@@ -194,7 +199,7 @@
                         <DataGridTextColumn Header="Release" Binding="{Binding Release}" Width="105" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackReleaseColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
 
-                        <DataGridTextColumn Header="Released" CanUserResize="False" Binding="{Binding Released, StringFormat={}\{0:d\}}" Width="75" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackReleasedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
+                        <DataGridTextColumn Header="Released" CanUserResize="False" Binding="{Binding Released, Converter={StaticResource dateConverter},ConverterParameter=d}" Width="75" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackReleasedColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
 
                         <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="100*" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackLabelColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>
                         <DataGridTextColumn Header="Catalog #" Binding="{Binding CatalogNumber}" Width="100*" IsReadOnly="False" Visibility="{Binding Path=(FrameworkElement.DataContext).ColumnSettings.ShowTrackCatalogNoColumn, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource boolToVis}}"/>

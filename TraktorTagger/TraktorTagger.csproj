@@ -113,6 +113,7 @@
     <Compile Include="BeatPortTrackDataSearch.cs" />
     <Compile Include="BeatportTrackDataSource.cs" />
     <Compile Include="ColumnSettingsViewModel.cs" />
+    <Compile Include="DateConverter.cs" />
     <Compile Include="RatingEnumList.cs" />
     <Compile Include="DiscogsTrackDataSearch.cs" />
     <Compile Include="DiscogsTrackDataSource.cs" />
