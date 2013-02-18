@@ -212,18 +212,6 @@
     <Resource Include="Images\TraktorTagger_32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\TraktorTagger_16.ico" />
-    <Resource Include="Images\TraktorTagger_24.ico" />
-    <Resource Include="Images\TraktorTagger_32.ico" />
-    <Resource Include="Images\TraktorTagger_48.ico" />
-    <Resource Include="Images\TraktorTagger_64.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\TraktorTagger_128.png" />
-    <Resource Include="Images\TraktorTagger_256.png" />
-    <Resource Include="Images\TraktorTagger_96.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\TraktorTagger.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
