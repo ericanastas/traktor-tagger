@@ -11,25 +11,6 @@ namespace TraktorTagger
     public class MainWindowViewModel : System.ComponentModel.INotifyPropertyChanged
     {
 
-        private bool _ShowTrackTitleColumn;
-        public bool ShowTrackTitleColumn
-        {
-            get
-            {
-                return _ShowTrackTitleColumn;
-            }
-            set
-            {
-                if(_ShowTrackTitleColumn != value)
-                {
-                    _ShowTrackTitleColumn = value;
-                    RaisePropertyChanged("ShowTrackTitleColumn");
-                }
-            }
-        }
-
-
-
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(MainWindowViewModel));
 
 
@@ -39,7 +20,7 @@ namespace TraktorTagger
         {
 
 
-            log.Debug("MainWindowViewModel constructor called");
+            log.Debug("MainWindowViewModel() constructor called");
 
 
 
@@ -55,16 +36,28 @@ namespace TraktorTagger
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
 #endif
 
+
+
+            log.Debug("Adding DiscogsTrackDataSource");
+            log.Debug("DiscogsReleasesPerPage= " + Properties.Settings.Default.DiscogsReleasesPerPage.ToString());
+            log.Debug("DiscogsFormatFilter= " + Properties.Settings.Default.DiscogsFormatFilter);
+            
             this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
+
+            log.Debug("Adding BeatportTrackDataSource");
+            log.Debug("BeatportTracksPerPage= " + Properties.Settings.Default.BeatportTracksPerPage);
             this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
             this.SelectedDataSource = this.TrackDataSources[0];
 
 
 
+
+            log.Debug("Initializing ColumnSettingsViewModel()");
             ColumnSettings = new ColumnSettingsViewModel();
 
 
             //commands
+            log.Debug("Initializing Command properties...");
             this.OpenCollectionCommand = new RelayCommand(new Action<object>(this.OpenCollection));
             this.SaveCollectionCommand = new RelayCommand(new Action<object>(this.SaveCollection), new Predicate<object>(this.CanSaveCollection));
             this.SearchTrackDataCommand = new RelayCommand(new Action<object>(this.SearchTrackData), new Predicate<object>(this.CanSearchTrackData));
@@ -76,7 +69,6 @@ namespace TraktorTagger
             this.DonateCommand = new RelayCommand(new Action<object>(this.Donate));
             this.OpenHelpCommand = new RelayCommand(new Action<object>(this.OpenHelp));
             this.AboutCommand = new RelayCommand(new Action<object>(this.About));
-
             this.BrowseToTrackDataURLCommand = new RelayCommand(new Action<object>(this.BrowseToTrackDataURL), new Predicate<object>(this.CanBrowseToTrackDataURL));
             this.SearchTraktorTrackDataSourceCommand = new RelayCommand(new Action<object>(this.SearchTraktorTrackDataSource), new Predicate<object>(this.CanSearchTraktorTrackDataSource));
             this.BrowseToTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.BrowseToTraktorTrackDataURL), new Predicate<object>(CanBrowseToTraktorTrackDataURL));
@@ -85,10 +77,15 @@ namespace TraktorTagger
             this.TagDataSource = true;
 
 
-
+            log.Debug("Checking if previous NML file exists   Path: " + Properties.Settings.Default.PreviousNML);
             if(System.IO.File.Exists(Properties.Settings.Default.PreviousNML))
             {
+                log.Debug("Previous NML found. Opening...");
                 OpenNML(Properties.Settings.Default.PreviousNML);
+            }
+            else
+            {
+                log.Debug("Previous NML not found.");
             }
 
 
@@ -591,8 +588,11 @@ namespace TraktorTagger
 
         private void UpdateColumnCheckBoxes()
         {
+            log.Debug("UpdateColumnCheckBoxes() called");
+
             if(SelectedDataSource != null)
             {
+                log.Debug("SelectedDataSource != null setting column check boxes...");
 
                 TagTitle = SelectedDataSource.ProvidesTitle;
                 TagMix = SelectedDataSource.ProvidesMix;
@@ -605,9 +605,6 @@ namespace TraktorTagger
                 TagCatalogNo = SelectedDataSource.ProvidesCatalogNo;
                 TagGenre = SelectedDataSource.ProvidesGenre;
                 TagKey = SelectedDataSource.ProvidesKey;
-
-
-
 
                 //Update enable status of check boxes
                 CanTagTitle = SelectedDataSource.ProvidesTitle;
@@ -625,6 +622,7 @@ namespace TraktorTagger
             }
             else
             {
+                log.Debug("SelectedDataSource == null. Setting all Tag and CanTag properties to false...");
 
                 TagTitle = false;
                 TagMix = false;

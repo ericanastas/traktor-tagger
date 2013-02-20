@@ -23,8 +23,15 @@ namespace TraktorTagger
         /// </summary>
         /// <param name="entryNode">An entry node from the collection NML file</param>
         internal TraktorTrack(System.Xml.XmlElement entryNode)
+
         {
-            if(entryNode == null) throw new ArgumentNullException("entryNode");
+            log.Debug("TraktorTrack constructor called");
+
+            if(entryNode == null)
+            {
+                log.Debug("Entry node parameter null. Throwing ArgumentNullException");
+                throw new ArgumentNullException("entryNode");
+            }
             this.entryNode = entryNode;
         }
 
@@ -38,29 +45,41 @@ namespace TraktorTagger
         /// <returns>The value of the attribute, or NULL if the specified attribute or element can not be found.</returns>
         private string GetAttributeValue(string elementName, string attributeName)
         {
+            log.Debug("GetAttributeValue(" + elementName + ", " + attributeName + ");");
+            log.Debug("Entry Node XML:" + entryNode.OuterXml);
+
             System.Xml.XmlNode node;
 
             if(string.IsNullOrEmpty(attributeName)) throw new ArgumentNullException("attributeName");
 
             if(String.IsNullOrEmpty(elementName))
             {
+                log.Debug("No  child element specified, using entry element.");
                 node = entryNode;
             }
             else
             {
                 node = entryNode.SelectSingleNode("./" + elementName);
+
+                if(node == null)
+                {
+                    log.Debug("No  child "+elementName+" element found. Returning NULL");
+                    return null;
+                }
             }
 
-            if(node == null) return null;
+      
 
             var att = node.Attributes[attributeName];
 
             if(att == null)
             {
+                log.Debug("No " + attributeName + " attribute found. Returning NULL");
                 return null;
             }
             else
             {
+                log.Debug("Returning "+attributeName+" value: "+att.Value);
                 return att.Value;
             }
         }
@@ -72,12 +91,16 @@ namespace TraktorTagger
         /// <param name="attributeName">The name of the attribute. Can not be empty of null.</param>
         private void RemoveAttribute(string elementName, string attributeName)
         {
+            log.Debug("RemoveElement(" + elementName + ", "+attributeName+")");
+            log.Debug("Entry Node XML:" + entryNode.OuterXml);
+
             System.Xml.XmlNode node;
 
             if(string.IsNullOrEmpty(attributeName)) throw new ArgumentNullException("attributeName");
 
             if(String.IsNullOrEmpty(elementName))
             {
+                log.Debug("No  child element specified, using entry element.");
                 node = entryNode;
             }
             else
@@ -86,6 +109,7 @@ namespace TraktorTagger
 
                 if(node == null)
                 {
+                    log.Debug("No  child "+elementName+" element found. Returning...");
                     return;
                 }
             }
@@ -94,8 +118,12 @@ namespace TraktorTagger
             if(att != null)
             {
                 node.Attributes.Remove(att);
+                log.Debug(attributeName + " attribute found and removed.");
             }
-
+            else
+            {
+                log.Debug("No existing "+attributeName+" attribute found to remove");
+            }
         }
 
 
@@ -105,17 +133,22 @@ namespace TraktorTagger
         /// <param name="elementName">The element to remove</param>
         private void RemoveElement(string elementName)
         {
+            log.Debug("RemoveElement(" + elementName + ")");
+            log.Debug("Entry Node XML:" + entryNode.OuterXml);
+            
+
             if(String.IsNullOrEmpty(elementName)) throw new ArgumentNullException("elementName");
 
             System.Xml.XmlNode node = entryNode.SelectSingleNode("./" + elementName);
 
             if(node == null)
             {
-                return;
+                log.Debug(elementName+" node was not found");
             }
             else
             {
                 entryNode.RemoveChild(node);
+                log.Debug(elementName + " node found and removed.");
             }
         }
 
@@ -129,13 +162,19 @@ namespace TraktorTagger
         /// <param name="value">The value to set. Can not be an empty string.</param>
         private void SetAttributeValue(string elementName, string attributeName, string value)
         {
+
+            log.Debug("SetAttributeValue(" + elementName + ", " + attributeName + ", " + value + ")");
+
             System.Xml.XmlNode node;
 
             if(string.IsNullOrEmpty(attributeName)) throw new ArgumentNullException("attributeName");
             if(value == null) throw new ArgumentNullException("value");
 
+            log.Debug("Entry Node XML:" + entryNode.OuterXml);
+
             if(String.IsNullOrEmpty(elementName))
             {
+                log.Debug("No  child element specified, using entry element.");
                 node = entryNode;
             }
             else
@@ -144,8 +183,13 @@ namespace TraktorTagger
 
                 if(node == null)
                 {
+                    log.Debug(elementName + " child element not found. Creating new element.");
                     node = entryNode.OwnerDocument.CreateElement(elementName);
                     entryNode.AppendChild(node);
+                }
+                else
+                {
+                    log.Debug("Existing " + elementName + " element found");
                 }
             }
 
@@ -153,12 +197,18 @@ namespace TraktorTagger
 
             if(att == null)
             {
+                log.Debug("Existing "+attributeName+" attribute not found. Creating new attribtue");
+
                 var newAtt = node.OwnerDocument.CreateAttribute(attributeName);
                 newAtt.Value = value;
+                log.Debug("Setting attribute to: " + value);
+
                 node.Attributes.Append(newAtt);
             }
             else
             {
+                log.Debug("Existing " + attributeName + " attribute found.");
+                log.Debug("Setting attribute to: "+value);
                 att.Value = value;
             }
         }
@@ -731,7 +781,7 @@ namespace TraktorTagger
 
         public override string ToString()
         {
-            return this.Artist + " " + this.Title + " " + this.Mix + " " + this.Label;
+            return this.Title + " " + this.Mix + " " + this.Artist + " " + this.Label;
         }
 
 
@@ -752,10 +802,7 @@ namespace TraktorTagger
 
         public string FilePath
         {
-
             //<LOCATION DIR="/:Beatport/:" FILE="Agora - Soul Budda (Deep Tribal Dub) - Slopshop Records.wav" VOLUME="E:" VOLUMEID="96c1318d">
-
-
 
             get
             {
@@ -774,9 +821,11 @@ namespace TraktorTagger
             }
             set
             {
+                log.Debug("Setting TraktorTrak.FilePath to " + value);
+
                 throw new NotImplementedException("Can't set FilePath. Need to figure out how to set the correct VOLUMEID value");
 
-                log.Debug("Setting TraktorTrak.FilePath to " + value);
+                
 
                 if(System.IO.File.Exists(value))
                 {
@@ -853,21 +902,7 @@ namespace TraktorTagger
 
         #endregion
 
-        #region INotifyPropertyChanged Members
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string name)
-        {
-            System.ComponentModel.PropertyChangedEventHandler handler = PropertyChanged;
-            if(handler != null)
-            {
-                handler(this, new System.ComponentModel.PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion
-
+   
 
         #region Read Only Properties
 
@@ -906,7 +941,10 @@ namespace TraktorTagger
 
         /// <summary>
         /// Size of the audio file in KB
+        /// 
+        /// Note: The values found in the NML file do not seem to match the actual files?
         /// </summary>
+        /// 
         /// <remarks>Available when track is first imported</remarks>
         public long FileSize
         {
@@ -919,7 +957,7 @@ namespace TraktorTagger
         }
 
         /// <summary>
-        /// Bit rate of the audio file
+        /// Bit rate of the audio file in kbps
         /// </summary>
         public double BitRate
         {
@@ -947,7 +985,7 @@ namespace TraktorTagger
         }
 
         /// <summary>
-        /// Track length
+        /// Track length as a time span
         /// </summary>
         public TimeSpan? PlayTimeSpan
         {
@@ -981,6 +1019,21 @@ namespace TraktorTagger
         }
 
 
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            System.ComponentModel.PropertyChangedEventHandler handler = PropertyChanged;
+            if(handler != null)
+            {
+                handler(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+            }
+        }
 
         #endregion
 

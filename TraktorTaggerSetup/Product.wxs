@@ -3,7 +3,7 @@
 
   
 
-  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.5" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
+  <Product Id="*" Name="Traktor Tagger" Language="1033" Version="0.1.6" Manufacturer="Eric Anastas" UpgradeCode="83dd2426-9f17-47d1-bf5c-885bfbdf6803">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"  Id="*" Description="Traktor Tagger Installer"/>
 
     <Property Id="MSIFASTINSTALL" Value="3" />

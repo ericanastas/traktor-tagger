@@ -222,8 +222,10 @@ namespace TraktorTagger
             return new DateTime(year, month, day);
         }
 
-        private static KeyEnum GetKey(dynamic key)
+        private static KeyEnum? GetKey(dynamic key)
         {
+            if(key == null) return null;
+
             StringBuilder keyStringBuilder = new StringBuilder();
 
             keyStringBuilder.Append(key["standard"]["letter"]);
@@ -277,7 +279,7 @@ namespace TraktorTagger
             string genre = GetGenre(trackData["genres"]);
             string artist = GetArtist(trackData["artists"], "artist");
             string remixer = GetArtist(trackData["artists"], "remixer");
-            KeyEnum key = GetKey(trackData["key"]);
+            KeyEnum? key = GetKey(trackData["key"]);
 
 
             string catalogNo = releaseData["catalogNumber"]; //catalog number is the only value I need the releaseData for
