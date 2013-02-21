@@ -53,12 +53,12 @@ namespace TraktorTagger.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string PreviousNML {
+        public string RecentNML {
             get {
-                return ((string)(this["PreviousNML"]));
+                return ((string)(this["RecentNML"]));
             }
             set {
-                this["PreviousNML"] = value;
+                this["RecentNML"] = value;
             }
         }
     }

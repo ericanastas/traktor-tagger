@@ -24,7 +24,7 @@ namespace TraktorTagger
         public string Genre { get; private set; }
         public KeyEnum? Key { get; private set; }
        
-        public DateTime? ReleaseDate { get; private set; }
+        public DateTime? Released { get; private set; }
 
 
         public string DataSourceHost { get; private set; }
@@ -60,7 +60,7 @@ namespace TraktorTagger
             this.CatalogNumber = catalogNo;
             this.Genre = genre;
             this.Key = key;
-            this.ReleaseDate = releaseDate;
+            this.Released = releaseDate;
             this.URL = url;
 
         }

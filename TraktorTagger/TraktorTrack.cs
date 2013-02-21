@@ -25,11 +25,9 @@ namespace TraktorTagger
         internal TraktorTrack(System.Xml.XmlElement entryNode)
 
         {
-            log.Debug("TraktorTrack constructor called");
-
             if(entryNode == null)
             {
-                log.Debug("Entry node parameter null. Throwing ArgumentNullException");
+                log.Error("TraktorTrack constructor passed null node parameter. Throwing ArgumentNullException...");
                 throw new ArgumentNullException("entryNode");
             }
             this.entryNode = entryNode;
@@ -67,8 +65,6 @@ namespace TraktorTagger
                     return null;
                 }
             }
-
-      
 
             var att = node.Attributes[attributeName];
 

@@ -14,7 +14,7 @@ namespace TraktorTagger
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(MainWindowViewModel));
 
 
-        public ColumnSettingsViewModel ColumnSettings { get;  private set; }
+        public ColumnSettingsViewModel ColumnSettings { get; private set; }
 
         public MainWindowViewModel()
         {
@@ -32,25 +32,22 @@ namespace TraktorTagger
 
 
 #if DEBUG
-            log.Debug("Debugging. Adding placeholder track data source.");
+            log.Info("Debugging. Adding placeholder track data source.");
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
 #endif
 
 
 
-            log.Debug("Adding DiscogsTrackDataSource");
-            log.Debug("DiscogsReleasesPerPage= " + Properties.Settings.Default.DiscogsReleasesPerPage.ToString());
-            log.Debug("DiscogsFormatFilter= " + Properties.Settings.Default.DiscogsFormatFilter);
-            
+            log.Info("Adding DiscogsTrackDataSource");
+            log.Info("DiscogsReleasesPerPage= " + Properties.Settings.Default.DiscogsReleasesPerPage.ToString());
+            log.Info("DiscogsFormatFilter= " + Properties.Settings.Default.DiscogsFormatFilter);
+
             this.TrackDataSources.Add(new DiscogsTrackDataSource(Properties.Settings.Default.DiscogsReleasesPerPage, Properties.Settings.Default.DiscogsFormatFilter));
 
-            log.Debug("Adding BeatportTrackDataSource");
-            log.Debug("BeatportTracksPerPage= " + Properties.Settings.Default.BeatportTracksPerPage);
+            log.Info("Adding BeatportTrackDataSource");
+            log.Info("BeatportTracksPerPage= " + Properties.Settings.Default.BeatportTracksPerPage);
             this.TrackDataSources.Add(new BeatportTrackDataSource(Properties.Settings.Default.BeatportTracksPerPage));
             this.SelectedDataSource = this.TrackDataSources[0];
-
-
-
 
             log.Debug("Initializing ColumnSettingsViewModel()");
             ColumnSettings = new ColumnSettingsViewModel();
@@ -77,15 +74,15 @@ namespace TraktorTagger
             this.TagDataSource = true;
 
 
-            log.Debug("Checking if previous NML file exists   Path: " + Properties.Settings.Default.PreviousNML);
-            if(System.IO.File.Exists(Properties.Settings.Default.PreviousNML))
+            log.Info("Checking if previous NML file exists   Path: " + Properties.Settings.Default.RecentNML);
+            if(System.IO.File.Exists(Properties.Settings.Default.RecentNML))
             {
-                log.Debug("Previous NML found. Opening...");
-                OpenNML(Properties.Settings.Default.PreviousNML);
+                log.Info("Previous NML found. Opening...");
+                OpenNML(Properties.Settings.Default.RecentNML);
             }
             else
             {
-                log.Debug("Previous NML not found.");
+                log.Info("Previous NML not found.");
             }
 
 
@@ -579,9 +576,19 @@ namespace TraktorTagger
                 {
                     _selectedDataSource = value;
 
-                    UpdateColumnCheckBoxes();
+                    if(_selectedDataSource != null)
+                    {
+                        log.Debug("Selected Data Source changed to " + value.ToString());
+                    }
+                    else
+                    {
+                        log.Debug("Selected Data Source changed to NUL");
+                    }
+
 
                     RaisePropertyChanged("SelectedDataSource");
+                    UpdateColumnCheckBoxes();
+
                 }
             }
         }
@@ -786,59 +793,82 @@ namespace TraktorTagger
                 SelectedTraktorTrack.DataSourceUri = SelectedTrackData.URL;
             }
 
-            if(TagTitle && !string.IsNullOrEmpty(SelectedTrackData.Title))
+            if(TagTitle && 
+                !string.IsNullOrEmpty(SelectedTrackData.Title)&& 
+                ColumnSettings.ShowTrackTitleColumn && 
+                ColumnSettings.ShowTrackDataTitleColumn)
             {
                 SelectedTraktorTrack.Title = SelectedTrackData.Title;
             }
 
-            if(TagMix && !string.IsNullOrEmpty(SelectedTrackData.Mix))
+            if(TagMix && !string.IsNullOrEmpty(SelectedTrackData.Mix) &&
+                ColumnSettings.ShowTrackMixColumn &&
+                ColumnSettings.ShowTrackDataMixColumn)
             {
                 SelectedTraktorTrack.Mix = SelectedTrackData.Mix;
             }
 
-            if(TagArtist && !string.IsNullOrEmpty(SelectedTrackData.Artist))
+            if(TagArtist && !string.IsNullOrEmpty(SelectedTrackData.Artist) &&
+                ColumnSettings.ShowTrackArtistColumn &&
+                ColumnSettings.ShowTrackDataArtistColumn)
             {
                 SelectedTraktorTrack.Artist = SelectedTrackData.Artist;
             }
 
-            if(TagRemixer && !string.IsNullOrEmpty(SelectedTrackData.Remixer))
+            if(TagRemixer && !string.IsNullOrEmpty(SelectedTrackData.Remixer) &&
+                ColumnSettings.ShowTrackRemixerColumn &&
+                ColumnSettings.ShowTrackDataRemixerColumn)
             {
                 SelectedTraktorTrack.Remixer = SelectedTrackData.Remixer;
             }
 
-            if(TagProducer && !string.IsNullOrEmpty(SelectedTrackData.Producer))
+            if(TagProducer && !string.IsNullOrEmpty(SelectedTrackData.Producer) &&
+                ColumnSettings.ShowTrackProducerColumn &&
+                ColumnSettings.ShowTrackDataProducerColumn)
             {
                 SelectedTraktorTrack.Producer = SelectedTrackData.Producer;
             }
 
-            if(TagRelease && !string.IsNullOrEmpty(SelectedTrackData.Release))
+            if(TagRelease && !string.IsNullOrEmpty(SelectedTrackData.Release) &&
+                ColumnSettings.ShowTrackReleaseColumn &&
+                ColumnSettings.ShowTrackDataReleaseColumn)
             {
                 SelectedTraktorTrack.Release = SelectedTrackData.Release;
             }
 
-            if(TagReleased && SelectedTrackData.ReleaseDate.HasValue)
+            if(TagReleased && SelectedTrackData.Released.HasValue &&
+                ColumnSettings.ShowTrackReleasedColumn &&
+                ColumnSettings.ShowTrackDataReleasedColumn)
             {
-                SelectedTraktorTrack.Released = SelectedTrackData.ReleaseDate;
+                SelectedTraktorTrack.Released = SelectedTrackData.Released;
             }
 
-            if(TagLabel && !string.IsNullOrEmpty(SelectedTrackData.Label))
+            if(TagLabel && !string.IsNullOrEmpty(SelectedTrackData.Label) &&
+                ColumnSettings.ShowTrackLabelColumn &&
+                ColumnSettings.ShowTrackDataLabelColumn)
             {
                 SelectedTraktorTrack.Label = SelectedTrackData.Label;
             }
 
 
-            if(TagCatalogNo && !string.IsNullOrEmpty(SelectedTrackData.CatalogNumber))
+            if(TagCatalogNo && !string.IsNullOrEmpty(SelectedTrackData.CatalogNumber)&&
+                ColumnSettings.ShowTrackCatalogNoColumn &&
+                ColumnSettings.ShowTrackDataCatalogNoColumn)
             {
                 SelectedTraktorTrack.CatalogNumber = SelectedTrackData.CatalogNumber;
             }
 
 
-            if(TagGenre && !string.IsNullOrEmpty(SelectedTrackData.Genre))
+            if(TagGenre && !string.IsNullOrEmpty(SelectedTrackData.Genre) &&
+                ColumnSettings.ShowTrackGenreColumn &&
+                ColumnSettings.ShowTrackDataGenreColumn)
             {
                 SelectedTraktorTrack.Genre = SelectedTrackData.Genre;
             }
 
-            if(TagKey && SelectedTrackData.Key != null)
+            if(TagKey && SelectedTrackData.Key != null &&
+                ColumnSettings.ShowTrackKeyColumn &&
+                ColumnSettings.ShowTrackDataKeyColumn)
             {
                 SelectedTraktorTrack.Key = SelectedTrackData.Key;
             }
@@ -908,36 +938,51 @@ namespace TraktorTagger
 
         private void SearchTrackData(object o)
         {
-            this.TrackDataSearchResults.Clear();
+            log.Info("SearchTrackData called. Search text: " + this.TrackDataSearchText);
 
+            log.Info("Clearing current results");
+            this.TrackDataSearchResults.Clear();
 
             if(Uri.IsWellFormedUriString(this.TrackDataSearchText, UriKind.Absolute))
             {
+                log.Info("Search text formated as URI. Sending URI search...");
+
                 Uri searchUri = new Uri(this.TrackDataSearchText);
 
                 foreach(var dataSource in TrackDataSources)
                 {
                     if(dataSource.Host == searchUri.Host)
                     {
-                        SelectedDataSource = dataSource;
-                        _currentSearch = this.SelectedDataSource.GetTrackDataSearch(searchUri);
+
+                        if(SelectedDataSource != dataSource)
+                        {
+                            log.Info("Changing selected datasource to: " + dataSource.ToString());
+                            SelectedDataSource = dataSource;
+                        }
+
 
                         break;
                     }
                 }
+
+                log.Info("Sending URI Search query");
+                _currentSearch = this.SelectedDataSource.GetTrackDataSearch(searchUri);
+
             }
             else
             {
+                log.Info("Search text not formated as URI. Running standard query search...");
                 _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
             }
 
+            log.Info("Search returned " + _currentSearch.Results.Count + " track results.");
 
+            if(_currentSearch.HasMoreResults)
+            {
+                log.Info("More results avalible.");
+            }
 
-
-
-
-
-
+            log.Debug("Adding results to TrackDataSearchResults");
             foreach(var r in _currentSearch.Results)
             {
                 TrackDataSearchResults.Add(r);
@@ -954,6 +999,7 @@ namespace TraktorTagger
 
         private void SaveCollection(object o)
         {
+            log.Debug("SaveCollection() called");
             if(this.Collection != null)
             {
                 this.Collection.SaveCollection();
@@ -968,6 +1014,7 @@ namespace TraktorTagger
 
         private void OpenCollection(object o)
         {
+            log.Info("OpenCollection() called");
             Microsoft.Win32.OpenFileDialog odiag = new Microsoft.Win32.OpenFileDialog();
             odiag.Filter = "Traktor Collection (*.nml)|*.nml";
 
@@ -983,9 +1030,16 @@ namespace TraktorTagger
 
         public void OpenNML(string nmlFilePath)
         {
-            if(Collection != null) Collection.Dispose();
+            log.Info("OpenNML() called");
 
-            Collection = new TracktorCollection(nmlFilePath,false);
+            if(Collection != null)
+            {
+                log.Debug("Disposing existing collection...");
+                Collection.Dispose();
+            }
+
+            log.Info("Reading collection from file: " + nmlFilePath);
+            Collection = new TracktorCollection(nmlFilePath, false);
 
             this.TraktorTracks.Clear();
 
@@ -993,8 +1047,11 @@ namespace TraktorTagger
             {
                 this.TraktorTracks.Add(t);
             }
+            log.Info("Read "+TraktorTracks.Count+" tracks.");
 
-            Properties.Settings.Default.PreviousNML = nmlFilePath;
+
+            log.Info("Saving recent NML path.");
+            Properties.Settings.Default.RecentNML = nmlFilePath;
             Properties.Settings.Default.Save();
 
             RaisePropertyChanged("WindowTitle");

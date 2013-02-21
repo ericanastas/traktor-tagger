@@ -41,20 +41,20 @@ namespace TraktorTagger
         /// </summary>
         public void SaveCollection()
         {
-            log.Debug("SaveCollection() called");
+            log.Info("SaveCollection() called");
 
             if(ReadOnly)
             {
-                log.Debug("Collection is read only throwing InvalidOperationException");
+                log.Error("Collection is read only throwing InvalidOperationException");
                 throw new InvalidOperationException("Collection is opened as read only");
             }
 
 
-            log.Debug("Writing file...");
+            log.Info("Writing file...");
             _fileStream.Position = 0;
             _collectionXmlDoc.Save(_fileStream);
 
-            log.Debug("Setting HasUnsavedChanges to FALSE");
+            log.Info("Setting HasUnsavedChanges to FALSE");
             this.HasUnsavedChanges = false;
         }
 
@@ -70,7 +70,8 @@ namespace TraktorTagger
         /// <param name="fileName">The path to the collection NML file</param>
         public TracktorCollection(string fileName, bool readOnly)
         {
-            log.Debug("TraktorCollection(" + fileName + ", " + readOnly.ToString() + ")");
+
+            log.Info("TraktorCollection(" + fileName + ", " + readOnly.ToString() + ")");
 
             if(string.IsNullOrEmpty(fileName)) throw new ArgumentNullException("fileName");
             if(!System.IO.File.Exists(fileName)) throw new System.IO.FileNotFoundException("Traktor collection file not found", fileName);
@@ -95,15 +96,15 @@ namespace TraktorTagger
             }
 
             //checks the NML Version
-            log.Debug("Checking NML version");
+            log.Info("Checking NML version");
             var nmlNode = _collectionXmlDoc.DocumentElement.SelectNodes("/NML")[0];
             var versionString = nmlNode.Attributes["VERSION"].Value;
 
-            log.Debug("VERSION: "+versionString);
+            log.Info("VERSION: "+versionString);
 
             if(versionString != "15")
             {
-                log.Debug("Unexpected NML version. Throwing InvalidOperationException");
+                log.Error("Unexpected NML version. Throwing InvalidOperationException");
                 throw new InvalidOperationException("Unexpected NML version: " + versionString);
             }
 
@@ -117,16 +118,15 @@ namespace TraktorTagger
 
             var entryNodes = _collectionXmlDoc.DocumentElement.SelectNodes("/NML/COLLECTION/ENTRY");
 
-            log.Debug("Staring adding tracks for"+entryNodes.Count+" entries.");
+            log.Info("Loading "+entryNodes.Count+" tracks from file...");
 
             _entries = new List<TraktorTrack>();
             foreach(System.Xml.XmlElement entryNode in entryNodes)
             {
-                log.Debug("Staring adding tracks for" + entryNodes.Count + " entries.");
                 _entries.Add(new TraktorTrack(entryNode));
             }
 
-            log.Debug("Completed adding tracks.");
+            log.Info("Completed loading tracks.");
         }
 
         void _collectionXmlDoc_NodeRemoved(object sender, System.Xml.XmlNodeChangedEventArgs e)
