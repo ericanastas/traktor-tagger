@@ -905,8 +905,20 @@ namespace TraktorTagger
             else return false;
         }
 
+
+
         private void LoadMoreResults(object o)
         {
+            Action a = new Action(this.LoadMoreResultsAsync);
+
+            //sets up UI for searching
+            this.SearchStatus = "Searching...";
+            
+            //starts async search
+            a.BeginInvoke(new AsyncCallback(this.MoreResultsLoaded), null);
+
+
+
             var res = _currentSearch.LoadMoreResults();
 
             foreach(var r in res)
@@ -914,11 +926,16 @@ namespace TraktorTagger
                 TrackDataSearchResults.Add(r);
             }
 
-            UpdateSearchStatus();
+
+
         }
 
-        private void UpdateSearchStatus()
+
+
+        private void MoreResultsLoaded(IAsyncResult res)
         {
+
+
             string message = _currentSearch.Results.Count.ToString() + " tracks found for \"" + _currentSearch.SearchQuery + "\"";
 
             if(_currentSearch.HasMoreResults)
@@ -932,12 +949,73 @@ namespace TraktorTagger
 
 
             this.SearchStatus = message;
+
+
+            
+
+        
+        
         }
+
+
+
+
 
         private ITrackDataSearch _currentSearch;
 
+
+        private void LoadMoreResultsAsync()
+        {
+
+            log.Info("Search returned " + _currentSearch.Results.Count + " track results.");
+
+
+
+
+
+            if(_currentSearch.HasMoreResults)
+            {
+                log.Info("More results avalible.");
+            }
+
+            log.Debug("Adding results to TrackDataSearchResults");
+            foreach(var r in _currentSearch.Results)
+            {
+                TrackDataSearchResults.Add(r);
+            }
+
+            
+        }
+
+        bool isSearching = false;
+        bool searchCanceled = false;
+
+
         private void SearchTrackData(object o)
         {
+
+
+            if(isSearching)
+            {
+                //cancel current search
+                searchCanceled = true;
+
+
+
+            }
+            else
+            { 
+                //start a new search
+            
+            
+
+            
+            }
+
+
+
+
+
             log.Info("SearchTrackData called. Search text: " + this.TrackDataSearchText);
 
             log.Info("Clearing current results");
@@ -975,20 +1053,8 @@ namespace TraktorTagger
                 _currentSearch = this.SelectedDataSource.GetTrackDataSearch(this.TrackDataSearchText);
             }
 
-            log.Info("Search returned " + _currentSearch.Results.Count + " track results.");
 
-            if(_currentSearch.HasMoreResults)
-            {
-                log.Info("More results avalible.");
-            }
-
-            log.Debug("Adding results to TrackDataSearchResults");
-            foreach(var r in _currentSearch.Results)
-            {
-                TrackDataSearchResults.Add(r);
-            }
-
-            UpdateSearchStatus();
+            LoadMoreResults(null);
         }
 
 

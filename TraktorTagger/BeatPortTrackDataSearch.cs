@@ -116,7 +116,7 @@ namespace TraktorTagger
             Source = source;
 
 
-            //loads the inital resuts
+
             LoadMoreResults();
         }
 
