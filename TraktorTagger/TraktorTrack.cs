@@ -770,7 +770,7 @@ namespace TraktorTagger
                     RemoveAttribute("INFO", "RELEASE_DATE");
                 }
 
-                OnPropertyChanged("ReleaseDate");
+                OnPropertyChanged("Released");
             }
         }
 

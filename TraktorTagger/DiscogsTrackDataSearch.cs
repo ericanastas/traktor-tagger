@@ -229,7 +229,7 @@ namespace TraktorTagger
                     int month = System.Convert.ToInt32(dateMatch.Groups[2].Value);
                     int day = System.Convert.ToInt32(dateMatch.Groups[3].Value);
 
-                    if(month == 0 || day == 0) new DateTime(year, 1, 1);
+                    if(month == 0 || day == 0) ReleaseDate = new DateTime(year, 1, 1);
                     else ReleaseDate = new DateTime(year, month, day);
 
 
