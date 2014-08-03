@@ -14,8 +14,6 @@ namespace TraktorTagger
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(MainWindowViewModel));
 
 
-        public ColumnSettingsViewModel ColumnSettings { get; private set; }
-
         public MainWindowViewModel()
         {
 
@@ -32,7 +30,7 @@ namespace TraktorTagger
 
 
 #if DEBUG
-            log.Info("Debugging. Adding placeholder track data source.");
+            log.Info("Currently Debugging, so adding PlaceHolderTrackDataSource to TrackDataSources");
             this.TrackDataSources.Add(new PlaceHolderTrackDataSource());
 #endif
 
@@ -52,7 +50,6 @@ namespace TraktorTagger
             log.Debug("Initializing ColumnSettingsViewModel()");
             ColumnSettings = new ColumnSettingsViewModel();
 
-
             //commands
             log.Debug("Initializing Command properties...");
             this.OpenCollectionCommand = new RelayCommand(new Action<object>(this.OpenCollection));
@@ -69,8 +66,6 @@ namespace TraktorTagger
             this.BrowseToTrackDataURLCommand = new RelayCommand(new Action<object>(this.BrowseToTrackDataURL), new Predicate<object>(this.CanBrowseToTrackDataURL));
             this.SearchTraktorTrackDataSourceCommand = new RelayCommand(new Action<object>(this.SearchTraktorTrackDataSource), new Predicate<object>(this.CanSearchTraktorTrackDataSource));
             this.BrowseToTraktorTrackUrlCommand = new RelayCommand(new Action<object>(this.BrowseToTraktorTrackDataURL), new Predicate<object>(CanBrowseToTraktorTrackDataURL));
-
-
             this.TagDataSource = true;
 
 
@@ -85,18 +80,39 @@ namespace TraktorTagger
                 log.Info("Previous NML not found.");
             }
 
-
-
+            
             UpdateColumnCheckBoxes();
         }
 
 
         #region Properties
 
-        public System.Collections.ObjectModel.ObservableCollection<TrackData> TrackDataSearchResults { get; private set; }
+
+        /// <summary>
+        /// View model used for the columns menu
+        /// </summary>
+        public ColumnSettingsViewModel ColumnSettings { get; private set; }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<TraktorTrack> TraktorTracks { get; private set; }
+
+        /// <summary>
+        /// List of track data sources that can be selected from
+        /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<ITrackDataSource> TrackDataSources { get; private set; }
 
+        /// <summary>
+        /// The current search results
+        /// </summary>
+        public System.Collections.ObjectModel.ObservableCollection<TrackData> TrackDataSearchResults { get; private set; }
+
+
+        /// <summary>
+        /// The currently opened traktor collection file
+        /// </summary>
         public TracktorCollection Collection { get; private set; }
 
 
@@ -119,6 +135,10 @@ namespace TraktorTagger
             }
         }
 
+
+        #region Selected properties to tag
+
+        //These properties identify the current properties that will be tagged
 
 
         private bool _tagTitle;
@@ -344,10 +364,11 @@ namespace TraktorTagger
         }
 
 
+        #endregion
 
 
-
-        //**************
+        #region Can Tag Properties
+        //The following properties are used to control if the check boxes on the datasource columns are enabled or not
 
         private bool _canCanTagTitle;
         public bool CanTagTitle
@@ -552,17 +573,14 @@ namespace TraktorTagger
             }
         }
 
-
-        //***************
-
-
-
-
-
-
+        #endregion
 
 
         private ITrackDataSource _selectedDataSource;
+
+        /// <summary>
+        /// The currently selected DataSource
+        /// </summary>
         public ITrackDataSource SelectedDataSource
         {
             get
@@ -582,9 +600,8 @@ namespace TraktorTagger
                     }
                     else
                     {
-                        log.Debug("Selected Data Source changed to NUL");
+                        log.Debug("Selected Data Source changed to NULL");
                     }
-
 
                     RaisePropertyChanged("SelectedDataSource");
                     UpdateColumnCheckBoxes();
@@ -593,6 +610,12 @@ namespace TraktorTagger
             }
         }
 
+
+
+        /// <summary>
+        /// Updates the datasource column checkboxes based on the current data source. 
+        /// This updates the TagXXXX and CanTagXXX properties based on the ProvidesXXXX properties of the current datasource
+        /// </summary>
         private void UpdateColumnCheckBoxes()
         {
             log.Debug("UpdateColumnCheckBoxes() called");
@@ -659,7 +682,11 @@ namespace TraktorTagger
             }
         }
 
+
         private string _trackDataSearchText;
+        /// <summary>
+        /// The currently entered track search text
+        /// </summary>
         public string TrackDataSearchText
         {
             get
@@ -677,16 +704,25 @@ namespace TraktorTagger
             }
         }
 
-        public string LastTrackDataSearchText { get; set; }
 
+
+
+        /// <summary>
+        /// Returns if a track search can be performed. 
+        /// This check that a valid data source is selected and the contents of the search box is not empty.
+        /// </summary>
         private bool CanSearchTrackData(object o)
         {
-            if(!string.IsNullOrEmpty(TrackDataSearchText)) return true;
+            if(!string.IsNullOrEmpty(TrackDataSearchText)&& this.SelectedDataSource != null) return true;
             else return false;
         }
 
 
         private string _searchStatus;
+
+        /// <summary>
+        /// Status text at the bottom of the window
+        /// </summary>
         public string SearchStatus
         {
             get
@@ -705,6 +741,10 @@ namespace TraktorTagger
         }
 
         private TrackData _selectedTrackData;
+
+        /// <summary>
+        /// The currently selected data track
+        /// </summary>
         public TrackData SelectedTrackData
         {
             get
@@ -723,6 +763,9 @@ namespace TraktorTagger
         }
 
         private TraktorTrack _selectedTraktorTrack;
+        /// <summary>
+        /// The currently selected track in the currently opened traktor collection
+        /// </summary>
         public TraktorTrack SelectedTraktorTrack
         {
             get
