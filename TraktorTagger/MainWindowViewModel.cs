@@ -14,6 +14,10 @@ namespace TraktorTagger
         private static log4net.ILog log = log4net.LogManager.GetLogger(typeof(MainWindowViewModel));
 
 
+
+        /// <summary>
+        /// MainWindowViewModel Constructor method
+        /// </summary>
         public MainWindowViewModel()
         {
 
@@ -85,8 +89,7 @@ namespace TraktorTagger
         }
 
 
-        #region Properties
-
+    
 
         /// <summary>
         /// View model used for the columns menu
@@ -95,17 +98,17 @@ namespace TraktorTagger
 
         
         /// <summary>
-        /// 
+        /// Collection of the current Traktor tracks displayed in the top list
         /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<TraktorTrack> TraktorTracks { get; private set; }
 
         /// <summary>
-        /// List of track data sources that can be selected from
+        /// List of track data sources that can be selected from the drop down
         /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<ITrackDataSource> TrackDataSources { get; private set; }
 
         /// <summary>
-        /// The current search results
+        /// The current search results displayed in the bottom list
         /// </summary>
         public System.Collections.ObjectModel.ObservableCollection<TrackData> TrackDataSearchResults { get; private set; }
 
@@ -116,11 +119,15 @@ namespace TraktorTagger
         public TracktorCollection Collection { get; private set; }
 
 
-
+        /// <summary>
+        /// The window title. Includes the version number and the file name of the currently opened traktor collection
+        /// </summary>
         public string WindowTitle
         {
             get
             {
+                log.Debug("WindowTitle requested");
+
                 string windowTitle;
                 var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -130,6 +137,8 @@ namespace TraktorTagger
                 {
                     windowTitle = windowTitle + " - " + Collection.FileName;
                 }
+
+                log.Debug("windowTitle = "+windowTitle);
 
                 return windowTitle;
             }
@@ -576,6 +585,7 @@ namespace TraktorTagger
         #endregion
 
 
+  
         private ITrackDataSource _selectedDataSource;
 
         /// <summary>
@@ -784,51 +794,68 @@ namespace TraktorTagger
         }
 
 
-        #endregion
+   
 
 
-
-        #region Methods
-
-
-
-
+        /// <summary>
+        /// Clears the data URL comment from the selected tracktor track
+        /// </summary>
         private void ClearURLComment(object o)
         {
             this.SelectedTraktorTrack.DataSourceUri = null;
         }
 
+        /// <summary>
+        /// Only allows clearing the URL comment of a tracktor track if a track is selected and has a datasoruce uri
+        /// </summary>
         private bool CanClearURLComment(object o)
         {
             if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
             else return false;
         }
 
+
+        /// <summary>
+        /// Copies the URL comment of the currently selected traktor track to the clipboard
+        /// </summary>
+        /// <param name="o"></param>
         private void CopyTraktorTrackDataUrl(object o)
         {
             System.Windows.Clipboard.SetText(SelectedTraktorTrack.DataSourceUri.AbsoluteUri);
         }
 
-
+        /// <summary>
+        /// Only allows copying the Data url of a tracktor track if  a track is selected and has a datasoruce uri
+        /// </summary>
         private bool CanCopyTraktorTrackDataUrl(object o)
         {
             if(SelectedTraktorTrack != null && SelectedTraktorTrack.DataSourceUri != null) return true;
             else return false;
         }
 
-
+        /// <summary>
+        /// Copies the selected track URl to the clipboard
+        /// </summary>
         private void CopyTrackDataUrl(object o)
         {
             System.Windows.Clipboard.SetText(SelectedTrackData.URL.AbsoluteUri);
         }
 
-
+        /// <summary>
+        /// Only allows copying the TrackData url if a track is currently selected in the search results
+        /// </summary>
         private bool CanCopyTrackDataUrl(object o)
         {
             if(SelectedTrackData != null) return true;
             else return false;
         }
 
+
+        /// <summary>
+        /// Tags the currently selected traktor track with the data from the currently selected data track. 
+        /// This only tags the properties cooresponding to the currrently selected TagXXXXX, and only the properties of the visible columns
+        /// </summary>
+        /// <param name="o"></param>
         private void TagSelected(object o)
         {
             if(TagDataSource)
@@ -917,27 +944,51 @@ namespace TraktorTagger
             }
         }
 
-        private void OpenHelp(object o)
-        {
-            System.Diagnostics.Process.Start(Properties.Resources.HelpURL);
-        }
 
-
-        private void About(object o)
-        {
-            System.Diagnostics.Process.Start(Properties.Resources.AboutURL);
-        }
-
-        private void Donate(object o)
-        {
-            System.Diagnostics.Process.Start(Properties.Resources.DonateURL);
-        }
-
+        /// <summary>
+        /// Only allow tagging if both a traktor track and data track are selected
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
         private bool CanTagSelected(object o)
         {
             if(SelectedTrackData != null && SelectedTraktorTrack != null) return true;
             else return false;
         }
+
+
+        /// <summary>
+        /// Opens the help URL
+        /// </summary>
+        /// <param name="o"></param>
+        private void OpenHelp(object o)
+        {
+            System.Diagnostics.Process.Start(Properties.Resources.HelpURL);
+        }
+
+        /// <summary>
+        /// Opens the About URL
+        /// </summary>
+        private void About(object o)
+        {
+            System.Diagnostics.Process.Start(Properties.Resources.AboutURL);
+        }
+
+
+        /// <summary>
+        /// Opens the Donation URL
+        /// </summary>
+        private void Donate(object o)
+        {
+            System.Diagnostics.Process.Start(Properties.Resources.DonateURL);
+        }
+
+
+
+
+
+        private ITrackDataSearch _currentSearch;
+
 
         private bool CanLoadMoreResults(object o)
         {
@@ -993,27 +1044,19 @@ namespace TraktorTagger
 
             this.SearchStatus = message;
 
-
-            
-
-        
-        
         }
 
 
 
 
 
-        private ITrackDataSearch _currentSearch;
+  
 
 
         private void LoadMoreResultsAsync()
         {
 
             log.Info("Search returned " + _currentSearch.Results.Count + " track results.");
-
-
-
 
 
             if(_currentSearch.HasMoreResults)
@@ -1042,16 +1085,12 @@ namespace TraktorTagger
             {
                 //cancel current search
                 searchCanceled = true;
-
-
-
             }
             else
             { 
                 //start a new search
             
             
-
             
             }
 
@@ -1207,7 +1246,7 @@ namespace TraktorTagger
         }
 
 
-        #endregion
+      
 
         #region ICommands
 
